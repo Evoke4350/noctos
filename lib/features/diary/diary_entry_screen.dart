@@ -7,6 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../core/time.dart';
 import '../../data/db/database.dart';
 import '../../data/repositories/diary_repository.dart';
+import '../../domain/cbti/engine.dart';
 
 class DiaryEntryScreen extends HookConsumerWidget {
   const DiaryEntryScreen({super.key});
@@ -83,6 +84,7 @@ class DiaryEntryScreen extends HookConsumerWidget {
               notes: drift.Value(notes.text.trim().isEmpty ? null : notes.text.trim()),
             ),
           );
+      await ref.read(cbtiEngineProvider).onDiaryInserted();
       if (!context.mounted) return;
       context.go('/home');
     }

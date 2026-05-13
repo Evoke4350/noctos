@@ -3,8 +3,10 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../core/time.dart';
+import '../../data/repositories/cbti_week_repository.dart';
 import '../../data/repositories/schedule_repository.dart';
 import '../../data/repositories/diary_repository.dart';
+import '../../domain/cbti/protocol.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -13,6 +15,7 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final scheduleAsync = ref.watch(scheduleProvider);
     final diaryAsync = ref.watch(diaryStreamProvider);
+    final weekAsync = ref.watch(currentCbtiWeekProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -67,6 +70,38 @@ class HomeScreen extends ConsumerWidget {
                       ],
                     ),
                   ),
+                ),
+                const SizedBox(height: 12),
+                weekAsync.maybeWhen(
+                  data: (week) {
+                    if (week == null) return const SizedBox.shrink();
+                    final spec = specFor(phaseFromId(week.phaseId));
+                    return Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              spec.title,
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              spec.subtitle,
+                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                                  ),
+                            ),
+                            const SizedBox(height: 12),
+                            Text(week.rationale,
+                                style: Theme.of(context).textTheme.bodyMedium),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                  orElse: () => const SizedBox.shrink(),
                 ),
                 const SizedBox(height: 16),
                 FilledButton.icon(

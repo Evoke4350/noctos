@@ -1639,12 +1639,741 @@ class UserSchedulesCompanion extends UpdateCompanion<UserSchedule> {
   }
 }
 
+class $CbtiWeeksTable extends CbtiWeeks
+    with TableInfo<$CbtiWeeksTable, CbtiWeek> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $CbtiWeeksTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _weekIndexMeta = const VerificationMeta(
+    'weekIndex',
+  );
+  @override
+  late final GeneratedColumn<int> weekIndex = GeneratedColumn<int>(
+    'week_index',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _phaseIdMeta = const VerificationMeta(
+    'phaseId',
+  );
+  @override
+  late final GeneratedColumn<String> phaseId = GeneratedColumn<String>(
+    'phase_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _startedOnMeta = const VerificationMeta(
+    'startedOn',
+  );
+  @override
+  late final GeneratedColumn<DateTime> startedOn = GeneratedColumn<DateTime>(
+    'started_on',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _prescribedBedtimeMinutesOfDayMeta =
+      const VerificationMeta('prescribedBedtimeMinutesOfDay');
+  @override
+  late final GeneratedColumn<int> prescribedBedtimeMinutesOfDay =
+      GeneratedColumn<int>(
+        'prescribed_bedtime_minutes_of_day',
+        aliasedName,
+        false,
+        type: DriftSqlType.int,
+        requiredDuringInsert: true,
+      );
+  static const VerificationMeta _prescribedWakeMinutesOfDayMeta =
+      const VerificationMeta('prescribedWakeMinutesOfDay');
+  @override
+  late final GeneratedColumn<int> prescribedWakeMinutesOfDay =
+      GeneratedColumn<int>(
+        'prescribed_wake_minutes_of_day',
+        aliasedName,
+        false,
+        type: DriftSqlType.int,
+        requiredDuringInsert: true,
+      );
+  static const VerificationMeta _tibMinutesMeta = const VerificationMeta(
+    'tibMinutes',
+  );
+  @override
+  late final GeneratedColumn<int> tibMinutes = GeneratedColumn<int>(
+    'tib_minutes',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _efficiencyTargetMeta = const VerificationMeta(
+    'efficiencyTarget',
+  );
+  @override
+  late final GeneratedColumn<double> efficiencyTarget = GeneratedColumn<double>(
+    'efficiency_target',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0.85),
+  );
+  static const VerificationMeta _rationaleMeta = const VerificationMeta(
+    'rationale',
+  );
+  @override
+  late final GeneratedColumn<String> rationale = GeneratedColumn<String>(
+    'rationale',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _actionMeta = const VerificationMeta('action');
+  @override
+  late final GeneratedColumn<String> action = GeneratedColumn<String>(
+    'action',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('active'),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    weekIndex,
+    phaseId,
+    startedOn,
+    prescribedBedtimeMinutesOfDay,
+    prescribedWakeMinutesOfDay,
+    tibMinutes,
+    efficiencyTarget,
+    rationale,
+    action,
+    status,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'cbti_weeks';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<CbtiWeek> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('week_index')) {
+      context.handle(
+        _weekIndexMeta,
+        weekIndex.isAcceptableOrUnknown(data['week_index']!, _weekIndexMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_weekIndexMeta);
+    }
+    if (data.containsKey('phase_id')) {
+      context.handle(
+        _phaseIdMeta,
+        phaseId.isAcceptableOrUnknown(data['phase_id']!, _phaseIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_phaseIdMeta);
+    }
+    if (data.containsKey('started_on')) {
+      context.handle(
+        _startedOnMeta,
+        startedOn.isAcceptableOrUnknown(data['started_on']!, _startedOnMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_startedOnMeta);
+    }
+    if (data.containsKey('prescribed_bedtime_minutes_of_day')) {
+      context.handle(
+        _prescribedBedtimeMinutesOfDayMeta,
+        prescribedBedtimeMinutesOfDay.isAcceptableOrUnknown(
+          data['prescribed_bedtime_minutes_of_day']!,
+          _prescribedBedtimeMinutesOfDayMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_prescribedBedtimeMinutesOfDayMeta);
+    }
+    if (data.containsKey('prescribed_wake_minutes_of_day')) {
+      context.handle(
+        _prescribedWakeMinutesOfDayMeta,
+        prescribedWakeMinutesOfDay.isAcceptableOrUnknown(
+          data['prescribed_wake_minutes_of_day']!,
+          _prescribedWakeMinutesOfDayMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_prescribedWakeMinutesOfDayMeta);
+    }
+    if (data.containsKey('tib_minutes')) {
+      context.handle(
+        _tibMinutesMeta,
+        tibMinutes.isAcceptableOrUnknown(data['tib_minutes']!, _tibMinutesMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_tibMinutesMeta);
+    }
+    if (data.containsKey('efficiency_target')) {
+      context.handle(
+        _efficiencyTargetMeta,
+        efficiencyTarget.isAcceptableOrUnknown(
+          data['efficiency_target']!,
+          _efficiencyTargetMeta,
+        ),
+      );
+    }
+    if (data.containsKey('rationale')) {
+      context.handle(
+        _rationaleMeta,
+        rationale.isAcceptableOrUnknown(data['rationale']!, _rationaleMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_rationaleMeta);
+    }
+    if (data.containsKey('action')) {
+      context.handle(
+        _actionMeta,
+        action.isAcceptableOrUnknown(data['action']!, _actionMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_actionMeta);
+    }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  CbtiWeek map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return CbtiWeek(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      weekIndex: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}week_index'],
+      )!,
+      phaseId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}phase_id'],
+      )!,
+      startedOn: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}started_on'],
+      )!,
+      prescribedBedtimeMinutesOfDay: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}prescribed_bedtime_minutes_of_day'],
+      )!,
+      prescribedWakeMinutesOfDay: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}prescribed_wake_minutes_of_day'],
+      )!,
+      tibMinutes: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}tib_minutes'],
+      )!,
+      efficiencyTarget: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}efficiency_target'],
+      )!,
+      rationale: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}rationale'],
+      )!,
+      action: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}action'],
+      )!,
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $CbtiWeeksTable createAlias(String alias) {
+    return $CbtiWeeksTable(attachedDatabase, alias);
+  }
+}
+
+class CbtiWeek extends DataClass implements Insertable<CbtiWeek> {
+  final int id;
+  final int weekIndex;
+  final String phaseId;
+  final DateTime startedOn;
+  final int prescribedBedtimeMinutesOfDay;
+  final int prescribedWakeMinutesOfDay;
+  final int tibMinutes;
+  final double efficiencyTarget;
+  final String rationale;
+  final String action;
+  final String status;
+  final DateTime createdAt;
+  const CbtiWeek({
+    required this.id,
+    required this.weekIndex,
+    required this.phaseId,
+    required this.startedOn,
+    required this.prescribedBedtimeMinutesOfDay,
+    required this.prescribedWakeMinutesOfDay,
+    required this.tibMinutes,
+    required this.efficiencyTarget,
+    required this.rationale,
+    required this.action,
+    required this.status,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['week_index'] = Variable<int>(weekIndex);
+    map['phase_id'] = Variable<String>(phaseId);
+    map['started_on'] = Variable<DateTime>(startedOn);
+    map['prescribed_bedtime_minutes_of_day'] = Variable<int>(
+      prescribedBedtimeMinutesOfDay,
+    );
+    map['prescribed_wake_minutes_of_day'] = Variable<int>(
+      prescribedWakeMinutesOfDay,
+    );
+    map['tib_minutes'] = Variable<int>(tibMinutes);
+    map['efficiency_target'] = Variable<double>(efficiencyTarget);
+    map['rationale'] = Variable<String>(rationale);
+    map['action'] = Variable<String>(action);
+    map['status'] = Variable<String>(status);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  CbtiWeeksCompanion toCompanion(bool nullToAbsent) {
+    return CbtiWeeksCompanion(
+      id: Value(id),
+      weekIndex: Value(weekIndex),
+      phaseId: Value(phaseId),
+      startedOn: Value(startedOn),
+      prescribedBedtimeMinutesOfDay: Value(prescribedBedtimeMinutesOfDay),
+      prescribedWakeMinutesOfDay: Value(prescribedWakeMinutesOfDay),
+      tibMinutes: Value(tibMinutes),
+      efficiencyTarget: Value(efficiencyTarget),
+      rationale: Value(rationale),
+      action: Value(action),
+      status: Value(status),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory CbtiWeek.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return CbtiWeek(
+      id: serializer.fromJson<int>(json['id']),
+      weekIndex: serializer.fromJson<int>(json['weekIndex']),
+      phaseId: serializer.fromJson<String>(json['phaseId']),
+      startedOn: serializer.fromJson<DateTime>(json['startedOn']),
+      prescribedBedtimeMinutesOfDay: serializer.fromJson<int>(
+        json['prescribedBedtimeMinutesOfDay'],
+      ),
+      prescribedWakeMinutesOfDay: serializer.fromJson<int>(
+        json['prescribedWakeMinutesOfDay'],
+      ),
+      tibMinutes: serializer.fromJson<int>(json['tibMinutes']),
+      efficiencyTarget: serializer.fromJson<double>(json['efficiencyTarget']),
+      rationale: serializer.fromJson<String>(json['rationale']),
+      action: serializer.fromJson<String>(json['action']),
+      status: serializer.fromJson<String>(json['status']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'weekIndex': serializer.toJson<int>(weekIndex),
+      'phaseId': serializer.toJson<String>(phaseId),
+      'startedOn': serializer.toJson<DateTime>(startedOn),
+      'prescribedBedtimeMinutesOfDay': serializer.toJson<int>(
+        prescribedBedtimeMinutesOfDay,
+      ),
+      'prescribedWakeMinutesOfDay': serializer.toJson<int>(
+        prescribedWakeMinutesOfDay,
+      ),
+      'tibMinutes': serializer.toJson<int>(tibMinutes),
+      'efficiencyTarget': serializer.toJson<double>(efficiencyTarget),
+      'rationale': serializer.toJson<String>(rationale),
+      'action': serializer.toJson<String>(action),
+      'status': serializer.toJson<String>(status),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  CbtiWeek copyWith({
+    int? id,
+    int? weekIndex,
+    String? phaseId,
+    DateTime? startedOn,
+    int? prescribedBedtimeMinutesOfDay,
+    int? prescribedWakeMinutesOfDay,
+    int? tibMinutes,
+    double? efficiencyTarget,
+    String? rationale,
+    String? action,
+    String? status,
+    DateTime? createdAt,
+  }) => CbtiWeek(
+    id: id ?? this.id,
+    weekIndex: weekIndex ?? this.weekIndex,
+    phaseId: phaseId ?? this.phaseId,
+    startedOn: startedOn ?? this.startedOn,
+    prescribedBedtimeMinutesOfDay:
+        prescribedBedtimeMinutesOfDay ?? this.prescribedBedtimeMinutesOfDay,
+    prescribedWakeMinutesOfDay:
+        prescribedWakeMinutesOfDay ?? this.prescribedWakeMinutesOfDay,
+    tibMinutes: tibMinutes ?? this.tibMinutes,
+    efficiencyTarget: efficiencyTarget ?? this.efficiencyTarget,
+    rationale: rationale ?? this.rationale,
+    action: action ?? this.action,
+    status: status ?? this.status,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  CbtiWeek copyWithCompanion(CbtiWeeksCompanion data) {
+    return CbtiWeek(
+      id: data.id.present ? data.id.value : this.id,
+      weekIndex: data.weekIndex.present ? data.weekIndex.value : this.weekIndex,
+      phaseId: data.phaseId.present ? data.phaseId.value : this.phaseId,
+      startedOn: data.startedOn.present ? data.startedOn.value : this.startedOn,
+      prescribedBedtimeMinutesOfDay: data.prescribedBedtimeMinutesOfDay.present
+          ? data.prescribedBedtimeMinutesOfDay.value
+          : this.prescribedBedtimeMinutesOfDay,
+      prescribedWakeMinutesOfDay: data.prescribedWakeMinutesOfDay.present
+          ? data.prescribedWakeMinutesOfDay.value
+          : this.prescribedWakeMinutesOfDay,
+      tibMinutes: data.tibMinutes.present
+          ? data.tibMinutes.value
+          : this.tibMinutes,
+      efficiencyTarget: data.efficiencyTarget.present
+          ? data.efficiencyTarget.value
+          : this.efficiencyTarget,
+      rationale: data.rationale.present ? data.rationale.value : this.rationale,
+      action: data.action.present ? data.action.value : this.action,
+      status: data.status.present ? data.status.value : this.status,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CbtiWeek(')
+          ..write('id: $id, ')
+          ..write('weekIndex: $weekIndex, ')
+          ..write('phaseId: $phaseId, ')
+          ..write('startedOn: $startedOn, ')
+          ..write(
+            'prescribedBedtimeMinutesOfDay: $prescribedBedtimeMinutesOfDay, ',
+          )
+          ..write('prescribedWakeMinutesOfDay: $prescribedWakeMinutesOfDay, ')
+          ..write('tibMinutes: $tibMinutes, ')
+          ..write('efficiencyTarget: $efficiencyTarget, ')
+          ..write('rationale: $rationale, ')
+          ..write('action: $action, ')
+          ..write('status: $status, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    weekIndex,
+    phaseId,
+    startedOn,
+    prescribedBedtimeMinutesOfDay,
+    prescribedWakeMinutesOfDay,
+    tibMinutes,
+    efficiencyTarget,
+    rationale,
+    action,
+    status,
+    createdAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is CbtiWeek &&
+          other.id == this.id &&
+          other.weekIndex == this.weekIndex &&
+          other.phaseId == this.phaseId &&
+          other.startedOn == this.startedOn &&
+          other.prescribedBedtimeMinutesOfDay ==
+              this.prescribedBedtimeMinutesOfDay &&
+          other.prescribedWakeMinutesOfDay == this.prescribedWakeMinutesOfDay &&
+          other.tibMinutes == this.tibMinutes &&
+          other.efficiencyTarget == this.efficiencyTarget &&
+          other.rationale == this.rationale &&
+          other.action == this.action &&
+          other.status == this.status &&
+          other.createdAt == this.createdAt);
+}
+
+class CbtiWeeksCompanion extends UpdateCompanion<CbtiWeek> {
+  final Value<int> id;
+  final Value<int> weekIndex;
+  final Value<String> phaseId;
+  final Value<DateTime> startedOn;
+  final Value<int> prescribedBedtimeMinutesOfDay;
+  final Value<int> prescribedWakeMinutesOfDay;
+  final Value<int> tibMinutes;
+  final Value<double> efficiencyTarget;
+  final Value<String> rationale;
+  final Value<String> action;
+  final Value<String> status;
+  final Value<DateTime> createdAt;
+  const CbtiWeeksCompanion({
+    this.id = const Value.absent(),
+    this.weekIndex = const Value.absent(),
+    this.phaseId = const Value.absent(),
+    this.startedOn = const Value.absent(),
+    this.prescribedBedtimeMinutesOfDay = const Value.absent(),
+    this.prescribedWakeMinutesOfDay = const Value.absent(),
+    this.tibMinutes = const Value.absent(),
+    this.efficiencyTarget = const Value.absent(),
+    this.rationale = const Value.absent(),
+    this.action = const Value.absent(),
+    this.status = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  CbtiWeeksCompanion.insert({
+    this.id = const Value.absent(),
+    required int weekIndex,
+    required String phaseId,
+    required DateTime startedOn,
+    required int prescribedBedtimeMinutesOfDay,
+    required int prescribedWakeMinutesOfDay,
+    required int tibMinutes,
+    this.efficiencyTarget = const Value.absent(),
+    required String rationale,
+    required String action,
+    this.status = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  }) : weekIndex = Value(weekIndex),
+       phaseId = Value(phaseId),
+       startedOn = Value(startedOn),
+       prescribedBedtimeMinutesOfDay = Value(prescribedBedtimeMinutesOfDay),
+       prescribedWakeMinutesOfDay = Value(prescribedWakeMinutesOfDay),
+       tibMinutes = Value(tibMinutes),
+       rationale = Value(rationale),
+       action = Value(action);
+  static Insertable<CbtiWeek> custom({
+    Expression<int>? id,
+    Expression<int>? weekIndex,
+    Expression<String>? phaseId,
+    Expression<DateTime>? startedOn,
+    Expression<int>? prescribedBedtimeMinutesOfDay,
+    Expression<int>? prescribedWakeMinutesOfDay,
+    Expression<int>? tibMinutes,
+    Expression<double>? efficiencyTarget,
+    Expression<String>? rationale,
+    Expression<String>? action,
+    Expression<String>? status,
+    Expression<DateTime>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (weekIndex != null) 'week_index': weekIndex,
+      if (phaseId != null) 'phase_id': phaseId,
+      if (startedOn != null) 'started_on': startedOn,
+      if (prescribedBedtimeMinutesOfDay != null)
+        'prescribed_bedtime_minutes_of_day': prescribedBedtimeMinutesOfDay,
+      if (prescribedWakeMinutesOfDay != null)
+        'prescribed_wake_minutes_of_day': prescribedWakeMinutesOfDay,
+      if (tibMinutes != null) 'tib_minutes': tibMinutes,
+      if (efficiencyTarget != null) 'efficiency_target': efficiencyTarget,
+      if (rationale != null) 'rationale': rationale,
+      if (action != null) 'action': action,
+      if (status != null) 'status': status,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  CbtiWeeksCompanion copyWith({
+    Value<int>? id,
+    Value<int>? weekIndex,
+    Value<String>? phaseId,
+    Value<DateTime>? startedOn,
+    Value<int>? prescribedBedtimeMinutesOfDay,
+    Value<int>? prescribedWakeMinutesOfDay,
+    Value<int>? tibMinutes,
+    Value<double>? efficiencyTarget,
+    Value<String>? rationale,
+    Value<String>? action,
+    Value<String>? status,
+    Value<DateTime>? createdAt,
+  }) {
+    return CbtiWeeksCompanion(
+      id: id ?? this.id,
+      weekIndex: weekIndex ?? this.weekIndex,
+      phaseId: phaseId ?? this.phaseId,
+      startedOn: startedOn ?? this.startedOn,
+      prescribedBedtimeMinutesOfDay:
+          prescribedBedtimeMinutesOfDay ?? this.prescribedBedtimeMinutesOfDay,
+      prescribedWakeMinutesOfDay:
+          prescribedWakeMinutesOfDay ?? this.prescribedWakeMinutesOfDay,
+      tibMinutes: tibMinutes ?? this.tibMinutes,
+      efficiencyTarget: efficiencyTarget ?? this.efficiencyTarget,
+      rationale: rationale ?? this.rationale,
+      action: action ?? this.action,
+      status: status ?? this.status,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (weekIndex.present) {
+      map['week_index'] = Variable<int>(weekIndex.value);
+    }
+    if (phaseId.present) {
+      map['phase_id'] = Variable<String>(phaseId.value);
+    }
+    if (startedOn.present) {
+      map['started_on'] = Variable<DateTime>(startedOn.value);
+    }
+    if (prescribedBedtimeMinutesOfDay.present) {
+      map['prescribed_bedtime_minutes_of_day'] = Variable<int>(
+        prescribedBedtimeMinutesOfDay.value,
+      );
+    }
+    if (prescribedWakeMinutesOfDay.present) {
+      map['prescribed_wake_minutes_of_day'] = Variable<int>(
+        prescribedWakeMinutesOfDay.value,
+      );
+    }
+    if (tibMinutes.present) {
+      map['tib_minutes'] = Variable<int>(tibMinutes.value);
+    }
+    if (efficiencyTarget.present) {
+      map['efficiency_target'] = Variable<double>(efficiencyTarget.value);
+    }
+    if (rationale.present) {
+      map['rationale'] = Variable<String>(rationale.value);
+    }
+    if (action.present) {
+      map['action'] = Variable<String>(action.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CbtiWeeksCompanion(')
+          ..write('id: $id, ')
+          ..write('weekIndex: $weekIndex, ')
+          ..write('phaseId: $phaseId, ')
+          ..write('startedOn: $startedOn, ')
+          ..write(
+            'prescribedBedtimeMinutesOfDay: $prescribedBedtimeMinutesOfDay, ',
+          )
+          ..write('prescribedWakeMinutesOfDay: $prescribedWakeMinutesOfDay, ')
+          ..write('tibMinutes: $tibMinutes, ')
+          ..write('efficiencyTarget: $efficiencyTarget, ')
+          ..write('rationale: $rationale, ')
+          ..write('action: $action, ')
+          ..write('status: $status, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$NoctosDatabase extends GeneratedDatabase {
   _$NoctosDatabase(QueryExecutor e) : super(e);
   $NoctosDatabaseManager get managers => $NoctosDatabaseManager(this);
   late final $SleepDiaryEntriesTable sleepDiaryEntries =
       $SleepDiaryEntriesTable(this);
   late final $UserSchedulesTable userSchedules = $UserSchedulesTable(this);
+  late final $CbtiWeeksTable cbtiWeeks = $CbtiWeeksTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -1652,6 +2381,7 @@ abstract class _$NoctosDatabase extends GeneratedDatabase {
   List<DatabaseSchemaEntity> get allSchemaEntities => [
     sleepDiaryEntries,
     userSchedules,
+    cbtiWeeks,
   ];
 }
 
@@ -2413,6 +3143,338 @@ typedef $$UserSchedulesTableProcessedTableManager =
       UserSchedule,
       PrefetchHooks Function()
     >;
+typedef $$CbtiWeeksTableCreateCompanionBuilder =
+    CbtiWeeksCompanion Function({
+      Value<int> id,
+      required int weekIndex,
+      required String phaseId,
+      required DateTime startedOn,
+      required int prescribedBedtimeMinutesOfDay,
+      required int prescribedWakeMinutesOfDay,
+      required int tibMinutes,
+      Value<double> efficiencyTarget,
+      required String rationale,
+      required String action,
+      Value<String> status,
+      Value<DateTime> createdAt,
+    });
+typedef $$CbtiWeeksTableUpdateCompanionBuilder =
+    CbtiWeeksCompanion Function({
+      Value<int> id,
+      Value<int> weekIndex,
+      Value<String> phaseId,
+      Value<DateTime> startedOn,
+      Value<int> prescribedBedtimeMinutesOfDay,
+      Value<int> prescribedWakeMinutesOfDay,
+      Value<int> tibMinutes,
+      Value<double> efficiencyTarget,
+      Value<String> rationale,
+      Value<String> action,
+      Value<String> status,
+      Value<DateTime> createdAt,
+    });
+
+class $$CbtiWeeksTableFilterComposer
+    extends Composer<_$NoctosDatabase, $CbtiWeeksTable> {
+  $$CbtiWeeksTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get weekIndex => $composableBuilder(
+    column: $table.weekIndex,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get phaseId => $composableBuilder(
+    column: $table.phaseId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get startedOn => $composableBuilder(
+    column: $table.startedOn,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get prescribedBedtimeMinutesOfDay => $composableBuilder(
+    column: $table.prescribedBedtimeMinutesOfDay,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get prescribedWakeMinutesOfDay => $composableBuilder(
+    column: $table.prescribedWakeMinutesOfDay,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get tibMinutes => $composableBuilder(
+    column: $table.tibMinutes,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get efficiencyTarget => $composableBuilder(
+    column: $table.efficiencyTarget,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get rationale => $composableBuilder(
+    column: $table.rationale,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get action => $composableBuilder(
+    column: $table.action,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$CbtiWeeksTableOrderingComposer
+    extends Composer<_$NoctosDatabase, $CbtiWeeksTable> {
+  $$CbtiWeeksTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get weekIndex => $composableBuilder(
+    column: $table.weekIndex,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get phaseId => $composableBuilder(
+    column: $table.phaseId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get startedOn => $composableBuilder(
+    column: $table.startedOn,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get prescribedBedtimeMinutesOfDay => $composableBuilder(
+    column: $table.prescribedBedtimeMinutesOfDay,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get prescribedWakeMinutesOfDay => $composableBuilder(
+    column: $table.prescribedWakeMinutesOfDay,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get tibMinutes => $composableBuilder(
+    column: $table.tibMinutes,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get efficiencyTarget => $composableBuilder(
+    column: $table.efficiencyTarget,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get rationale => $composableBuilder(
+    column: $table.rationale,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get action => $composableBuilder(
+    column: $table.action,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$CbtiWeeksTableAnnotationComposer
+    extends Composer<_$NoctosDatabase, $CbtiWeeksTable> {
+  $$CbtiWeeksTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get weekIndex =>
+      $composableBuilder(column: $table.weekIndex, builder: (column) => column);
+
+  GeneratedColumn<String> get phaseId =>
+      $composableBuilder(column: $table.phaseId, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get startedOn =>
+      $composableBuilder(column: $table.startedOn, builder: (column) => column);
+
+  GeneratedColumn<int> get prescribedBedtimeMinutesOfDay => $composableBuilder(
+    column: $table.prescribedBedtimeMinutesOfDay,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get prescribedWakeMinutesOfDay => $composableBuilder(
+    column: $table.prescribedWakeMinutesOfDay,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get tibMinutes => $composableBuilder(
+    column: $table.tibMinutes,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get efficiencyTarget => $composableBuilder(
+    column: $table.efficiencyTarget,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get rationale =>
+      $composableBuilder(column: $table.rationale, builder: (column) => column);
+
+  GeneratedColumn<String> get action =>
+      $composableBuilder(column: $table.action, builder: (column) => column);
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+}
+
+class $$CbtiWeeksTableTableManager
+    extends
+        RootTableManager<
+          _$NoctosDatabase,
+          $CbtiWeeksTable,
+          CbtiWeek,
+          $$CbtiWeeksTableFilterComposer,
+          $$CbtiWeeksTableOrderingComposer,
+          $$CbtiWeeksTableAnnotationComposer,
+          $$CbtiWeeksTableCreateCompanionBuilder,
+          $$CbtiWeeksTableUpdateCompanionBuilder,
+          (
+            CbtiWeek,
+            BaseReferences<_$NoctosDatabase, $CbtiWeeksTable, CbtiWeek>,
+          ),
+          CbtiWeek,
+          PrefetchHooks Function()
+        > {
+  $$CbtiWeeksTableTableManager(_$NoctosDatabase db, $CbtiWeeksTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$CbtiWeeksTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$CbtiWeeksTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$CbtiWeeksTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> weekIndex = const Value.absent(),
+                Value<String> phaseId = const Value.absent(),
+                Value<DateTime> startedOn = const Value.absent(),
+                Value<int> prescribedBedtimeMinutesOfDay = const Value.absent(),
+                Value<int> prescribedWakeMinutesOfDay = const Value.absent(),
+                Value<int> tibMinutes = const Value.absent(),
+                Value<double> efficiencyTarget = const Value.absent(),
+                Value<String> rationale = const Value.absent(),
+                Value<String> action = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => CbtiWeeksCompanion(
+                id: id,
+                weekIndex: weekIndex,
+                phaseId: phaseId,
+                startedOn: startedOn,
+                prescribedBedtimeMinutesOfDay: prescribedBedtimeMinutesOfDay,
+                prescribedWakeMinutesOfDay: prescribedWakeMinutesOfDay,
+                tibMinutes: tibMinutes,
+                efficiencyTarget: efficiencyTarget,
+                rationale: rationale,
+                action: action,
+                status: status,
+                createdAt: createdAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int weekIndex,
+                required String phaseId,
+                required DateTime startedOn,
+                required int prescribedBedtimeMinutesOfDay,
+                required int prescribedWakeMinutesOfDay,
+                required int tibMinutes,
+                Value<double> efficiencyTarget = const Value.absent(),
+                required String rationale,
+                required String action,
+                Value<String> status = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => CbtiWeeksCompanion.insert(
+                id: id,
+                weekIndex: weekIndex,
+                phaseId: phaseId,
+                startedOn: startedOn,
+                prescribedBedtimeMinutesOfDay: prescribedBedtimeMinutesOfDay,
+                prescribedWakeMinutesOfDay: prescribedWakeMinutesOfDay,
+                tibMinutes: tibMinutes,
+                efficiencyTarget: efficiencyTarget,
+                rationale: rationale,
+                action: action,
+                status: status,
+                createdAt: createdAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$CbtiWeeksTableProcessedTableManager =
+    ProcessedTableManager<
+      _$NoctosDatabase,
+      $CbtiWeeksTable,
+      CbtiWeek,
+      $$CbtiWeeksTableFilterComposer,
+      $$CbtiWeeksTableOrderingComposer,
+      $$CbtiWeeksTableAnnotationComposer,
+      $$CbtiWeeksTableCreateCompanionBuilder,
+      $$CbtiWeeksTableUpdateCompanionBuilder,
+      (CbtiWeek, BaseReferences<_$NoctosDatabase, $CbtiWeeksTable, CbtiWeek>),
+      CbtiWeek,
+      PrefetchHooks Function()
+    >;
 
 class $NoctosDatabaseManager {
   final _$NoctosDatabase _db;
@@ -2421,4 +3483,6 @@ class $NoctosDatabaseManager {
       $$SleepDiaryEntriesTableTableManager(_db, _db.sleepDiaryEntries);
   $$UserSchedulesTableTableManager get userSchedules =>
       $$UserSchedulesTableTableManager(_db, _db.userSchedules);
+  $$CbtiWeeksTableTableManager get cbtiWeeks =>
+      $$CbtiWeeksTableTableManager(_db, _db.cbtiWeeks);
 }
