@@ -1,30 +1,26 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:noctos/main.dart';
+import 'package:noctos/core/time.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  group('time helpers', () {
+    test('minutesOfDay round-trips through timeOfDayFromMinutes', () {
+      final t = const TimeOfDay(hour: 7, minute: 30);
+      expect(minutesOfDay(t), 450);
+      final back = timeOfDayFromMinutes(450);
+      expect(back.hour, 7);
+      expect(back.minute, 30);
+    });
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    test('formatTimeOfDay zero-pads', () {
+      expect(formatTimeOfDay(const TimeOfDay(hour: 6, minute: 5)), '06:05');
+      expect(formatTimeOfDay(const TimeOfDay(hour: 23, minute: 0)), '23:00');
+    });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    test('formatDuration omits hours when zero', () {
+      expect(formatDuration(const Duration(minutes: 45)), '45m');
+      expect(formatDuration(const Duration(hours: 7, minutes: 30)), '7h 30m');
+    });
   });
 }
