@@ -1,17 +1,124 @@
 # noctos
 
-OSS CBT-I sleep app
+An OSS, local-first, AGPLv3 Flutter app that implements the full 6-week CBT-I
+(Cognitive Behavioral Therapy for Insomnia) protocol. CBT-I is the first-line
+clinical recommendation for chronic insomnia and outperforms hypnotics
+long-term — yet no mature open-source app implements it. noctos exists to fill
+that gap.
 
-## Getting Started
+**Status:** v0.1.0 (early). Android only. No accounts, no telemetry, no cloud.
 
-This project is a starting point for a Flutter application.
+## What it does
 
-A few resources to get you started if this is your first Flutter project:
+- 6-week structured CBT-I program: assessment → sleep restriction → stimulus
+  control overlay → cognitive → hygiene → relapse prevention.
+- Sleep diary with bedtime, lights-out, awakenings, WASO, wake, quality,
+  mood, **adherence flag**.
+- Sleep-restriction titration algorithm: expand window +15 min when rolling
+  efficiency ≥ 85%, contract −15 min when < 80%, hold otherwise. 5h floor.
+  Non-adherent nights excluded.
+- Chronotype quiz (MEQ short form), schedule setup, bedtime/wake window.
+- Caffeine log with predicted mg at bedtime (5h half-life decay curve).
+- Worry journal with bedtime-window guardrail.
+- Daily reminders: wind-down, bedtime, wake, caffeine cutoff.
+- Local SQLite via Drift. Export to JSON or CSV.
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+## What it does *not* do
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- No scores, streaks, badges. Read [`docs/design-principles.md`](docs/design-principles.md) for why.
+- No cloud sync, accounts, or telemetry.
+- No iOS build (yet — needs macOS toolchain).
+- Not medical advice. Severe insomnia: see a clinician.
+
+## Build
+
+Tested on Linux + JDK 21 + Flutter stable 3.41.9 + Android SDK 36.
+
+```bash
+# Toolchain
+sudo pacman -S jdk21-openjdk   # or your distro equivalent
+# Download Flutter tarball into ~/dev/flutter (NOT AUR)
+# Install Android cmdline-tools + platforms;android-36 + build-tools;36.0.0
+
+export JAVA_HOME=/usr/lib/jvm/java-21-openjdk
+export ANDROID_HOME="$HOME/Android"
+export PATH="$HOME/dev/flutter/bin:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH"
+
+flutter doctor                            # must be clean for Android
+cd noctos
+dart run build_runner build               # generates Drift code
+flutter test                              # 32 tests
+flutter build apk --release --split-per-abi
+```
+
+Output: `build/app/outputs/flutter-apk/app-arm64-v8a-release.apk`.
+
+## Release signing
+
+The default Flutter release config signs with the debug keystore — fine for
+sideloading, not for Play Store / F-Droid reproducible builds.
+
+To sign with your own key:
+
+```bash
+keytool -genkey -v \
+  -keystore ~/.android/noctos-upload.jks \
+  -keyalg RSA -keysize 2048 -validity 10000 \
+  -alias upload
+```
+
+Create `android/key.properties` (gitignored):
+
+```
+storePassword=<your password>
+keyPassword=<your password>
+keyAlias=upload
+storeFile=/home/you/.android/noctos-upload.jks
+```
+
+Then update `android/app/build.gradle.kts` `signingConfigs.release` to read
+from those properties.
+
+## Project layout
+
+```
+lib/
+  main.dart, app.dart
+  core/                 theme, router, time helpers
+  data/
+    db/                 Drift schema + generated code + providers
+    repositories/       one per aggregate (schedule, diary, cbti, caffeine, worry)
+  domain/
+    cbti/               protocol, sleep_restriction, engine
+    caffeine/           half-life math
+    chronotype/         MEQ short-form quiz
+  features/             one folder per screen group
+  services/
+    notifications/      flutter_local_notifications scheduler
+    export/             JSON/CSV exporter
+docs/
+  design-principles.md  reread before adding features
+test/                   unit tests against in-memory Drift
+```
+
+## Tests
+
+```bash
+flutter test
+```
+
+32 tests at v0.1.0:
+- 15 covering the sleep-restriction algorithm (safety-critical).
+- 4 integration tests of `CBTIEngine` against in-memory SQLite.
+- 10 caffeine half-life tests.
+- 3 time-helper tests.
+
+## License
+
+AGPLv3 — see [LICENSE](LICENSE). If you run a modified version as a network
+service, you must release source.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md). Short version: read
+`docs/design-principles.md` first.

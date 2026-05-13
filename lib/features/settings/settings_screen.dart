@@ -4,6 +4,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../../core/time.dart';
 import '../../data/repositories/schedule_repository.dart';
+import '../../services/export/exporter.dart';
 import '../../services/notifications/scheduler.dart';
 
 class SettingsScreen extends ConsumerWidget {
@@ -153,6 +154,40 @@ class SettingsScreen extends ConsumerWidget {
                         trailing: const Icon(Icons.battery_alert_outlined),
                         onTap: () async {
                           await Permission.ignoreBatteryOptimizations.request();
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Text('Data', style: Theme.of(context).textTheme.titleMedium),
+                const SizedBox(height: 8),
+                Card(
+                  child: Column(
+                    children: [
+                      ListTile(
+                        title: const Text('Export JSON'),
+                        subtitle: const Text('All tables, one file'),
+                        trailing: const Icon(Icons.file_download_outlined),
+                        onTap: () async {
+                          final res = await ref.read(exporterProvider).export(ExportFormat.json);
+                          if (!context.mounted) return;
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Saved: ${res.path}')),
+                          );
+                        },
+                      ),
+                      const Divider(height: 1),
+                      ListTile(
+                        title: const Text('Export CSV'),
+                        subtitle: const Text('One section per table'),
+                        trailing: const Icon(Icons.table_chart_outlined),
+                        onTap: () async {
+                          final res = await ref.read(exporterProvider).export(ExportFormat.csv);
+                          if (!context.mounted) return;
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Saved: ${res.path}')),
+                          );
                         },
                       ),
                     ],

@@ -1,0 +1,10 @@
+First public release.
+
+- 6-week CBT-I protocol scaffold
+- Sleep diary + history with efficiency chart
+- Sleep-restriction titration algorithm (5h floor, ±15 min steps, 80/85% bands)
+- Chronotype quiz, onboarding flow
+- Caffeine log + half-life curve
+- Worry journal
+- Daily notifications
+- JSON/CSV export

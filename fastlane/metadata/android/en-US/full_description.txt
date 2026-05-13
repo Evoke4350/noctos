@@ -1,0 +1,19 @@
+noctos is an open-source Flutter app implementing the full 6-week CBT-I (Cognitive Behavioral Therapy for Insomnia) protocol. CBT-I is the first-line clinical recommendation for chronic insomnia and outperforms hypnotics long-term.
+
+What it does:
+- Tracks a structured sleep diary (bedtime, lights-out, awakenings, WASO, wake, quality, mood, adherence)
+- Computes a personalized sleep-restriction prescription weekly based on rolling efficiency
+- Walks you through assessment, sleep restriction, stimulus control, cognitive techniques, hygiene, and relapse prevention
+- Logs caffeine with a half-life decay curve and predicted dose at bedtime
+- Worry journal with a bedtime-window guardrail
+- Daily reminders: wind-down, bedtime, wake, caffeine cutoff
+- Chronotype quiz (MEQ short form)
+
+What it does NOT do:
+- No sleep score, streaks, or gamification (orthosomnia is real harm)
+- No accounts, no cloud sync, no telemetry
+- Not a replacement for clinical care for severe insomnia
+
+All data stays on your device in encrypted SQLite. Export to JSON or CSV anytime.
+
+License: AGPLv3.
