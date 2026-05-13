@@ -2367,6 +2367,747 @@ class CbtiWeeksCompanion extends UpdateCompanion<CbtiWeek> {
   }
 }
 
+class $CaffeineLogsTable extends CaffeineLogs
+    with TableInfo<$CaffeineLogsTable, CaffeineLog> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $CaffeineLogsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _consumedAtMeta = const VerificationMeta(
+    'consumedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> consumedAt = GeneratedColumn<DateTime>(
+    'consumed_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _mgMeta = const VerificationMeta('mg');
+  @override
+  late final GeneratedColumn<int> mg = GeneratedColumn<int>(
+    'mg',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _sourceMeta = const VerificationMeta('source');
+  @override
+  late final GeneratedColumn<String> source = GeneratedColumn<String>(
+    'source',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, consumedAt, mg, source, createdAt];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'caffeine_logs';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<CaffeineLog> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('consumed_at')) {
+      context.handle(
+        _consumedAtMeta,
+        consumedAt.isAcceptableOrUnknown(data['consumed_at']!, _consumedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_consumedAtMeta);
+    }
+    if (data.containsKey('mg')) {
+      context.handle(_mgMeta, mg.isAcceptableOrUnknown(data['mg']!, _mgMeta));
+    } else if (isInserting) {
+      context.missing(_mgMeta);
+    }
+    if (data.containsKey('source')) {
+      context.handle(
+        _sourceMeta,
+        source.isAcceptableOrUnknown(data['source']!, _sourceMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  CaffeineLog map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return CaffeineLog(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      consumedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}consumed_at'],
+      )!,
+      mg: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}mg'],
+      )!,
+      source: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}source'],
+      ),
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $CaffeineLogsTable createAlias(String alias) {
+    return $CaffeineLogsTable(attachedDatabase, alias);
+  }
+}
+
+class CaffeineLog extends DataClass implements Insertable<CaffeineLog> {
+  final int id;
+  final DateTime consumedAt;
+  final int mg;
+  final String? source;
+  final DateTime createdAt;
+  const CaffeineLog({
+    required this.id,
+    required this.consumedAt,
+    required this.mg,
+    this.source,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['consumed_at'] = Variable<DateTime>(consumedAt);
+    map['mg'] = Variable<int>(mg);
+    if (!nullToAbsent || source != null) {
+      map['source'] = Variable<String>(source);
+    }
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  CaffeineLogsCompanion toCompanion(bool nullToAbsent) {
+    return CaffeineLogsCompanion(
+      id: Value(id),
+      consumedAt: Value(consumedAt),
+      mg: Value(mg),
+      source: source == null && nullToAbsent
+          ? const Value.absent()
+          : Value(source),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory CaffeineLog.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return CaffeineLog(
+      id: serializer.fromJson<int>(json['id']),
+      consumedAt: serializer.fromJson<DateTime>(json['consumedAt']),
+      mg: serializer.fromJson<int>(json['mg']),
+      source: serializer.fromJson<String?>(json['source']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'consumedAt': serializer.toJson<DateTime>(consumedAt),
+      'mg': serializer.toJson<int>(mg),
+      'source': serializer.toJson<String?>(source),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  CaffeineLog copyWith({
+    int? id,
+    DateTime? consumedAt,
+    int? mg,
+    Value<String?> source = const Value.absent(),
+    DateTime? createdAt,
+  }) => CaffeineLog(
+    id: id ?? this.id,
+    consumedAt: consumedAt ?? this.consumedAt,
+    mg: mg ?? this.mg,
+    source: source.present ? source.value : this.source,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  CaffeineLog copyWithCompanion(CaffeineLogsCompanion data) {
+    return CaffeineLog(
+      id: data.id.present ? data.id.value : this.id,
+      consumedAt: data.consumedAt.present
+          ? data.consumedAt.value
+          : this.consumedAt,
+      mg: data.mg.present ? data.mg.value : this.mg,
+      source: data.source.present ? data.source.value : this.source,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CaffeineLog(')
+          ..write('id: $id, ')
+          ..write('consumedAt: $consumedAt, ')
+          ..write('mg: $mg, ')
+          ..write('source: $source, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, consumedAt, mg, source, createdAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is CaffeineLog &&
+          other.id == this.id &&
+          other.consumedAt == this.consumedAt &&
+          other.mg == this.mg &&
+          other.source == this.source &&
+          other.createdAt == this.createdAt);
+}
+
+class CaffeineLogsCompanion extends UpdateCompanion<CaffeineLog> {
+  final Value<int> id;
+  final Value<DateTime> consumedAt;
+  final Value<int> mg;
+  final Value<String?> source;
+  final Value<DateTime> createdAt;
+  const CaffeineLogsCompanion({
+    this.id = const Value.absent(),
+    this.consumedAt = const Value.absent(),
+    this.mg = const Value.absent(),
+    this.source = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  CaffeineLogsCompanion.insert({
+    this.id = const Value.absent(),
+    required DateTime consumedAt,
+    required int mg,
+    this.source = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  }) : consumedAt = Value(consumedAt),
+       mg = Value(mg);
+  static Insertable<CaffeineLog> custom({
+    Expression<int>? id,
+    Expression<DateTime>? consumedAt,
+    Expression<int>? mg,
+    Expression<String>? source,
+    Expression<DateTime>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (consumedAt != null) 'consumed_at': consumedAt,
+      if (mg != null) 'mg': mg,
+      if (source != null) 'source': source,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  CaffeineLogsCompanion copyWith({
+    Value<int>? id,
+    Value<DateTime>? consumedAt,
+    Value<int>? mg,
+    Value<String?>? source,
+    Value<DateTime>? createdAt,
+  }) {
+    return CaffeineLogsCompanion(
+      id: id ?? this.id,
+      consumedAt: consumedAt ?? this.consumedAt,
+      mg: mg ?? this.mg,
+      source: source ?? this.source,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (consumedAt.present) {
+      map['consumed_at'] = Variable<DateTime>(consumedAt.value);
+    }
+    if (mg.present) {
+      map['mg'] = Variable<int>(mg.value);
+    }
+    if (source.present) {
+      map['source'] = Variable<String>(source.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CaffeineLogsCompanion(')
+          ..write('id: $id, ')
+          ..write('consumedAt: $consumedAt, ')
+          ..write('mg: $mg, ')
+          ..write('source: $source, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $WorryJournalEntriesTable extends WorryJournalEntries
+    with TableInfo<$WorryJournalEntriesTable, WorryJournalEntry> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $WorryJournalEntriesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _enteredAtMeta = const VerificationMeta(
+    'enteredAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> enteredAt = GeneratedColumn<DateTime>(
+    'entered_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _worryMeta = const VerificationMeta('worry');
+  @override
+  late final GeneratedColumn<String> worry = GeneratedColumn<String>(
+    'worry',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _nextActionMeta = const VerificationMeta(
+    'nextAction',
+  );
+  @override
+  late final GeneratedColumn<String> nextAction = GeneratedColumn<String>(
+    'next_action',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _resolvedMeta = const VerificationMeta(
+    'resolved',
+  );
+  @override
+  late final GeneratedColumn<bool> resolved = GeneratedColumn<bool>(
+    'resolved',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("resolved" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    enteredAt,
+    worry,
+    nextAction,
+    resolved,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'worry_journal_entries';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<WorryJournalEntry> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('entered_at')) {
+      context.handle(
+        _enteredAtMeta,
+        enteredAt.isAcceptableOrUnknown(data['entered_at']!, _enteredAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_enteredAtMeta);
+    }
+    if (data.containsKey('worry')) {
+      context.handle(
+        _worryMeta,
+        worry.isAcceptableOrUnknown(data['worry']!, _worryMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_worryMeta);
+    }
+    if (data.containsKey('next_action')) {
+      context.handle(
+        _nextActionMeta,
+        nextAction.isAcceptableOrUnknown(data['next_action']!, _nextActionMeta),
+      );
+    }
+    if (data.containsKey('resolved')) {
+      context.handle(
+        _resolvedMeta,
+        resolved.isAcceptableOrUnknown(data['resolved']!, _resolvedMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  WorryJournalEntry map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return WorryJournalEntry(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      enteredAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}entered_at'],
+      )!,
+      worry: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}worry'],
+      )!,
+      nextAction: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}next_action'],
+      ),
+      resolved: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}resolved'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $WorryJournalEntriesTable createAlias(String alias) {
+    return $WorryJournalEntriesTable(attachedDatabase, alias);
+  }
+}
+
+class WorryJournalEntry extends DataClass
+    implements Insertable<WorryJournalEntry> {
+  final int id;
+  final DateTime enteredAt;
+  final String worry;
+  final String? nextAction;
+  final bool resolved;
+  final DateTime createdAt;
+  const WorryJournalEntry({
+    required this.id,
+    required this.enteredAt,
+    required this.worry,
+    this.nextAction,
+    required this.resolved,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['entered_at'] = Variable<DateTime>(enteredAt);
+    map['worry'] = Variable<String>(worry);
+    if (!nullToAbsent || nextAction != null) {
+      map['next_action'] = Variable<String>(nextAction);
+    }
+    map['resolved'] = Variable<bool>(resolved);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  WorryJournalEntriesCompanion toCompanion(bool nullToAbsent) {
+    return WorryJournalEntriesCompanion(
+      id: Value(id),
+      enteredAt: Value(enteredAt),
+      worry: Value(worry),
+      nextAction: nextAction == null && nullToAbsent
+          ? const Value.absent()
+          : Value(nextAction),
+      resolved: Value(resolved),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory WorryJournalEntry.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return WorryJournalEntry(
+      id: serializer.fromJson<int>(json['id']),
+      enteredAt: serializer.fromJson<DateTime>(json['enteredAt']),
+      worry: serializer.fromJson<String>(json['worry']),
+      nextAction: serializer.fromJson<String?>(json['nextAction']),
+      resolved: serializer.fromJson<bool>(json['resolved']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'enteredAt': serializer.toJson<DateTime>(enteredAt),
+      'worry': serializer.toJson<String>(worry),
+      'nextAction': serializer.toJson<String?>(nextAction),
+      'resolved': serializer.toJson<bool>(resolved),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  WorryJournalEntry copyWith({
+    int? id,
+    DateTime? enteredAt,
+    String? worry,
+    Value<String?> nextAction = const Value.absent(),
+    bool? resolved,
+    DateTime? createdAt,
+  }) => WorryJournalEntry(
+    id: id ?? this.id,
+    enteredAt: enteredAt ?? this.enteredAt,
+    worry: worry ?? this.worry,
+    nextAction: nextAction.present ? nextAction.value : this.nextAction,
+    resolved: resolved ?? this.resolved,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  WorryJournalEntry copyWithCompanion(WorryJournalEntriesCompanion data) {
+    return WorryJournalEntry(
+      id: data.id.present ? data.id.value : this.id,
+      enteredAt: data.enteredAt.present ? data.enteredAt.value : this.enteredAt,
+      worry: data.worry.present ? data.worry.value : this.worry,
+      nextAction: data.nextAction.present
+          ? data.nextAction.value
+          : this.nextAction,
+      resolved: data.resolved.present ? data.resolved.value : this.resolved,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('WorryJournalEntry(')
+          ..write('id: $id, ')
+          ..write('enteredAt: $enteredAt, ')
+          ..write('worry: $worry, ')
+          ..write('nextAction: $nextAction, ')
+          ..write('resolved: $resolved, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, enteredAt, worry, nextAction, resolved, createdAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is WorryJournalEntry &&
+          other.id == this.id &&
+          other.enteredAt == this.enteredAt &&
+          other.worry == this.worry &&
+          other.nextAction == this.nextAction &&
+          other.resolved == this.resolved &&
+          other.createdAt == this.createdAt);
+}
+
+class WorryJournalEntriesCompanion extends UpdateCompanion<WorryJournalEntry> {
+  final Value<int> id;
+  final Value<DateTime> enteredAt;
+  final Value<String> worry;
+  final Value<String?> nextAction;
+  final Value<bool> resolved;
+  final Value<DateTime> createdAt;
+  const WorryJournalEntriesCompanion({
+    this.id = const Value.absent(),
+    this.enteredAt = const Value.absent(),
+    this.worry = const Value.absent(),
+    this.nextAction = const Value.absent(),
+    this.resolved = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  WorryJournalEntriesCompanion.insert({
+    this.id = const Value.absent(),
+    required DateTime enteredAt,
+    required String worry,
+    this.nextAction = const Value.absent(),
+    this.resolved = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  }) : enteredAt = Value(enteredAt),
+       worry = Value(worry);
+  static Insertable<WorryJournalEntry> custom({
+    Expression<int>? id,
+    Expression<DateTime>? enteredAt,
+    Expression<String>? worry,
+    Expression<String>? nextAction,
+    Expression<bool>? resolved,
+    Expression<DateTime>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (enteredAt != null) 'entered_at': enteredAt,
+      if (worry != null) 'worry': worry,
+      if (nextAction != null) 'next_action': nextAction,
+      if (resolved != null) 'resolved': resolved,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  WorryJournalEntriesCompanion copyWith({
+    Value<int>? id,
+    Value<DateTime>? enteredAt,
+    Value<String>? worry,
+    Value<String?>? nextAction,
+    Value<bool>? resolved,
+    Value<DateTime>? createdAt,
+  }) {
+    return WorryJournalEntriesCompanion(
+      id: id ?? this.id,
+      enteredAt: enteredAt ?? this.enteredAt,
+      worry: worry ?? this.worry,
+      nextAction: nextAction ?? this.nextAction,
+      resolved: resolved ?? this.resolved,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (enteredAt.present) {
+      map['entered_at'] = Variable<DateTime>(enteredAt.value);
+    }
+    if (worry.present) {
+      map['worry'] = Variable<String>(worry.value);
+    }
+    if (nextAction.present) {
+      map['next_action'] = Variable<String>(nextAction.value);
+    }
+    if (resolved.present) {
+      map['resolved'] = Variable<bool>(resolved.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('WorryJournalEntriesCompanion(')
+          ..write('id: $id, ')
+          ..write('enteredAt: $enteredAt, ')
+          ..write('worry: $worry, ')
+          ..write('nextAction: $nextAction, ')
+          ..write('resolved: $resolved, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$NoctosDatabase extends GeneratedDatabase {
   _$NoctosDatabase(QueryExecutor e) : super(e);
   $NoctosDatabaseManager get managers => $NoctosDatabaseManager(this);
@@ -2374,6 +3115,9 @@ abstract class _$NoctosDatabase extends GeneratedDatabase {
       $SleepDiaryEntriesTable(this);
   late final $UserSchedulesTable userSchedules = $UserSchedulesTable(this);
   late final $CbtiWeeksTable cbtiWeeks = $CbtiWeeksTable(this);
+  late final $CaffeineLogsTable caffeineLogs = $CaffeineLogsTable(this);
+  late final $WorryJournalEntriesTable worryJournalEntries =
+      $WorryJournalEntriesTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -2382,6 +3126,8 @@ abstract class _$NoctosDatabase extends GeneratedDatabase {
     sleepDiaryEntries,
     userSchedules,
     cbtiWeeks,
+    caffeineLogs,
+    worryJournalEntries,
   ];
 }
 
@@ -3475,6 +4221,433 @@ typedef $$CbtiWeeksTableProcessedTableManager =
       CbtiWeek,
       PrefetchHooks Function()
     >;
+typedef $$CaffeineLogsTableCreateCompanionBuilder =
+    CaffeineLogsCompanion Function({
+      Value<int> id,
+      required DateTime consumedAt,
+      required int mg,
+      Value<String?> source,
+      Value<DateTime> createdAt,
+    });
+typedef $$CaffeineLogsTableUpdateCompanionBuilder =
+    CaffeineLogsCompanion Function({
+      Value<int> id,
+      Value<DateTime> consumedAt,
+      Value<int> mg,
+      Value<String?> source,
+      Value<DateTime> createdAt,
+    });
+
+class $$CaffeineLogsTableFilterComposer
+    extends Composer<_$NoctosDatabase, $CaffeineLogsTable> {
+  $$CaffeineLogsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get consumedAt => $composableBuilder(
+    column: $table.consumedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get mg => $composableBuilder(
+    column: $table.mg,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get source => $composableBuilder(
+    column: $table.source,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$CaffeineLogsTableOrderingComposer
+    extends Composer<_$NoctosDatabase, $CaffeineLogsTable> {
+  $$CaffeineLogsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get consumedAt => $composableBuilder(
+    column: $table.consumedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get mg => $composableBuilder(
+    column: $table.mg,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get source => $composableBuilder(
+    column: $table.source,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$CaffeineLogsTableAnnotationComposer
+    extends Composer<_$NoctosDatabase, $CaffeineLogsTable> {
+  $$CaffeineLogsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get consumedAt => $composableBuilder(
+    column: $table.consumedAt,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get mg =>
+      $composableBuilder(column: $table.mg, builder: (column) => column);
+
+  GeneratedColumn<String> get source =>
+      $composableBuilder(column: $table.source, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+}
+
+class $$CaffeineLogsTableTableManager
+    extends
+        RootTableManager<
+          _$NoctosDatabase,
+          $CaffeineLogsTable,
+          CaffeineLog,
+          $$CaffeineLogsTableFilterComposer,
+          $$CaffeineLogsTableOrderingComposer,
+          $$CaffeineLogsTableAnnotationComposer,
+          $$CaffeineLogsTableCreateCompanionBuilder,
+          $$CaffeineLogsTableUpdateCompanionBuilder,
+          (
+            CaffeineLog,
+            BaseReferences<_$NoctosDatabase, $CaffeineLogsTable, CaffeineLog>,
+          ),
+          CaffeineLog,
+          PrefetchHooks Function()
+        > {
+  $$CaffeineLogsTableTableManager(_$NoctosDatabase db, $CaffeineLogsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$CaffeineLogsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$CaffeineLogsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$CaffeineLogsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<DateTime> consumedAt = const Value.absent(),
+                Value<int> mg = const Value.absent(),
+                Value<String?> source = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => CaffeineLogsCompanion(
+                id: id,
+                consumedAt: consumedAt,
+                mg: mg,
+                source: source,
+                createdAt: createdAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required DateTime consumedAt,
+                required int mg,
+                Value<String?> source = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => CaffeineLogsCompanion.insert(
+                id: id,
+                consumedAt: consumedAt,
+                mg: mg,
+                source: source,
+                createdAt: createdAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$CaffeineLogsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$NoctosDatabase,
+      $CaffeineLogsTable,
+      CaffeineLog,
+      $$CaffeineLogsTableFilterComposer,
+      $$CaffeineLogsTableOrderingComposer,
+      $$CaffeineLogsTableAnnotationComposer,
+      $$CaffeineLogsTableCreateCompanionBuilder,
+      $$CaffeineLogsTableUpdateCompanionBuilder,
+      (
+        CaffeineLog,
+        BaseReferences<_$NoctosDatabase, $CaffeineLogsTable, CaffeineLog>,
+      ),
+      CaffeineLog,
+      PrefetchHooks Function()
+    >;
+typedef $$WorryJournalEntriesTableCreateCompanionBuilder =
+    WorryJournalEntriesCompanion Function({
+      Value<int> id,
+      required DateTime enteredAt,
+      required String worry,
+      Value<String?> nextAction,
+      Value<bool> resolved,
+      Value<DateTime> createdAt,
+    });
+typedef $$WorryJournalEntriesTableUpdateCompanionBuilder =
+    WorryJournalEntriesCompanion Function({
+      Value<int> id,
+      Value<DateTime> enteredAt,
+      Value<String> worry,
+      Value<String?> nextAction,
+      Value<bool> resolved,
+      Value<DateTime> createdAt,
+    });
+
+class $$WorryJournalEntriesTableFilterComposer
+    extends Composer<_$NoctosDatabase, $WorryJournalEntriesTable> {
+  $$WorryJournalEntriesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get enteredAt => $composableBuilder(
+    column: $table.enteredAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get worry => $composableBuilder(
+    column: $table.worry,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get nextAction => $composableBuilder(
+    column: $table.nextAction,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get resolved => $composableBuilder(
+    column: $table.resolved,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$WorryJournalEntriesTableOrderingComposer
+    extends Composer<_$NoctosDatabase, $WorryJournalEntriesTable> {
+  $$WorryJournalEntriesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get enteredAt => $composableBuilder(
+    column: $table.enteredAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get worry => $composableBuilder(
+    column: $table.worry,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get nextAction => $composableBuilder(
+    column: $table.nextAction,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get resolved => $composableBuilder(
+    column: $table.resolved,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$WorryJournalEntriesTableAnnotationComposer
+    extends Composer<_$NoctosDatabase, $WorryJournalEntriesTable> {
+  $$WorryJournalEntriesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get enteredAt =>
+      $composableBuilder(column: $table.enteredAt, builder: (column) => column);
+
+  GeneratedColumn<String> get worry =>
+      $composableBuilder(column: $table.worry, builder: (column) => column);
+
+  GeneratedColumn<String> get nextAction => $composableBuilder(
+    column: $table.nextAction,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get resolved =>
+      $composableBuilder(column: $table.resolved, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+}
+
+class $$WorryJournalEntriesTableTableManager
+    extends
+        RootTableManager<
+          _$NoctosDatabase,
+          $WorryJournalEntriesTable,
+          WorryJournalEntry,
+          $$WorryJournalEntriesTableFilterComposer,
+          $$WorryJournalEntriesTableOrderingComposer,
+          $$WorryJournalEntriesTableAnnotationComposer,
+          $$WorryJournalEntriesTableCreateCompanionBuilder,
+          $$WorryJournalEntriesTableUpdateCompanionBuilder,
+          (
+            WorryJournalEntry,
+            BaseReferences<
+              _$NoctosDatabase,
+              $WorryJournalEntriesTable,
+              WorryJournalEntry
+            >,
+          ),
+          WorryJournalEntry,
+          PrefetchHooks Function()
+        > {
+  $$WorryJournalEntriesTableTableManager(
+    _$NoctosDatabase db,
+    $WorryJournalEntriesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$WorryJournalEntriesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$WorryJournalEntriesTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$WorryJournalEntriesTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<DateTime> enteredAt = const Value.absent(),
+                Value<String> worry = const Value.absent(),
+                Value<String?> nextAction = const Value.absent(),
+                Value<bool> resolved = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => WorryJournalEntriesCompanion(
+                id: id,
+                enteredAt: enteredAt,
+                worry: worry,
+                nextAction: nextAction,
+                resolved: resolved,
+                createdAt: createdAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required DateTime enteredAt,
+                required String worry,
+                Value<String?> nextAction = const Value.absent(),
+                Value<bool> resolved = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => WorryJournalEntriesCompanion.insert(
+                id: id,
+                enteredAt: enteredAt,
+                worry: worry,
+                nextAction: nextAction,
+                resolved: resolved,
+                createdAt: createdAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$WorryJournalEntriesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$NoctosDatabase,
+      $WorryJournalEntriesTable,
+      WorryJournalEntry,
+      $$WorryJournalEntriesTableFilterComposer,
+      $$WorryJournalEntriesTableOrderingComposer,
+      $$WorryJournalEntriesTableAnnotationComposer,
+      $$WorryJournalEntriesTableCreateCompanionBuilder,
+      $$WorryJournalEntriesTableUpdateCompanionBuilder,
+      (
+        WorryJournalEntry,
+        BaseReferences<
+          _$NoctosDatabase,
+          $WorryJournalEntriesTable,
+          WorryJournalEntry
+        >,
+      ),
+      WorryJournalEntry,
+      PrefetchHooks Function()
+    >;
 
 class $NoctosDatabaseManager {
   final _$NoctosDatabase _db;
@@ -3485,4 +4658,8 @@ class $NoctosDatabaseManager {
       $$UserSchedulesTableTableManager(_db, _db.userSchedules);
   $$CbtiWeeksTableTableManager get cbtiWeeks =>
       $$CbtiWeeksTableTableManager(_db, _db.cbtiWeeks);
+  $$CaffeineLogsTableTableManager get caffeineLogs =>
+      $$CaffeineLogsTableTableManager(_db, _db.caffeineLogs);
+  $$WorryJournalEntriesTableTableManager get worryJournalEntries =>
+      $$WorryJournalEntriesTableTableManager(_db, _db.worryJournalEntries);
 }
