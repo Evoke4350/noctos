@@ -23,7 +23,7 @@ class HomeScreen extends ConsumerWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.settings_outlined),
-            onPressed: () => context.go('/settings'),
+            onPressed: () => context.push('/settings'),
           ),
         ],
       ),
@@ -105,13 +105,13 @@ class HomeScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 16),
                 FilledButton.icon(
-                  onPressed: () => context.go('/diary/new'),
+                  onPressed: () => context.push('/diary/new'),
                   icon: const Icon(Icons.edit_note),
                   label: const Text('Log last night'),
                 ),
                 const SizedBox(height: 8),
                 OutlinedButton.icon(
-                  onPressed: () => context.go('/diary/history'),
+                  onPressed: () => context.push('/diary/history'),
                   icon: const Icon(Icons.history),
                   label: Text(
                     diaryAsync.maybeWhen(
@@ -122,7 +122,7 @@ class HomeScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 8),
                 OutlinedButton.icon(
-                  onPressed: () => context.go('/program'),
+                  onPressed: () => context.push('/program'),
                   icon: const Icon(Icons.timeline),
                   label: const Text('Program'),
                 ),

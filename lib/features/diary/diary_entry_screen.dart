@@ -86,7 +86,11 @@ class DiaryEntryScreen extends HookConsumerWidget {
           );
       await ref.read(cbtiEngineProvider).onDiaryInserted();
       if (!context.mounted) return;
-      context.go('/home');
+      if (context.canPop()) {
+        context.pop();
+      } else {
+        context.go('/home');
+      }
     }
 
     return Scaffold(
@@ -194,7 +198,13 @@ class DiaryEntryScreen extends HookConsumerWidget {
             ),
             const SizedBox(height: 8),
             TextButton(
-              onPressed: () => context.go('/home'),
+              onPressed: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.go('/home');
+                }
+              },
               child: const Text('Cancel'),
             ),
           ],

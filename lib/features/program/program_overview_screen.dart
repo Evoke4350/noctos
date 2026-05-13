@@ -41,7 +41,7 @@ class ProgramOverviewScreen extends ConsumerWidget {
                 return _PhaseCard(
                   spec: spec,
                   isCurrent: isCurrent,
-                  onTap: () => context.go('/program/${spec.approxWeekIndex}'),
+                  onTap: () => context.push('/program/${spec.approxWeekIndex}'),
                 );
               },
             );
