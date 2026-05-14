@@ -20,7 +20,16 @@ part 'database.g.dart';
 )
 class NoctosDatabase extends _$NoctosDatabase {
   NoctosDatabase([QueryExecutor? executor])
-    : super(executor ?? driftDatabase(name: 'noctos'));
+    : super(
+        executor ??
+            driftDatabase(
+              name: 'noctos',
+              web: DriftWebOptions(
+                sqlite3Wasm: Uri.parse('sqlite3.wasm'),
+                driftWorker: Uri.parse('drift_worker.js'),
+              ),
+            ),
+      );
 
   @override
   int get schemaVersion => 3;
