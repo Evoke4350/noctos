@@ -11,7 +11,9 @@ class ChronotypeQuizScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final answers = useState<List<int?>>(List.filled(meqQuestions.length, null));
+    final answers = useState<List<int?>>(
+      List.filled(meqQuestions.length, null),
+    );
     final allAnswered = !answers.value.contains(null);
     final result = allAnswered
         ? scoreChronotype(answers.value.cast<int>())
@@ -39,8 +41,10 @@ class ChronotypeQuizScreen extends HookConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('${index}. ${q.prompt}',
-                          style: Theme.of(context).textTheme.titleMedium),
+                      Text(
+                        '${index}. ${q.prompt}',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
                       const SizedBox(height: 8),
                       ...List.generate(q.options.length, (i) {
                         return RadioListTile<int>(
@@ -75,8 +79,10 @@ class ChronotypeQuizScreen extends HookConsumerWidget {
                             style: Theme.of(context).textTheme.titleLarge,
                           ),
                           const SizedBox(height: 4),
-                          Text('Score: ${result.score} / 25',
-                              style: Theme.of(context).textTheme.bodyMedium),
+                          Text(
+                            'Score: ${result.score} / 25',
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
                           const SizedBox(height: 8),
                           Text(result.suggestion),
                         ],

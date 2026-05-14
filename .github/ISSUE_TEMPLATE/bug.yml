@@ -1,0 +1,64 @@
+name: Bug report
+description: Something is broken in noctos.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. Before filing, please confirm:
+        - You read `docs/design-principles.md` and the bug is not "missing scores/streaks/badges" (those are intentional).
+        - You searched existing issues.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Describe the bug. Include sleep-restriction algorithm input/output if relevant.
+      placeholder: Expected X, got Y.
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open diary screen
+        2. Add entry with awakenings=3
+        3. ...
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: App version
+      description: Settings → About, or git commit if built from source.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options:
+        - Android
+        - macOS
+        - iOS
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: os-version
+    attributes:
+      label: OS version
+      placeholder: Android 15, macOS 15.4, etc.
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / crash dump
+      render: shell

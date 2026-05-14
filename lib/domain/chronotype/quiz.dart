@@ -15,25 +15,16 @@ const meqQuestions = <MeqQuestion>[
       'Before 06:30 AM',
     ],
   ),
-  MeqQuestion(
-    'How easy is it for you to get out of bed in the morning?',
-    [
-      'Very difficult',
-      'Difficult',
-      'Average',
-      'Fairly easy',
-      'Very easy',
-    ],
-  ),
+  MeqQuestion('How easy is it for you to get out of bed in the morning?', [
+    'Very difficult',
+    'Difficult',
+    'Average',
+    'Fairly easy',
+    'Very easy',
+  ]),
   MeqQuestion(
     'During the first half hour after waking, how alert do you feel?',
-    [
-      'Very groggy',
-      'Slow to wake',
-      'Fairly alert',
-      'Alert',
-      'Very alert',
-    ],
+    ['Very groggy', 'Slow to wake', 'Fairly alert', 'Alert', 'Very alert'],
   ),
   MeqQuestion(
     'In the evening, what time do you feel tired and need to sleep?',
@@ -45,16 +36,13 @@ const meqQuestions = <MeqQuestion>[
       'Before 21:30',
     ],
   ),
-  MeqQuestion(
-    'If you went to bed at 23:00, how tired would you feel?',
-    [
-      'Not tired at all',
-      'A little tired',
-      'Somewhat tired',
-      'Tired',
-      'Very tired',
-    ],
-  ),
+  MeqQuestion('If you went to bed at 23:00, how tired would you feel?', [
+    'Not tired at all',
+    'A little tired',
+    'Somewhat tired',
+    'Tired',
+    'Very tired',
+  ]),
 ];
 
 class ChronotypeResult {

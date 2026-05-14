@@ -8,9 +8,9 @@ class ScheduleRepository {
   final NoctosDatabase _db;
 
   Stream<UserSchedule?> watch() {
-    return (_db.select(_db.userSchedules)..limit(1))
-        .watch()
-        .map((rows) => rows.isEmpty ? null : rows.first);
+    return (_db.select(
+      _db.userSchedules,
+    )..limit(1)).watch().map((rows) => rows.isEmpty ? null : rows.first);
   }
 
   Future<UserSchedule?> get() async {
@@ -23,9 +23,9 @@ class ScheduleRepository {
   }
 
   Future<void> update(UserSchedule updated) async {
-    await _db.update(_db.userSchedules).replace(
-          updated.copyWith(updatedAt: DateTime.now()),
-        );
+    await _db
+        .update(_db.userSchedules)
+        .replace(updated.copyWith(updatedAt: DateTime.now()));
   }
 }
 

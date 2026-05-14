@@ -10,21 +10,22 @@ class NoctosTheme {
   static const _muted = Color(0xFFB8A98F);
 
   static ThemeData dark() {
-    final scheme = ColorScheme.fromSeed(
-      seedColor: _seed,
-      brightness: Brightness.dark,
-    ).copyWith(
-      surface: _surface,
-      surfaceContainerLowest: _surfaceDim,
-      surfaceContainer: const Color(0xFF22201C),
-      surfaceContainerHigh: const Color(0xFF2A2723),
-      onSurface: _onSurface,
-      onSurfaceVariant: _muted,
-      primary: const Color(0xFFD9B68A),
-      onPrimary: const Color(0xFF38240A),
-      secondary: const Color(0xFFB89881),
-      tertiary: const Color(0xFFA68A6B),
-    );
+    final scheme =
+        ColorScheme.fromSeed(
+          seedColor: _seed,
+          brightness: Brightness.dark,
+        ).copyWith(
+          surface: _surface,
+          surfaceContainerLowest: _surfaceDim,
+          surfaceContainer: const Color(0xFF22201C),
+          surfaceContainerHigh: const Color(0xFF2A2723),
+          onSurface: _onSurface,
+          onSurfaceVariant: _muted,
+          primary: const Color(0xFFD9B68A),
+          onPrimary: const Color(0xFF38240A),
+          secondary: const Color(0xFFB89881),
+          tertiary: const Color(0xFFA68A6B),
+        );
     return ThemeData(
       colorScheme: scheme,
       useMaterial3: true,
@@ -46,14 +47,18 @@ class NoctosTheme {
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
           minimumSize: const Size.fromHeight(52),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
           textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           minimumSize: const Size.fromHeight(52),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
@@ -63,7 +68,10 @@ class NoctosTheme {
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide.none,
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 14,
+        ),
       ),
       listTileTheme: ListTileThemeData(
         tileColor: scheme.surfaceContainer,
@@ -79,13 +87,33 @@ class NoctosTheme {
 
   static TextTheme _textTheme(Color onSurface) {
     return TextTheme(
-      displayLarge: TextStyle(color: onSurface, fontWeight: FontWeight.w300, fontSize: 48),
-      headlineMedium: TextStyle(color: onSurface, fontWeight: FontWeight.w500, fontSize: 24),
-      titleLarge: TextStyle(color: onSurface, fontWeight: FontWeight.w600, fontSize: 20),
-      titleMedium: TextStyle(color: onSurface, fontWeight: FontWeight.w500, fontSize: 16),
+      displayLarge: TextStyle(
+        color: onSurface,
+        fontWeight: FontWeight.w300,
+        fontSize: 48,
+      ),
+      headlineMedium: TextStyle(
+        color: onSurface,
+        fontWeight: FontWeight.w500,
+        fontSize: 24,
+      ),
+      titleLarge: TextStyle(
+        color: onSurface,
+        fontWeight: FontWeight.w600,
+        fontSize: 20,
+      ),
+      titleMedium: TextStyle(
+        color: onSurface,
+        fontWeight: FontWeight.w500,
+        fontSize: 16,
+      ),
       bodyLarge: TextStyle(color: onSurface, fontSize: 16, height: 1.4),
       bodyMedium: TextStyle(color: onSurface, fontSize: 14, height: 1.4),
-      labelLarge: TextStyle(color: onSurface, fontSize: 14, fontWeight: FontWeight.w600),
+      labelLarge: TextStyle(
+        color: onSurface,
+        fontSize: 14,
+        fontWeight: FontWeight.w600,
+      ),
     );
   }
 }

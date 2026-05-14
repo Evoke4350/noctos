@@ -33,37 +33,45 @@ class CBTIEngine {
 
     final samples = entries.map(_toSample).toList();
 
-    final prescription = computeNextSleepWindow(SleepRestrictionInput(
-      recentEntries: samples,
-      fixedWakeMinutesOfDay: schedule.fixedWakeMinutesOfDay,
-      currentTibMinutes: current?.tibMinutes,
-    ));
+    final prescription = computeNextSleepWindow(
+      SleepRestrictionInput(
+        recentEntries: samples,
+        fixedWakeMinutesOfDay: schedule.fixedWakeMinutesOfDay,
+        currentTibMinutes: current?.tibMinutes,
+      ),
+    );
 
-    final shouldAppend = current == null ||
+    final shouldAppend =
+        current == null ||
         transition.advancedTo != null ||
         prescription.action != 'hold';
 
     if (!shouldAppend) return null;
 
-    final phase = transition.advancedTo ??
+    final phase =
+        transition.advancedTo ??
         (current == null ? CBTIPhase.assessment : phaseFromId(current.phaseId));
 
-    final id = await _weeks.insert(CbtiWeeksCompanion.insert(
-      weekIndex: specFor(phase).approxWeekIndex,
-      phaseId: phaseId(phase),
-      startedOn: DateTime.now(),
-      prescribedBedtimeMinutesOfDay: prescription.bedtimeMinutesOfDay,
-      prescribedWakeMinutesOfDay: prescription.wakeMinutesOfDay,
-      tibMinutes: prescription.tibMinutes,
-      rationale: prescription.rationale,
-      action: prescription.action,
-    ));
+    final id = await _weeks.insert(
+      CbtiWeeksCompanion.insert(
+        weekIndex: specFor(phase).approxWeekIndex,
+        phaseId: phaseId(phase),
+        startedOn: DateTime.now(),
+        prescribedBedtimeMinutesOfDay: prescription.bedtimeMinutesOfDay,
+        prescribedWakeMinutesOfDay: prescription.wakeMinutesOfDay,
+        tibMinutes: prescription.tibMinutes,
+        rationale: prescription.rationale,
+        action: prescription.action,
+      ),
+    );
 
-    await _schedule.update(schedule.copyWith(
-      currentBedtimeMinutesOfDay: prescription.bedtimeMinutesOfDay,
-      currentTibMinutes: prescription.tibMinutes,
-      updatedAt: DateTime.now(),
-    ));
+    await _schedule.update(
+      schedule.copyWith(
+        currentBedtimeMinutesOfDay: prescription.bedtimeMinutesOfDay,
+        currentTibMinutes: prescription.tibMinutes,
+        updatedAt: DateTime.now(),
+      ),
+    );
 
     return id;
   }
@@ -98,7 +106,8 @@ _Transition _evaluatePhaseTransition({
 
   switch (phase) {
     case CBTIPhase.assessment:
-      if (diaryCount >= spec.minDays) return const _Transition(CBTIPhase.srBaseline);
+      if (diaryCount >= spec.minDays)
+        return const _Transition(CBTIPhase.srBaseline);
       return const _Transition(null);
     case CBTIPhase.srBaseline:
       if (daysIn >= spec.minDays) return const _Transition(CBTIPhase.srActive);
@@ -110,7 +119,8 @@ _Transition _evaluatePhaseTransition({
       if (daysIn >= spec.minDays) return const _Transition(CBTIPhase.hygiene);
       return const _Transition(null);
     case CBTIPhase.hygiene:
-      if (daysIn >= spec.minDays) return const _Transition(CBTIPhase.relapsePrevention);
+      if (daysIn >= spec.minDays)
+        return const _Transition(CBTIPhase.relapsePrevention);
       return const _Transition(null);
     case CBTIPhase.stimulusControl:
     case CBTIPhase.relapsePrevention:

@@ -12,7 +12,9 @@ class WeekDetailScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final spec = cbtiProtocol.firstWhere(
-      (s) => s.approxWeekIndex == weekIndex && s.phase != CBTIPhase.stimulusControl,
+      (s) =>
+          s.approxWeekIndex == weekIndex &&
+          s.phase != CBTIPhase.stimulusControl,
       orElse: () => cbtiProtocol.first,
     );
     final currentAsync = ref.watch(currentCbtiWeekProvider);
@@ -32,9 +34,14 @@ class WeekDetailScreen extends ConsumerWidget {
               error: (_, __) => const SizedBox.shrink(),
               data: (current) {
                 if (current == null) return const SizedBox.shrink();
-                if (phaseFromId(current.phaseId) != spec.phase) return const SizedBox.shrink();
-                final bed = timeOfDayFromMinutes(current.prescribedBedtimeMinutesOfDay);
-                final wake = timeOfDayFromMinutes(current.prescribedWakeMinutesOfDay);
+                if (phaseFromId(current.phaseId) != spec.phase)
+                  return const SizedBox.shrink();
+                final bed = timeOfDayFromMinutes(
+                  current.prescribedBedtimeMinutesOfDay,
+                );
+                final wake = timeOfDayFromMinutes(
+                  current.prescribedWakeMinutesOfDay,
+                );
                 return Card(
                   child: Padding(
                     padding: const EdgeInsets.all(16),
@@ -48,14 +55,18 @@ class WeekDetailScreen extends ConsumerWidget {
                         const SizedBox(height: 12),
                         _kv('Bedtime window', formatTimeOfDay(bed)),
                         _kv('Wake', formatTimeOfDay(wake)),
-                        _kv('Time in bed',
-                            formatDuration(Duration(minutes: current.tibMinutes))),
+                        _kv(
+                          'Time in bed',
+                          formatDuration(Duration(minutes: current.tibMinutes)),
+                        ),
                         _kv('Last action', current.action),
                         const SizedBox(height: 12),
                         const Divider(),
                         const SizedBox(height: 12),
-                        Text(current.rationale,
-                            style: Theme.of(context).textTheme.bodyMedium),
+                        Text(
+                          current.rationale,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
                       ],
                     ),
                   ),
@@ -63,8 +74,7 @@ class WeekDetailScreen extends ConsumerWidget {
               },
             ),
             const SizedBox(height: 24),
-            Text('Daily',
-                style: Theme.of(context).textTheme.titleMedium),
+            Text('Daily', style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 8),
             ...spec.daily.map(
               (item) => Padding(
@@ -93,10 +103,7 @@ class WeekDetailScreen extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(k),
-          Text(v),
-        ],
+        children: [Text(k), Text(v)],
       ),
     );
   }

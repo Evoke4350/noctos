@@ -111,13 +111,19 @@ class _EfficiencyChart extends StatelessWidget {
           drawVerticalLine: false,
           horizontalInterval: 25,
           getDrawingHorizontalLine: (v) => FlLine(
-            color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.15),
+            color: Theme.of(
+              context,
+            ).colorScheme.outline.withValues(alpha: 0.15),
             strokeWidth: 1,
           ),
         ),
         titlesData: FlTitlesData(
-          rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          rightTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+          topTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
           leftTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
@@ -125,11 +131,15 @@ class _EfficiencyChart extends StatelessWidget {
               reservedSize: 32,
               getTitlesWidget: (v, _) => Text(
                 '${v.toInt()}%',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyMedium?.copyWith(fontSize: 10),
               ),
             ),
           ),
-          bottomTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          bottomTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
         ),
         borderData: FlBorderData(show: false),
         extraLinesData: ExtraLinesData(
@@ -137,7 +147,9 @@ class _EfficiencyChart extends StatelessWidget {
             HorizontalLine(
               y: 85,
               dashArray: [4, 4],
-              color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.4),
+              color: Theme.of(
+                context,
+              ).colorScheme.primary.withValues(alpha: 0.4),
               strokeWidth: 1,
             ),
           ],
@@ -151,7 +163,9 @@ class _EfficiencyChart extends StatelessWidget {
             dotData: const FlDotData(show: true),
             belowBarData: BarAreaData(
               show: true,
-              color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
+              color: Theme.of(
+                context,
+              ).colorScheme.primary.withValues(alpha: 0.1),
             ),
           ),
         ],

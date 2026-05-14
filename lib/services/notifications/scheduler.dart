@@ -46,7 +46,9 @@ class NoctosNotifications {
   static Future<bool> requestPermissions() async {
     await ensureInitialized();
     final android = _plugin
-        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >();
     if (android == null) return false;
     final notif = await android.requestNotificationsPermission();
     final exact = await android.requestExactAlarmsPermission();

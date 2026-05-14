@@ -83,8 +83,12 @@ class _PhaseCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CircleAvatar(
-                backgroundColor: isCurrent ? scheme.primary : scheme.surfaceContainerHigh,
-                foregroundColor: isCurrent ? scheme.onPrimary : scheme.onSurfaceVariant,
+                backgroundColor: isCurrent
+                    ? scheme.primary
+                    : scheme.surfaceContainerHigh,
+                foregroundColor: isCurrent
+                    ? scheme.onPrimary
+                    : scheme.onSurfaceVariant,
                 child: Text('${spec.approxWeekIndex + 1}'),
               ),
               const SizedBox(width: 12),
@@ -92,13 +96,16 @@ class _PhaseCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(spec.title, style: Theme.of(context).textTheme.titleMedium),
+                    Text(
+                      spec.title,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
                     const SizedBox(height: 2),
                     Text(
                       spec.subtitle,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: scheme.onSurfaceVariant,
-                          ),
+                        color: scheme.onSurfaceVariant,
+                      ),
                     ),
                   ],
                 ),

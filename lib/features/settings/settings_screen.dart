@@ -24,12 +24,17 @@ class SettingsScreen extends ConsumerWidget {
             if (schedule == null) {
               return const Center(child: Text('No schedule yet'));
             }
-            final bedtime = timeOfDayFromMinutes(schedule.currentBedtimeMinutesOfDay);
+            final bedtime = timeOfDayFromMinutes(
+              schedule.currentBedtimeMinutesOfDay,
+            );
             final wake = timeOfDayFromMinutes(schedule.fixedWakeMinutesOfDay);
             return ListView(
               padding: const EdgeInsets.all(20),
               children: [
-                Text('Schedule', style: Theme.of(context).textTheme.titleMedium),
+                Text(
+                  'Schedule',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
                 const SizedBox(height: 8),
                 Card(
                   child: Column(
@@ -46,10 +51,12 @@ class SettingsScreen extends ConsumerWidget {
                           if (picked == null) return;
                           await ref
                               .read(scheduleRepositoryProvider)
-                              .update(schedule.copyWith(
-                                fixedWakeMinutesOfDay: minutesOfDay(picked),
-                                updatedAt: DateTime.now(),
-                              ));
+                              .update(
+                                schedule.copyWith(
+                                  fixedWakeMinutesOfDay: minutesOfDay(picked),
+                                  updatedAt: DateTime.now(),
+                                ),
+                              );
                         },
                       ),
                       const Divider(height: 1),
@@ -65,22 +72,30 @@ class SettingsScreen extends ConsumerWidget {
                           if (picked == null) return;
                           await ref
                               .read(scheduleRepositoryProvider)
-                              .update(schedule.copyWith(
-                                currentBedtimeMinutesOfDay: minutesOfDay(picked),
-                                updatedAt: DateTime.now(),
-                              ));
+                              .update(
+                                schedule.copyWith(
+                                  currentBedtimeMinutesOfDay: minutesOfDay(
+                                    picked,
+                                  ),
+                                  updatedAt: DateTime.now(),
+                                ),
+                              );
                         },
                       ),
                       const Divider(height: 1),
                       ListTile(
                         title: const Text('Wind-down lead time'),
-                        subtitle: Text('${schedule.windDownMinutes} min before bedtime'),
+                        subtitle: Text(
+                          '${schedule.windDownMinutes} min before bedtime',
+                        ),
                         trailing: const Icon(Icons.timer_outlined),
                         onTap: () => _editIntDialog(
                           context,
                           title: 'Wind-down minutes',
                           initial: schedule.windDownMinutes,
-                          onSave: (v) => ref.read(scheduleRepositoryProvider).update(
+                          onSave: (v) => ref
+                              .read(scheduleRepositoryProvider)
+                              .update(
                                 schedule.copyWith(
                                   windDownMinutes: v,
                                   updatedAt: DateTime.now(),
@@ -91,13 +106,17 @@ class SettingsScreen extends ConsumerWidget {
                       const Divider(height: 1),
                       ListTile(
                         title: const Text('Caffeine cutoff after wake'),
-                        subtitle: Text('${schedule.caffeineCutoffOffsetMin ~/ 60}h ${schedule.caffeineCutoffOffsetMin % 60}m'),
+                        subtitle: Text(
+                          '${schedule.caffeineCutoffOffsetMin ~/ 60}h ${schedule.caffeineCutoffOffsetMin % 60}m',
+                        ),
                         trailing: const Icon(Icons.coffee_outlined),
                         onTap: () => _editIntDialog(
                           context,
                           title: 'Caffeine cutoff (min after wake)',
                           initial: schedule.caffeineCutoffOffsetMin,
-                          onSave: (v) => ref.read(scheduleRepositoryProvider).update(
+                          onSave: (v) => ref
+                              .read(scheduleRepositoryProvider)
+                              .update(
                                 schedule.copyWith(
                                   caffeineCutoffOffsetMin: v,
                                   updatedAt: DateTime.now(),
@@ -109,7 +128,10 @@ class SettingsScreen extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: 20),
-                Text('Notifications', style: Theme.of(context).textTheme.titleMedium),
+                Text(
+                  'Notifications',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
                 const SizedBox(height: 8),
                 Card(
                   child: Column(
@@ -124,7 +146,9 @@ class SettingsScreen extends ConsumerWidget {
                           if (v) {
                             await NoctosNotifications.requestPermissions();
                           }
-                          await ref.read(scheduleRepositoryProvider).update(
+                          await ref
+                              .read(scheduleRepositoryProvider)
+                              .update(
                                 schedule.copyWith(
                                   notificationsEnabled: v,
                                   updatedAt: DateTime.now(),
@@ -136,13 +160,20 @@ class SettingsScreen extends ConsumerWidget {
                       ListTile(
                         title: const Text('Request all permissions'),
                         subtitle: const Text('Notifications + exact alarms'),
-                        trailing: const Icon(Icons.notifications_active_outlined),
+                        trailing: const Icon(
+                          Icons.notifications_active_outlined,
+                        ),
                         onTap: () async {
-                          final ok = await NoctosNotifications.requestPermissions();
+                          final ok =
+                              await NoctosNotifications.requestPermissions();
                           if (!context.mounted) return;
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(ok ? 'Granted' : 'Some permissions denied'),
-                          ));
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                ok ? 'Granted' : 'Some permissions denied',
+                              ),
+                            ),
+                          );
                         },
                       ),
                       const Divider(height: 1),
@@ -170,7 +201,9 @@ class SettingsScreen extends ConsumerWidget {
                         subtitle: const Text('All tables, one file'),
                         trailing: const Icon(Icons.file_download_outlined),
                         onTap: () async {
-                          final res = await ref.read(exporterProvider).export(ExportFormat.json);
+                          final res = await ref
+                              .read(exporterProvider)
+                              .export(ExportFormat.json);
                           if (!context.mounted) return;
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text('Saved: ${res.path}')),
@@ -183,7 +216,9 @@ class SettingsScreen extends ConsumerWidget {
                         subtitle: const Text('One section per table'),
                         trailing: const Icon(Icons.table_chart_outlined),
                         onTap: () async {
-                          final res = await ref.read(exporterProvider).export(ExportFormat.csv);
+                          final res = await ref
+                              .read(exporterProvider)
+                              .export(ExportFormat.csv);
                           if (!context.mounted) return;
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text('Saved: ${res.path}')),
@@ -257,4 +292,3 @@ class SettingsScreen extends ConsumerWidget {
     if (value != null) await onSave(value);
   }
 }
-

@@ -9,30 +9,32 @@ import 'tables/worry_journal_entries.dart';
 
 part 'database.g.dart';
 
-@DriftDatabase(tables: [
-  SleepDiaryEntries,
-  UserSchedules,
-  CbtiWeeks,
-  CaffeineLogs,
-  WorryJournalEntries,
-])
+@DriftDatabase(
+  tables: [
+    SleepDiaryEntries,
+    UserSchedules,
+    CbtiWeeks,
+    CaffeineLogs,
+    WorryJournalEntries,
+  ],
+)
 class NoctosDatabase extends _$NoctosDatabase {
   NoctosDatabase([QueryExecutor? executor])
-      : super(executor ?? driftDatabase(name: 'noctos'));
+    : super(executor ?? driftDatabase(name: 'noctos'));
 
   @override
   int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
-        onUpgrade: (m, from, to) async {
-          if (from < 2) {
-            await m.createTable(cbtiWeeks);
-          }
-          if (from < 3) {
-            await m.createTable(caffeineLogs);
-            await m.createTable(worryJournalEntries);
-          }
-        },
-      );
+    onUpgrade: (m, from, to) async {
+      if (from < 2) {
+        await m.createTable(cbtiWeeks);
+      }
+      if (from < 3) {
+        await m.createTable(caffeineLogs);
+        await m.createTable(worryJournalEntries);
+      }
+    },
+  );
 }

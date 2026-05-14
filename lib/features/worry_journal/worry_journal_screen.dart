@@ -40,8 +40,11 @@ class WorryJournalScreen extends ConsumerWidget {
                     Text(
                       schedule.maybeWhen(
                         data: (s) {
-                          if (s == null) return 'Write 1–2 hours before bedtime.';
-                          final bed = timeOfDayFromMinutes(s.currentBedtimeMinutesOfDay);
+                          if (s == null)
+                            return 'Write 1–2 hours before bedtime.';
+                          final bed = timeOfDayFromMinutes(
+                            s.currentBedtimeMinutesOfDay,
+                          );
                           final cutoff = timeOfDayFromMinutes(
                             (s.currentBedtimeMinutesOfDay - 60) % (24 * 60),
                           );
@@ -68,8 +71,8 @@ class WorryJournalScreen extends ConsumerWidget {
                       child: Text(
                         'No entries yet.',
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: Theme.of(context).colorScheme.onSurfaceVariant,
-                            ),
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
                       ),
                     ),
                   );
@@ -126,26 +129,31 @@ class _Tile extends StatelessWidget {
                     Text(
                       entry.worry,
                       style: TextStyle(
-                        decoration: entry.resolved ? TextDecoration.lineThrough : null,
-                        color: entry.resolved ? scheme.onSurfaceVariant : scheme.onSurface,
+                        decoration: entry.resolved
+                            ? TextDecoration.lineThrough
+                            : null,
+                        color: entry.resolved
+                            ? scheme.onSurfaceVariant
+                            : scheme.onSurface,
                       ),
                     ),
-                    if (entry.nextAction != null && entry.nextAction!.isNotEmpty) ...[
+                    if (entry.nextAction != null &&
+                        entry.nextAction!.isNotEmpty) ...[
                       const SizedBox(height: 4),
                       Text(
                         '→ ${entry.nextAction}',
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: scheme.onSurfaceVariant,
-                            ),
+                          color: scheme.onSurfaceVariant,
+                        ),
                       ),
                     ],
                     const SizedBox(height: 4),
                     Text(
                       _formatDate(entry.enteredAt),
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: scheme.onSurfaceVariant,
-                            fontSize: 11,
-                          ),
+                        color: scheme.onSurfaceVariant,
+                        fontSize: 11,
+                      ),
                     ),
                   ],
                 ),
@@ -179,7 +187,9 @@ class _AddSheet extends HookConsumerWidget {
     Future<void> save() async {
       if (worry.text.trim().isEmpty) return;
       saving.value = true;
-      await ref.read(worryRepositoryProvider).insert(
+      await ref
+          .read(worryRepositoryProvider)
+          .insert(
             enteredAt: DateTime.now(),
             worry: worry.text.trim(),
             nextAction: action.text.trim().isEmpty ? null : action.text.trim(),
@@ -195,8 +205,10 @@ class _AddSheet extends HookConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('What is on your mind?',
-                style: Theme.of(context).textTheme.titleLarge),
+            Text(
+              'What is on your mind?',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
             const SizedBox(height: 16),
             TextField(
               controller: worry,

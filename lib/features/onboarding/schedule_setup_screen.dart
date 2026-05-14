@@ -31,7 +31,9 @@ class ScheduleSetupScreen extends HookConsumerWidget {
     Future<void> save() async {
       saving.value = true;
       final tib = _tibMinutes(bed.value, wake.value);
-      ref.read(onboardingDraftProvider.notifier).setSchedule(wake.value, bed.value);
+      ref
+          .read(onboardingDraftProvider.notifier)
+          .setSchedule(wake.value, bed.value);
       final entry = UserSchedulesCompanion.insert(
         fixedWakeMinutesOfDay: minutesOfDay(wake.value),
         currentBedtimeMinutesOfDay: minutesOfDay(bed.value),
@@ -85,8 +87,10 @@ class ScheduleSetupScreen extends HookConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text('Time in bed'),
-                    Text(formatDuration(Duration(minutes: tib)),
-                        style: Theme.of(context).textTheme.titleMedium),
+                    Text(
+                      formatDuration(Duration(minutes: tib)),
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
                   ],
                 ),
               ),
@@ -111,11 +115,20 @@ class ScheduleSetupScreen extends HookConsumerWidget {
   (TimeOfDay, TimeOfDay) _defaultsFor(String? category) {
     switch (category) {
       case 'morning':
-        return (const TimeOfDay(hour: 6, minute: 30), const TimeOfDay(hour: 22, minute: 30));
+        return (
+          const TimeOfDay(hour: 6, minute: 30),
+          const TimeOfDay(hour: 22, minute: 30),
+        );
       case 'evening':
-        return (const TimeOfDay(hour: 8, minute: 0), const TimeOfDay(hour: 0, minute: 0));
+        return (
+          const TimeOfDay(hour: 8, minute: 0),
+          const TimeOfDay(hour: 0, minute: 0),
+        );
       default:
-        return (const TimeOfDay(hour: 7, minute: 0), const TimeOfDay(hour: 23, minute: 0));
+        return (
+          const TimeOfDay(hour: 7, minute: 0),
+          const TimeOfDay(hour: 23, minute: 0),
+        );
     }
   }
 

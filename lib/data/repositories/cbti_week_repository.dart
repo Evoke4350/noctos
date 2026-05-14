@@ -9,16 +9,17 @@ class CbtiWeekRepository {
   final NoctosDatabase _db;
 
   Stream<List<CbtiWeek>> watchAll() {
-    return (_db.select(_db.cbtiWeeks)
-          ..orderBy([(t) => OrderingTerm.asc(t.createdAt)]))
-        .watch();
+    return (_db.select(
+      _db.cbtiWeeks,
+    )..orderBy([(t) => OrderingTerm.asc(t.createdAt)])).watch();
   }
 
   Future<CbtiWeek?> latest() async {
-    final rows = await (_db.select(_db.cbtiWeeks)
-          ..orderBy([(t) => OrderingTerm.desc(t.id)])
-          ..limit(1))
-        .get();
+    final rows =
+        await (_db.select(_db.cbtiWeeks)
+              ..orderBy([(t) => OrderingTerm.desc(t.id)])
+              ..limit(1))
+            .get();
     return rows.isEmpty ? null : rows.first;
   }
 

@@ -24,7 +24,11 @@ const commonCaffeineSources = <CaffeineSource>[
 const defaultHalfLifeHours = 5.0;
 
 /// Remaining mg after `elapsed` for one dose.
-double remainingMg(int initialMg, Duration elapsed, {double halfLifeHours = defaultHalfLifeHours}) {
+double remainingMg(
+  int initialMg,
+  Duration elapsed, {
+  double halfLifeHours = defaultHalfLifeHours,
+}) {
   if (elapsed.isNegative) return 0;
   final h = elapsed.inMinutes / 60.0;
   return initialMg * math.pow(0.5, h / halfLifeHours).toDouble();
@@ -55,7 +59,10 @@ List<({DateTime at, double mg})> sampleCurve(
   final out = <({DateTime at, double mg})>[];
   var t = from;
   while (!t.isAfter(to)) {
-    out.add((at: t, mg: remainingAtTime(doses, t, halfLifeHours: halfLifeHours)));
+    out.add((
+      at: t,
+      mg: remainingAtTime(doses, t, halfLifeHours: halfLifeHours),
+    ));
     t = t.add(Duration(minutes: stepMinutes));
   }
   return out;
@@ -72,6 +79,7 @@ DateTime cutoffForSingleDose({
 }) {
   if (doseMg <= targetMgAtBedtime) return bedtime;
   // doseMg * 0.5^(t/half) <= target  →  t >= half * log2(dose/target)
-  final hoursNeeded = halfLifeHours * (math.log(doseMg / targetMgAtBedtime) / math.ln2);
+  final hoursNeeded =
+      halfLifeHours * (math.log(doseMg / targetMgAtBedtime) / math.ln2);
   return bedtime.subtract(Duration(minutes: (hoursNeeded * 60).round()));
 }

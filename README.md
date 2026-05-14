@@ -1,12 +1,17 @@
 # noctos
 
+[![ci](../../actions/workflows/ci.yml/badge.svg)](../../actions/workflows/ci.yml)
+[![macos](../../actions/workflows/macos.yml/badge.svg)](../../actions/workflows/macos.yml)
+[![release](../../actions/workflows/release.yml/badge.svg)](../../actions/workflows/release.yml)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](LICENSE)
+
 An OSS, local-first, AGPLv3 Flutter app that implements the full 6-week CBT-I
 (Cognitive Behavioral Therapy for Insomnia) protocol. CBT-I is the first-line
 clinical recommendation for chronic insomnia and outperforms hypnotics
 long-term — yet no mature open-source app implements it. noctos exists to fill
 that gap.
 
-**Status:** v0.1.0 (early). Android only. No accounts, no telemetry, no cloud.
+**Status:** v0.1.0 (early). Android + macOS (experimental). No accounts, no telemetry, no cloud.
 
 ## What it does
 
@@ -27,7 +32,7 @@ that gap.
 
 - No scores, streaks, badges. Read [`docs/design-principles.md`](docs/design-principles.md) for why.
 - No cloud sync, accounts, or telemetry.
-- No iOS build (yet — needs macOS toolchain).
+- No iOS build yet (scaffolded; signed builds require Apple Developer cert).
 - Not medical advice. Severe insomnia: see a clinician.
 
 ## Build
@@ -52,6 +57,20 @@ flutter build apk --release --split-per-abi
 ```
 
 Output: `build/app/outputs/flutter-apk/app-arm64-v8a-release.apk`.
+
+### macOS build
+
+Requires macOS + Xcode. Linux/Windows cannot build the macOS target — CI does it on `macos-latest`.
+
+```bash
+flutter config --enable-macos-desktop
+flutter pub get
+dart run build_runner build
+flutter build macos --release
+open build/macos/Build/Products/Release/noctos.app
+```
+
+CI builds an unsigned `.app` zip on every push to `main` and attaches it to GitHub Releases for tagged builds. For distribution outside the Mac App Store the app needs Developer ID signing + notarization (not yet configured).
 
 ## Release signing
 

@@ -15,7 +15,11 @@ class DiaryEntryScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final now = DateTime.now();
-    final lastNight = DateTime(now.year, now.month, now.day).subtract(const Duration(days: 1));
+    final lastNight = DateTime(
+      now.year,
+      now.month,
+      now.day,
+    ).subtract(const Duration(days: 1));
 
     final diaryDate = useState(lastNight);
     final bedtime = useState(_at(lastNight, 23, 0));
@@ -44,7 +48,13 @@ class DiaryEntryScreen extends HookConsumerWidget {
         initialTime: TimeOfDay.fromDateTime(target.value),
       );
       if (time == null) return;
-      target.value = DateTime(date.year, date.month, date.day, time.hour, time.minute);
+      target.value = DateTime(
+        date.year,
+        date.month,
+        date.day,
+        time.hour,
+        time.minute,
+      );
     }
 
     int totalSleep() {
@@ -63,12 +73,16 @@ class DiaryEntryScreen extends HookConsumerWidget {
     Future<void> save() async {
       if (timeInBed() <= 0) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Out-of-bed time must be after bedtime')),
+          const SnackBar(
+            content: Text('Out-of-bed time must be after bedtime'),
+          ),
         );
         return;
       }
       saving.value = true;
-      await ref.read(diaryRepositoryProvider).insert(
+      await ref
+          .read(diaryRepositoryProvider)
+          .insert(
             SleepDiaryEntriesCompanion.insert(
               diaryDate: diaryDate.value,
               bedtime: bedtime.value,
@@ -81,7 +95,9 @@ class DiaryEntryScreen extends HookConsumerWidget {
               qualityRating: drift.Value(quality.value),
               moodRating: drift.Value(mood.value),
               adherentToPrescription: drift.Value(adherent.value),
-              notes: drift.Value(notes.text.trim().isEmpty ? null : notes.text.trim()),
+              notes: drift.Value(
+                notes.text.trim().isEmpty ? null : notes.text.trim(),
+              ),
             ),
           );
       await ref.read(cbtiEngineProvider).onDiaryInserted();
@@ -123,19 +139,25 @@ class DiaryEntryScreen extends HookConsumerWidget {
             _IntSlider(
               label: 'Time to fall asleep (min)',
               value: latency.value,
-              min: 0, max: 120, step: 5,
+              min: 0,
+              max: 120,
+              step: 5,
               onChanged: (v) => latency.value = v,
             ),
             _IntSlider(
               label: 'Awakenings',
               value: awakenings.value,
-              min: 0, max: 10, step: 1,
+              min: 0,
+              max: 10,
+              step: 1,
               onChanged: (v) => awakenings.value = v,
             ),
             _IntSlider(
               label: 'Total time awake during night (min)',
               value: waso.value,
-              min: 0, max: 180, step: 5,
+              min: 0,
+              max: 180,
+              step: 5,
               onChanged: (v) => waso.value = v,
             ),
             const SizedBox(height: 12),
@@ -161,9 +183,7 @@ class DiaryEntryScreen extends HookConsumerWidget {
             const SizedBox(height: 12),
             TextField(
               controller: notes,
-              decoration: const InputDecoration(
-                labelText: 'Notes (optional)',
-              ),
+              decoration: const InputDecoration(labelText: 'Notes (optional)'),
               maxLines: 3,
             ),
             const SizedBox(height: 20),
@@ -191,7 +211,8 @@ class DiaryEntryScreen extends HookConsumerWidget {
               onPressed: saving.value ? null : save,
               child: saving.value
                   ? const SizedBox(
-                      height: 20, width: 20,
+                      height: 20,
+                      width: 20,
                       child: CircularProgressIndicator(strokeWidth: 2),
                     )
                   : const Text('Save'),
@@ -221,13 +242,26 @@ class _DateTimeTile extends StatelessWidget {
   final String label;
   final DateTime value;
   final VoidCallback onTap;
-  const _DateTimeTile({required this.label, required this.value, required this.onTap});
+  const _DateTimeTile({
+    required this.label,
+    required this.value,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final wd = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'][value.weekday - 1];
+    final wd = [
+      'Mon',
+      'Tue',
+      'Wed',
+      'Thu',
+      'Fri',
+      'Sat',
+      'Sun',
+    ][value.weekday - 1];
     final dateStr = '$wd ${value.month}/${value.day}';
-    final timeStr = '${value.hour.toString().padLeft(2,'0')}:${value.minute.toString().padLeft(2,'0')}';
+    final timeStr =
+        '${value.hour.toString().padLeft(2, '0')}:${value.minute.toString().padLeft(2, '0')}';
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: ListTile(
@@ -291,7 +325,11 @@ class _RatingRow extends StatelessWidget {
   final String label;
   final int value;
   final ValueChanged<int> onChanged;
-  const _RatingRow({required this.label, required this.value, required this.onChanged});
+  const _RatingRow({
+    required this.label,
+    required this.value,
+    required this.onChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -299,7 +337,9 @@ class _RatingRow extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         children: [
-          Expanded(child: Text(label, style: Theme.of(context).textTheme.bodyLarge)),
+          Expanded(
+            child: Text(label, style: Theme.of(context).textTheme.bodyLarge),
+          ),
           ...List.generate(5, (i) {
             final n = i + 1;
             return IconButton(

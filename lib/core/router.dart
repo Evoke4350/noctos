@@ -33,8 +33,14 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(path: '/home', builder: (_, __) => const HomeScreen()),
       GoRoute(path: '/diary/new', builder: (_, __) => const DiaryEntryScreen()),
-      GoRoute(path: '/diary/history', builder: (_, __) => const DiaryHistoryScreen()),
-      GoRoute(path: '/program', builder: (_, __) => const ProgramOverviewScreen()),
+      GoRoute(
+        path: '/diary/history',
+        builder: (_, __) => const DiaryHistoryScreen(),
+      ),
+      GoRoute(
+        path: '/program',
+        builder: (_, __) => const ProgramOverviewScreen(),
+      ),
       GoRoute(
         path: '/program/:weekIndex',
         builder: (_, state) => WeekDetailScreen(

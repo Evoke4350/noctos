@@ -36,7 +36,9 @@ class HomeScreen extends ConsumerWidget {
               return const Center(child: Text('No schedule yet'));
             }
             final wake = timeOfDayFromMinutes(schedule.fixedWakeMinutesOfDay);
-            final bed = timeOfDayFromMinutes(schedule.currentBedtimeMinutesOfDay);
+            final bed = timeOfDayFromMinutes(
+              schedule.currentBedtimeMinutesOfDay,
+            );
 
             return ListView(
               padding: const EdgeInsets.all(20),
@@ -52,13 +54,18 @@ class HomeScreen extends ConsumerWidget {
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                         const SizedBox(height: 16),
-                        _Row(label: 'Bedtime window opens', value: formatTimeOfDay(bed)),
+                        _Row(
+                          label: 'Bedtime window opens',
+                          value: formatTimeOfDay(bed),
+                        ),
                         const SizedBox(height: 8),
                         _Row(label: 'Wake time', value: formatTimeOfDay(wake)),
                         const SizedBox(height: 8),
                         _Row(
                           label: 'Time in bed',
-                          value: formatDuration(Duration(minutes: schedule.currentTibMinutes)),
+                          value: formatDuration(
+                            Duration(minutes: schedule.currentTibMinutes),
+                          ),
                         ),
                         const SizedBox(height: 16),
                         const Divider(),
@@ -89,13 +96,18 @@ class HomeScreen extends ConsumerWidget {
                             const SizedBox(height: 4),
                             Text(
                               spec.subtitle,
-                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                              style: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onSurfaceVariant,
                                   ),
                             ),
                             const SizedBox(height: 12),
-                            Text(week.rationale,
-                                style: Theme.of(context).textTheme.bodyMedium),
+                            Text(
+                              week.rationale,
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
                           ],
                         ),
                       ),

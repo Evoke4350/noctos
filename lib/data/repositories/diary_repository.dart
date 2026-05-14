@@ -9,9 +9,9 @@ class DiaryRepository {
   final NoctosDatabase _db;
 
   Stream<List<SleepDiaryEntry>> watchAll() {
-    return (_db.select(_db.sleepDiaryEntries)
-          ..orderBy([(t) => OrderingTerm.desc(t.diaryDate)]))
-        .watch();
+    return (_db.select(
+      _db.sleepDiaryEntries,
+    )..orderBy([(t) => OrderingTerm.desc(t.diaryDate)])).watch();
   }
 
   Future<int> insert(SleepDiaryEntriesCompanion entry) {

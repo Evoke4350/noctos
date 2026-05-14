@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: CBT-I clinical guidance
+    url: https://www.aasm.org/clinical-resources/practice-standards/practice-guidelines/
+    about: This project is not medical advice. For clinical questions consult AASM guidelines or a sleep clinician.
+  - name: Security report
+    url: https://docs.github.com/en/code-security/security-advisories/guidance-on-reporting-and-writing/privately-reporting-a-security-vulnerability
+    about: Use private security advisories for vulnerability reports — see SECURITY.md.

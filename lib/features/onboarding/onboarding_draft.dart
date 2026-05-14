@@ -41,15 +41,18 @@ class OnboardingDraftNotifier extends Notifier<OnboardingDraft> {
   @override
   OnboardingDraft build() => const OnboardingDraft();
 
-  void setInsomniaTypes(Set<String> v) => state = state.copyWith(insomniaTypes: v);
+  void setInsomniaTypes(Set<String> v) =>
+      state = state.copyWith(insomniaTypes: v);
   void setSeverity(int v) => state = state.copyWith(severity: v);
-  void setChronotype(int score, String category) =>
-      state = state.copyWith(chronotypeScore: score, chronotypeCategory: category);
+  void setChronotype(int score, String category) => state = state.copyWith(
+    chronotypeScore: score,
+    chronotypeCategory: category,
+  );
   void setSchedule(TimeOfDay wake, TimeOfDay bedtime) =>
       state = state.copyWith(fixedWake: wake, initialBedtime: bedtime);
 }
 
 final onboardingDraftProvider =
     NotifierProvider<OnboardingDraftNotifier, OnboardingDraft>(
-  OnboardingDraftNotifier.new,
-);
+      OnboardingDraftNotifier.new,
+    );

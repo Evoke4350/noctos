@@ -34,7 +34,9 @@ class CaffeineLogScreen extends HookConsumerWidget {
               error: (e, _) => Center(child: Text('Error: $e')),
               data: (schedule) {
                 final now = DateTime.now();
-                final bedtime = _nextBedtime(schedule?.currentBedtimeMinutesOfDay ?? 23 * 60);
+                final bedtime = _nextBedtime(
+                  schedule?.currentBedtimeMinutesOfDay ?? 23 * 60,
+                );
                 final doses = logs
                     .map((l) => (consumedAt: l.consumedAt, mg: l.mg))
                     .toList();
@@ -61,13 +63,20 @@ class CaffeineLogScreen extends HookConsumerWidget {
                             const SizedBox(height: 12),
                             SizedBox(
                               height: 140,
-                              child: _DecayChart(doses: doses, from: now, to: bedtime),
+                              child: _DecayChart(
+                                doses: doses,
+                                from: now,
+                                to: bedtime,
+                              ),
                             ),
                             const SizedBox(height: 8),
                             Text(
                               'Half-life ≈ 5h. Aim for under ~50mg at bedtime.',
-                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                              style: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onSurfaceVariant,
                                   ),
                             ),
                           ],
@@ -75,15 +84,21 @@ class CaffeineLogScreen extends HookConsumerWidget {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    Text('Last 24h', style: Theme.of(context).textTheme.titleMedium),
+                    Text(
+                      'Last 24h',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
                     const SizedBox(height: 8),
                     if (logs.isEmpty)
                       Padding(
                         padding: const EdgeInsets.all(20),
                         child: Text(
                           'No caffeine logged.',
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: Theme.of(context).colorScheme.onSurfaceVariant,
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurfaceVariant,
                               ),
                         ),
                       )
@@ -103,7 +118,9 @@ class CaffeineLogScreen extends HookConsumerWidget {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     final bedToday = today.add(Duration(minutes: bedtimeMinutesOfDay));
-    return bedToday.isBefore(now) ? bedToday.add(const Duration(days: 1)) : bedToday;
+    return bedToday.isBefore(now)
+        ? bedToday.add(const Duration(days: 1))
+        : bedToday;
   }
 
   void _showAddSheet(BuildContext context, WidgetRef ref) {
@@ -136,7 +153,8 @@ class _Tile extends StatelessWidget {
             Text('${log.mg}mg', style: Theme.of(context).textTheme.titleMedium),
             IconButton(
               icon: const Icon(Icons.delete_outline, size: 20),
-              onPressed: () => ref.read(caffeineRepositoryProvider).delete(log.id),
+              onPressed: () =>
+                  ref.read(caffeineRepositoryProvider).delete(log.id),
             ),
           ],
         ),
@@ -154,8 +172,16 @@ class _AddSheet extends HookConsumerWidget {
 
     Future<void> save() async {
       final now = DateTime.now();
-      final consumedAt = DateTime(now.year, now.month, now.day, time.value.hour, time.value.minute);
-      await ref.read(caffeineRepositoryProvider).insert(consumedAt, mg.value, source.value);
+      final consumedAt = DateTime(
+        now.year,
+        now.month,
+        now.day,
+        time.value.hour,
+        time.value.minute,
+      );
+      await ref
+          .read(caffeineRepositoryProvider)
+          .insert(consumedAt, mg.value, source.value);
       if (!context.mounted) return;
       Navigator.of(context).pop();
     }
@@ -189,7 +215,9 @@ class _AddSheet extends HookConsumerWidget {
               children: [
                 Expanded(
                   child: TextField(
-                    controller: TextEditingController(text: mg.value.toString()),
+                    controller: TextEditingController(
+                      text: mg.value.toString(),
+                    ),
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(labelText: 'mg'),
                     onSubmitted: (v) {
@@ -204,7 +232,10 @@ class _AddSheet extends HookConsumerWidget {
                     icon: const Icon(Icons.access_time),
                     label: Text(formatTimeOfDay(time.value)),
                     onPressed: () async {
-                      final picked = await showTimePicker(context: context, initialTime: time.value);
+                      final picked = await showTimePicker(
+                        context: context,
+                        initialTime: time.value,
+                      );
                       if (picked != null) time.value = picked;
                     },
                   ),
@@ -225,7 +256,11 @@ class _DecayChart extends StatelessWidget {
   final DateTime from;
   final DateTime to;
 
-  const _DecayChart({required this.doses, required this.from, required this.to});
+  const _DecayChart({
+    required this.doses,
+    required this.from,
+    required this.to,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -254,12 +289,23 @@ class _DecayChart extends StatelessWidget {
             sideTitles: SideTitles(
               showTitles: true,
               reservedSize: 36,
-              getTitlesWidget: (v, _) => Text('${v.toInt()}', style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 10)),
+              getTitlesWidget: (v, _) => Text(
+                '${v.toInt()}',
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyMedium?.copyWith(fontSize: 10),
+              ),
             ),
           ),
-          rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          bottomTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          rightTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+          topTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+          bottomTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
         ),
         borderData: FlBorderData(show: false),
         extraLinesData: ExtraLinesData(
@@ -267,7 +313,9 @@ class _DecayChart extends StatelessWidget {
             HorizontalLine(
               y: 50,
               dashArray: const [4, 4],
-              color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.4),
+              color: Theme.of(
+                context,
+              ).colorScheme.primary.withValues(alpha: 0.4),
               strokeWidth: 1,
             ),
           ],
@@ -281,7 +329,9 @@ class _DecayChart extends StatelessWidget {
             dotData: const FlDotData(show: false),
             belowBarData: BarAreaData(
               show: true,
-              color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
+              color: Theme.of(
+                context,
+              ).colorScheme.primary.withValues(alpha: 0.1),
             ),
           ),
         ],

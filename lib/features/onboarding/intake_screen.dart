@@ -30,8 +30,10 @@ class IntakeScreen extends ConsumerWidget {
               style: Theme.of(context).textTheme.bodyLarge,
             ),
             const SizedBox(height: 24),
-            Text('Which describes you?',
-                style: Theme.of(context).textTheme.titleMedium),
+            Text(
+              'Which describes you?',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
             const SizedBox(height: 8),
             ..._types.entries.map((e) {
               final selected = draft.insomniaTypes.contains(e.key);
@@ -54,8 +56,10 @@ class IntakeScreen extends ConsumerWidget {
               );
             }),
             const SizedBox(height: 24),
-            Text('How disruptive is this on a typical day?',
-                style: Theme.of(context).textTheme.titleMedium),
+            Text(
+              'How disruptive is this on a typical day?',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
             const SizedBox(height: 8),
             Row(
               children: [
@@ -90,8 +94,8 @@ class IntakeScreen extends ConsumerWidget {
             Text(
               'This app is not medical advice. CBT-I works best alongside a clinician for severe insomnia.',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
               textAlign: TextAlign.center,
             ),
           ],

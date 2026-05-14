@@ -110,7 +110,9 @@ PrescribedWindow computeNextSleepWindow(SleepRestrictionInput input) {
     final tst = n == 0
         ? 420 // 7h fallback when no data
         : adherent.map((e) => e.totalSleepMin).reduce((a, b) => a + b) ~/ n;
-    final seeded = _round15(tst).clamp(input.floorMinutes, input.naturalCapMinutes);
+    final seeded = _round15(
+      tst,
+    ).clamp(input.floorMinutes, input.naturalCapMinutes);
     return _build(
       input: input,
       tib: seeded,
@@ -140,7 +142,10 @@ PrescribedWindow computeNextSleepWindow(SleepRestrictionInput input) {
   final se = tib <= 0 ? 0.0 : tst / tib;
 
   if (se >= input.expandAtOrAbove) {
-    final next = (current + input.stepMinutes).clamp(input.floorMinutes, input.naturalCapMinutes);
+    final next = (current + input.stepMinutes).clamp(
+      input.floorMinutes,
+      input.naturalCapMinutes,
+    );
     if (next == current) {
       return _build(
         input: input,

@@ -12,7 +12,8 @@ class SleepDiaryEntries extends Table {
   DateTimeColumn get outOfBedTime => dateTime()();
   IntColumn get qualityRating => integer().withDefault(const Constant(3))();
   IntColumn get moodRating => integer().withDefault(const Constant(3))();
-  BoolColumn get adherentToPrescription => boolean().withDefault(const Constant(true))();
+  BoolColumn get adherentToPrescription =>
+      boolean().withDefault(const Constant(true))();
   TextColumn get notes => text().nullable()();
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
 }

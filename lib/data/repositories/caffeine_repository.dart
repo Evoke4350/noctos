@@ -16,11 +16,15 @@ class CaffeineRepository {
   }
 
   Future<int> insert(DateTime consumedAt, int mg, String? source) {
-    return _db.into(_db.caffeineLogs).insert(CaffeineLogsCompanion.insert(
-          consumedAt: consumedAt,
-          mg: mg,
-          source: Value(source),
-        ));
+    return _db
+        .into(_db.caffeineLogs)
+        .insert(
+          CaffeineLogsCompanion.insert(
+            consumedAt: consumedAt,
+            mg: mg,
+            source: Value(source),
+          ),
+        );
   }
 
   Future<int> delete(int id) {

@@ -25,8 +25,6 @@ class OnboardingGate extends HookConsumerWidget {
       return null;
     }, [async]);
 
-    return const Scaffold(
-      body: Center(child: CircularProgressIndicator()),
-    );
+    return const Scaffold(body: Center(child: CircularProgressIndicator()));
   }
 }

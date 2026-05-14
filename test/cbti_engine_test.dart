@@ -10,11 +10,15 @@ import 'package:noctos/domain/cbti/engine.dart';
 import 'package:noctos/domain/cbti/protocol.dart';
 
 Future<int> insertSchedule(NoctosDatabase db) async {
-  return db.into(db.userSchedules).insert(UserSchedulesCompanion.insert(
-        fixedWakeMinutesOfDay: 7 * 60,
-        currentBedtimeMinutesOfDay: 23 * 60,
-        currentTibMinutes: const drift.Value(480),
-      ));
+  return db
+      .into(db.userSchedules)
+      .insert(
+        UserSchedulesCompanion.insert(
+          fixedWakeMinutesOfDay: 7 * 60,
+          currentBedtimeMinutesOfDay: 23 * 60,
+          currentTibMinutes: const drift.Value(480),
+        ),
+      );
 }
 
 Future<void> insertNight(
@@ -27,16 +31,20 @@ Future<void> insertNight(
   final bedtime = date.subtract(Duration(minutes: tibMin));
   final tst = (tibMin * efficiency).round();
   final waso = tibMin - tst - 10; // 10 min latency assumed
-  await db.into(db.sleepDiaryEntries).insert(SleepDiaryEntriesCompanion.insert(
-        diaryDate: date,
-        bedtime: bedtime,
-        lightsOut: bedtime,
-        wakeTime: date,
-        outOfBedTime: date,
-        sleepLatencyMin: const drift.Value(10),
-        wasoMin: drift.Value(waso.clamp(0, tibMin)),
-        adherentToPrescription: drift.Value(adherent),
-      ));
+  await db
+      .into(db.sleepDiaryEntries)
+      .insert(
+        SleepDiaryEntriesCompanion.insert(
+          diaryDate: date,
+          bedtime: bedtime,
+          lightsOut: bedtime,
+          wakeTime: date,
+          outOfBedTime: date,
+          sleepLatencyMin: const drift.Value(10),
+          wasoMin: drift.Value(waso.clamp(0, tibMin)),
+          adherentToPrescription: drift.Value(adherent),
+        ),
+      );
 }
 
 void main() {
@@ -56,21 +64,29 @@ void main() {
     await db.close();
   });
 
-  test('first diary insert creates assessment week with seeded prescription', () async {
-    await insertSchedule(db);
-    await insertNight(db, date: DateTime.now(), tibMin: 480, efficiency: 0.75);
+  test(
+    'first diary insert creates assessment week with seeded prescription',
+    () async {
+      await insertSchedule(db);
+      await insertNight(
+        db,
+        date: DateTime.now(),
+        tibMin: 480,
+        efficiency: 0.75,
+      );
 
-    final id = await engine.onDiaryInserted();
-    expect(id, isNotNull);
+      final id = await engine.onDiaryInserted();
+      expect(id, isNotNull);
 
-    final latest = await CbtiWeekRepository(db).latest();
-    expect(latest, isNotNull);
-    expect(latest!.phaseId, phaseId(CBTIPhase.assessment));
-    expect(latest.action, 'seed');
-    // 480 * 0.75 = 360, rounded to nearest 15 = 360, clamped [300, 480] = 360
-    expect(latest.tibMinutes, 360);
-    expect(latest.prescribedWakeMinutesOfDay, 7 * 60);
-  });
+      final latest = await CbtiWeekRepository(db).latest();
+      expect(latest, isNotNull);
+      expect(latest!.phaseId, phaseId(CBTIPhase.assessment));
+      expect(latest.action, 'seed');
+      // 480 * 0.75 = 360, rounded to nearest 15 = 360, clamped [300, 480] = 360
+      expect(latest.tibMinutes, 360);
+      expect(latest.prescribedWakeMinutesOfDay, 7 * 60);
+    },
+  );
 
   test('advances assessment → sr_baseline after 7 diary entries', () async {
     await insertSchedule(db);
@@ -112,16 +128,20 @@ void main() {
       );
     }
     // Seed the engine state with a prior week.
-    await db.into(db.cbtiWeeks).insert(CbtiWeeksCompanion.insert(
-          weekIndex: 1,
-          phaseId: phaseId(CBTIPhase.srBaseline),
-          startedOn: DateTime.now().subtract(const Duration(days: 1)),
-          prescribedBedtimeMinutesOfDay: 1 * 60,
-          prescribedWakeMinutesOfDay: 7 * 60,
-          tibMinutes: 360,
-          rationale: 'initial',
-          action: 'seed',
-        ));
+    await db
+        .into(db.cbtiWeeks)
+        .insert(
+          CbtiWeeksCompanion.insert(
+            weekIndex: 1,
+            phaseId: phaseId(CBTIPhase.srBaseline),
+            startedOn: DateTime.now().subtract(const Duration(days: 1)),
+            prescribedBedtimeMinutesOfDay: 1 * 60,
+            prescribedWakeMinutesOfDay: 7 * 60,
+            tibMinutes: 360,
+            rationale: 'initial',
+            action: 'seed',
+          ),
+        );
 
     final id = await engine.onDiaryInserted();
     expect(id, isNotNull);

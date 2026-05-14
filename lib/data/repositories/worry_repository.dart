@@ -9,9 +9,9 @@ class WorryRepository {
   final NoctosDatabase _db;
 
   Stream<List<WorryJournalEntry>> watchAll() {
-    return (_db.select(_db.worryJournalEntries)
-          ..orderBy([(t) => OrderingTerm.desc(t.enteredAt)]))
-        .watch();
+    return (_db.select(
+      _db.worryJournalEntries,
+    )..orderBy([(t) => OrderingTerm.desc(t.enteredAt)])).watch();
   }
 
   Future<int> insert({
@@ -19,7 +19,9 @@ class WorryRepository {
     required String worry,
     String? nextAction,
   }) {
-    return _db.into(_db.worryJournalEntries).insert(
+    return _db
+        .into(_db.worryJournalEntries)
+        .insert(
           WorryJournalEntriesCompanion.insert(
             enteredAt: enteredAt,
             worry: worry,
@@ -34,7 +36,9 @@ class WorryRepository {
   }
 
   Future<int> delete(int id) {
-    return (_db.delete(_db.worryJournalEntries)..where((t) => t.id.equals(id))).go();
+    return (_db.delete(
+      _db.worryJournalEntries,
+    )..where((t) => t.id.equals(id))).go();
   }
 }
 
