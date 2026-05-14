@@ -24,6 +24,10 @@ class NoctosNotifications {
 
   static Future<void> ensureInitialized() async {
     if (_initialized) return;
+    if (kIsWeb) {
+      _initialized = true;
+      return;
+    }
     tzdata.initializeTimeZones();
     try {
       // Best-effort: set local timezone to system. timezone package alone
@@ -44,6 +48,7 @@ class NoctosNotifications {
   }
 
   static Future<bool> requestPermissions() async {
+    if (kIsWeb) return false;
     await ensureInitialized();
     final android = _plugin
         .resolvePlatformSpecificImplementation<
@@ -56,11 +61,13 @@ class NoctosNotifications {
   }
 
   static Future<void> cancelAll() async {
+    if (kIsWeb) return;
     await ensureInitialized();
     await _plugin.cancelAll();
   }
 
   static Future<void> applyForSchedule(UserSchedule s) async {
+    if (kIsWeb) return;
     await ensureInitialized();
     if (!s.notificationsEnabled) {
       await cancelAll();
