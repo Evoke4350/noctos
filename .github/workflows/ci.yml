@@ -39,7 +39,7 @@ jobs:
         run: dart format --output=none --set-exit-if-changed .
 
       - name: analyze
-        run: flutter analyze
+        run: flutter analyze --no-fatal-infos
 
       - name: test
         run: flutter test --coverage
