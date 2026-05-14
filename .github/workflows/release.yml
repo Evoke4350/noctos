@@ -52,7 +52,7 @@ jobs:
           cp build/app/outputs/flutter-apk/app-release.apk dist/noctos-${{ github.ref_name }}.apk
           cp build/app/outputs/bundle/release/app-release.aab dist/noctos-${{ github.ref_name }}.aab
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: android
           path: dist/*
@@ -82,7 +82,7 @@ jobs:
           cd build/macos/Build/Products/Release
           zip -ry "$GITHUB_WORKSPACE/dist/noctos-${{ github.ref_name }}-macos.zip" noctos.app
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: macos
           path: dist/*
