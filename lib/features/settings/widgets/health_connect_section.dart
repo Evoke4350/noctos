@@ -15,18 +15,10 @@ class HealthConnectSection extends ConsumerWidget {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Health Connect',
-                style: Theme.of(context).textTheme.titleMedium),
-            const SizedBox(height: 8),
-            statusAsync.when(
-              loading: () => const LinearProgressIndicator(),
-              error: (e, _) => Text('Error: $e'),
-              data: (status) => _body(context, ref, status),
-            ),
-          ],
+        child: statusAsync.when(
+          loading: () => const LinearProgressIndicator(),
+          error: (e, _) => Text('Error: $e'),
+          data: (status) => _body(context, ref, status),
         ),
       ),
     );

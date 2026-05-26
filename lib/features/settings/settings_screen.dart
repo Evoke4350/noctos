@@ -6,6 +6,7 @@ import '../../core/time.dart';
 import '../../data/repositories/schedule_repository.dart';
 import '../../services/export/exporter.dart';
 import '../../services/notifications/scheduler.dart';
+import 'widgets/health_connect_section.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -190,6 +191,13 @@ class SettingsScreen extends ConsumerWidget {
                     ],
                   ),
                 ),
+                const SizedBox(height: 20),
+                Text(
+                  'Health Connect',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const SizedBox(height: 8),
+                const HealthConnectSection(),
                 const SizedBox(height: 20),
                 Text('Data', style: Theme.of(context).textTheme.titleMedium),
                 const SizedBox(height: 8),
