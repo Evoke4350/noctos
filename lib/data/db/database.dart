@@ -4,6 +4,7 @@ import 'package:drift_flutter/drift_flutter.dart';
 import 'tables/caffeine_logs.dart';
 import 'tables/cbti_weeks.dart';
 import 'tables/sleep_diary_entries.dart';
+import 'tables/sleep_records.dart';
 import 'tables/user_schedule.dart';
 import 'tables/worry_journal_entries.dart';
 
@@ -16,6 +17,7 @@ part 'database.g.dart';
     CbtiWeeks,
     CaffeineLogs,
     WorryJournalEntries,
+    SleepRecords,
   ],
 )
 class NoctosDatabase extends _$NoctosDatabase {
@@ -32,7 +34,7 @@ class NoctosDatabase extends _$NoctosDatabase {
       );
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 4;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -43,6 +45,9 @@ class NoctosDatabase extends _$NoctosDatabase {
       if (from < 3) {
         await m.createTable(caffeineLogs);
         await m.createTable(worryJournalEntries);
+      }
+      if (from < 4) {
+        await m.createTable(sleepRecords);
       }
     },
   );

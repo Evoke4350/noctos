@@ -3108,6 +3108,684 @@ class WorryJournalEntriesCompanion extends UpdateCompanion<WorryJournalEntry> {
   }
 }
 
+class $SleepRecordsTable extends SleepRecords
+    with TableInfo<$SleepRecordsTable, SleepRecord> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $SleepRecordsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _sessionStartMeta = const VerificationMeta(
+    'sessionStart',
+  );
+  @override
+  late final GeneratedColumn<DateTime> sessionStart = GeneratedColumn<DateTime>(
+    'session_start',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _sessionEndMeta = const VerificationMeta(
+    'sessionEnd',
+  );
+  @override
+  late final GeneratedColumn<DateTime> sessionEnd = GeneratedColumn<DateTime>(
+    'session_end',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _totalMinutesMeta = const VerificationMeta(
+    'totalMinutes',
+  );
+  @override
+  late final GeneratedColumn<int> totalMinutes = GeneratedColumn<int>(
+    'total_minutes',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _stagesJsonMeta = const VerificationMeta(
+    'stagesJson',
+  );
+  @override
+  late final GeneratedColumn<String> stagesJson = GeneratedColumn<String>(
+    'stages_json',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _hrAvgBpmMeta = const VerificationMeta(
+    'hrAvgBpm',
+  );
+  @override
+  late final GeneratedColumn<double> hrAvgBpm = GeneratedColumn<double>(
+    'hr_avg_bpm',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _hrvAvgMsMeta = const VerificationMeta(
+    'hrvAvgMs',
+  );
+  @override
+  late final GeneratedColumn<double> hrvAvgMs = GeneratedColumn<double>(
+    'hrv_avg_ms',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _restingHrBpmMeta = const VerificationMeta(
+    'restingHrBpm',
+  );
+  @override
+  late final GeneratedColumn<double> restingHrBpm = GeneratedColumn<double>(
+    'resting_hr_bpm',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _sourceAppMeta = const VerificationMeta(
+    'sourceApp',
+  );
+  @override
+  late final GeneratedColumn<String> sourceApp = GeneratedColumn<String>(
+    'source_app',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _sourceDeviceMeta = const VerificationMeta(
+    'sourceDevice',
+  );
+  @override
+  late final GeneratedColumn<String> sourceDevice = GeneratedColumn<String>(
+    'source_device',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _syncedAtMeta = const VerificationMeta(
+    'syncedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> syncedAt = GeneratedColumn<DateTime>(
+    'synced_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    sessionStart,
+    sessionEnd,
+    totalMinutes,
+    stagesJson,
+    hrAvgBpm,
+    hrvAvgMs,
+    restingHrBpm,
+    sourceApp,
+    sourceDevice,
+    syncedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'sleep_records';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<SleepRecord> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('session_start')) {
+      context.handle(
+        _sessionStartMeta,
+        sessionStart.isAcceptableOrUnknown(
+          data['session_start']!,
+          _sessionStartMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_sessionStartMeta);
+    }
+    if (data.containsKey('session_end')) {
+      context.handle(
+        _sessionEndMeta,
+        sessionEnd.isAcceptableOrUnknown(data['session_end']!, _sessionEndMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_sessionEndMeta);
+    }
+    if (data.containsKey('total_minutes')) {
+      context.handle(
+        _totalMinutesMeta,
+        totalMinutes.isAcceptableOrUnknown(
+          data['total_minutes']!,
+          _totalMinutesMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_totalMinutesMeta);
+    }
+    if (data.containsKey('stages_json')) {
+      context.handle(
+        _stagesJsonMeta,
+        stagesJson.isAcceptableOrUnknown(data['stages_json']!, _stagesJsonMeta),
+      );
+    }
+    if (data.containsKey('hr_avg_bpm')) {
+      context.handle(
+        _hrAvgBpmMeta,
+        hrAvgBpm.isAcceptableOrUnknown(data['hr_avg_bpm']!, _hrAvgBpmMeta),
+      );
+    }
+    if (data.containsKey('hrv_avg_ms')) {
+      context.handle(
+        _hrvAvgMsMeta,
+        hrvAvgMs.isAcceptableOrUnknown(data['hrv_avg_ms']!, _hrvAvgMsMeta),
+      );
+    }
+    if (data.containsKey('resting_hr_bpm')) {
+      context.handle(
+        _restingHrBpmMeta,
+        restingHrBpm.isAcceptableOrUnknown(
+          data['resting_hr_bpm']!,
+          _restingHrBpmMeta,
+        ),
+      );
+    }
+    if (data.containsKey('source_app')) {
+      context.handle(
+        _sourceAppMeta,
+        sourceApp.isAcceptableOrUnknown(data['source_app']!, _sourceAppMeta),
+      );
+    }
+    if (data.containsKey('source_device')) {
+      context.handle(
+        _sourceDeviceMeta,
+        sourceDevice.isAcceptableOrUnknown(
+          data['source_device']!,
+          _sourceDeviceMeta,
+        ),
+      );
+    }
+    if (data.containsKey('synced_at')) {
+      context.handle(
+        _syncedAtMeta,
+        syncedAt.isAcceptableOrUnknown(data['synced_at']!, _syncedAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  List<Set<GeneratedColumn>> get uniqueKeys => [
+    {sessionStart},
+  ];
+  @override
+  SleepRecord map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return SleepRecord(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      sessionStart: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}session_start'],
+      )!,
+      sessionEnd: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}session_end'],
+      )!,
+      totalMinutes: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}total_minutes'],
+      )!,
+      stagesJson: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}stages_json'],
+      ),
+      hrAvgBpm: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}hr_avg_bpm'],
+      ),
+      hrvAvgMs: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}hrv_avg_ms'],
+      ),
+      restingHrBpm: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}resting_hr_bpm'],
+      ),
+      sourceApp: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}source_app'],
+      ),
+      sourceDevice: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}source_device'],
+      ),
+      syncedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}synced_at'],
+      )!,
+    );
+  }
+
+  @override
+  $SleepRecordsTable createAlias(String alias) {
+    return $SleepRecordsTable(attachedDatabase, alias);
+  }
+}
+
+class SleepRecord extends DataClass implements Insertable<SleepRecord> {
+  final int id;
+  final DateTime sessionStart;
+  final DateTime sessionEnd;
+  final int totalMinutes;
+  final String? stagesJson;
+  final double? hrAvgBpm;
+  final double? hrvAvgMs;
+  final double? restingHrBpm;
+  final String? sourceApp;
+  final String? sourceDevice;
+  final DateTime syncedAt;
+  const SleepRecord({
+    required this.id,
+    required this.sessionStart,
+    required this.sessionEnd,
+    required this.totalMinutes,
+    this.stagesJson,
+    this.hrAvgBpm,
+    this.hrvAvgMs,
+    this.restingHrBpm,
+    this.sourceApp,
+    this.sourceDevice,
+    required this.syncedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['session_start'] = Variable<DateTime>(sessionStart);
+    map['session_end'] = Variable<DateTime>(sessionEnd);
+    map['total_minutes'] = Variable<int>(totalMinutes);
+    if (!nullToAbsent || stagesJson != null) {
+      map['stages_json'] = Variable<String>(stagesJson);
+    }
+    if (!nullToAbsent || hrAvgBpm != null) {
+      map['hr_avg_bpm'] = Variable<double>(hrAvgBpm);
+    }
+    if (!nullToAbsent || hrvAvgMs != null) {
+      map['hrv_avg_ms'] = Variable<double>(hrvAvgMs);
+    }
+    if (!nullToAbsent || restingHrBpm != null) {
+      map['resting_hr_bpm'] = Variable<double>(restingHrBpm);
+    }
+    if (!nullToAbsent || sourceApp != null) {
+      map['source_app'] = Variable<String>(sourceApp);
+    }
+    if (!nullToAbsent || sourceDevice != null) {
+      map['source_device'] = Variable<String>(sourceDevice);
+    }
+    map['synced_at'] = Variable<DateTime>(syncedAt);
+    return map;
+  }
+
+  SleepRecordsCompanion toCompanion(bool nullToAbsent) {
+    return SleepRecordsCompanion(
+      id: Value(id),
+      sessionStart: Value(sessionStart),
+      sessionEnd: Value(sessionEnd),
+      totalMinutes: Value(totalMinutes),
+      stagesJson: stagesJson == null && nullToAbsent
+          ? const Value.absent()
+          : Value(stagesJson),
+      hrAvgBpm: hrAvgBpm == null && nullToAbsent
+          ? const Value.absent()
+          : Value(hrAvgBpm),
+      hrvAvgMs: hrvAvgMs == null && nullToAbsent
+          ? const Value.absent()
+          : Value(hrvAvgMs),
+      restingHrBpm: restingHrBpm == null && nullToAbsent
+          ? const Value.absent()
+          : Value(restingHrBpm),
+      sourceApp: sourceApp == null && nullToAbsent
+          ? const Value.absent()
+          : Value(sourceApp),
+      sourceDevice: sourceDevice == null && nullToAbsent
+          ? const Value.absent()
+          : Value(sourceDevice),
+      syncedAt: Value(syncedAt),
+    );
+  }
+
+  factory SleepRecord.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return SleepRecord(
+      id: serializer.fromJson<int>(json['id']),
+      sessionStart: serializer.fromJson<DateTime>(json['sessionStart']),
+      sessionEnd: serializer.fromJson<DateTime>(json['sessionEnd']),
+      totalMinutes: serializer.fromJson<int>(json['totalMinutes']),
+      stagesJson: serializer.fromJson<String?>(json['stagesJson']),
+      hrAvgBpm: serializer.fromJson<double?>(json['hrAvgBpm']),
+      hrvAvgMs: serializer.fromJson<double?>(json['hrvAvgMs']),
+      restingHrBpm: serializer.fromJson<double?>(json['restingHrBpm']),
+      sourceApp: serializer.fromJson<String?>(json['sourceApp']),
+      sourceDevice: serializer.fromJson<String?>(json['sourceDevice']),
+      syncedAt: serializer.fromJson<DateTime>(json['syncedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'sessionStart': serializer.toJson<DateTime>(sessionStart),
+      'sessionEnd': serializer.toJson<DateTime>(sessionEnd),
+      'totalMinutes': serializer.toJson<int>(totalMinutes),
+      'stagesJson': serializer.toJson<String?>(stagesJson),
+      'hrAvgBpm': serializer.toJson<double?>(hrAvgBpm),
+      'hrvAvgMs': serializer.toJson<double?>(hrvAvgMs),
+      'restingHrBpm': serializer.toJson<double?>(restingHrBpm),
+      'sourceApp': serializer.toJson<String?>(sourceApp),
+      'sourceDevice': serializer.toJson<String?>(sourceDevice),
+      'syncedAt': serializer.toJson<DateTime>(syncedAt),
+    };
+  }
+
+  SleepRecord copyWith({
+    int? id,
+    DateTime? sessionStart,
+    DateTime? sessionEnd,
+    int? totalMinutes,
+    Value<String?> stagesJson = const Value.absent(),
+    Value<double?> hrAvgBpm = const Value.absent(),
+    Value<double?> hrvAvgMs = const Value.absent(),
+    Value<double?> restingHrBpm = const Value.absent(),
+    Value<String?> sourceApp = const Value.absent(),
+    Value<String?> sourceDevice = const Value.absent(),
+    DateTime? syncedAt,
+  }) => SleepRecord(
+    id: id ?? this.id,
+    sessionStart: sessionStart ?? this.sessionStart,
+    sessionEnd: sessionEnd ?? this.sessionEnd,
+    totalMinutes: totalMinutes ?? this.totalMinutes,
+    stagesJson: stagesJson.present ? stagesJson.value : this.stagesJson,
+    hrAvgBpm: hrAvgBpm.present ? hrAvgBpm.value : this.hrAvgBpm,
+    hrvAvgMs: hrvAvgMs.present ? hrvAvgMs.value : this.hrvAvgMs,
+    restingHrBpm: restingHrBpm.present ? restingHrBpm.value : this.restingHrBpm,
+    sourceApp: sourceApp.present ? sourceApp.value : this.sourceApp,
+    sourceDevice: sourceDevice.present ? sourceDevice.value : this.sourceDevice,
+    syncedAt: syncedAt ?? this.syncedAt,
+  );
+  SleepRecord copyWithCompanion(SleepRecordsCompanion data) {
+    return SleepRecord(
+      id: data.id.present ? data.id.value : this.id,
+      sessionStart: data.sessionStart.present
+          ? data.sessionStart.value
+          : this.sessionStart,
+      sessionEnd: data.sessionEnd.present
+          ? data.sessionEnd.value
+          : this.sessionEnd,
+      totalMinutes: data.totalMinutes.present
+          ? data.totalMinutes.value
+          : this.totalMinutes,
+      stagesJson: data.stagesJson.present
+          ? data.stagesJson.value
+          : this.stagesJson,
+      hrAvgBpm: data.hrAvgBpm.present ? data.hrAvgBpm.value : this.hrAvgBpm,
+      hrvAvgMs: data.hrvAvgMs.present ? data.hrvAvgMs.value : this.hrvAvgMs,
+      restingHrBpm: data.restingHrBpm.present
+          ? data.restingHrBpm.value
+          : this.restingHrBpm,
+      sourceApp: data.sourceApp.present ? data.sourceApp.value : this.sourceApp,
+      sourceDevice: data.sourceDevice.present
+          ? data.sourceDevice.value
+          : this.sourceDevice,
+      syncedAt: data.syncedAt.present ? data.syncedAt.value : this.syncedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SleepRecord(')
+          ..write('id: $id, ')
+          ..write('sessionStart: $sessionStart, ')
+          ..write('sessionEnd: $sessionEnd, ')
+          ..write('totalMinutes: $totalMinutes, ')
+          ..write('stagesJson: $stagesJson, ')
+          ..write('hrAvgBpm: $hrAvgBpm, ')
+          ..write('hrvAvgMs: $hrvAvgMs, ')
+          ..write('restingHrBpm: $restingHrBpm, ')
+          ..write('sourceApp: $sourceApp, ')
+          ..write('sourceDevice: $sourceDevice, ')
+          ..write('syncedAt: $syncedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    sessionStart,
+    sessionEnd,
+    totalMinutes,
+    stagesJson,
+    hrAvgBpm,
+    hrvAvgMs,
+    restingHrBpm,
+    sourceApp,
+    sourceDevice,
+    syncedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is SleepRecord &&
+          other.id == this.id &&
+          other.sessionStart == this.sessionStart &&
+          other.sessionEnd == this.sessionEnd &&
+          other.totalMinutes == this.totalMinutes &&
+          other.stagesJson == this.stagesJson &&
+          other.hrAvgBpm == this.hrAvgBpm &&
+          other.hrvAvgMs == this.hrvAvgMs &&
+          other.restingHrBpm == this.restingHrBpm &&
+          other.sourceApp == this.sourceApp &&
+          other.sourceDevice == this.sourceDevice &&
+          other.syncedAt == this.syncedAt);
+}
+
+class SleepRecordsCompanion extends UpdateCompanion<SleepRecord> {
+  final Value<int> id;
+  final Value<DateTime> sessionStart;
+  final Value<DateTime> sessionEnd;
+  final Value<int> totalMinutes;
+  final Value<String?> stagesJson;
+  final Value<double?> hrAvgBpm;
+  final Value<double?> hrvAvgMs;
+  final Value<double?> restingHrBpm;
+  final Value<String?> sourceApp;
+  final Value<String?> sourceDevice;
+  final Value<DateTime> syncedAt;
+  const SleepRecordsCompanion({
+    this.id = const Value.absent(),
+    this.sessionStart = const Value.absent(),
+    this.sessionEnd = const Value.absent(),
+    this.totalMinutes = const Value.absent(),
+    this.stagesJson = const Value.absent(),
+    this.hrAvgBpm = const Value.absent(),
+    this.hrvAvgMs = const Value.absent(),
+    this.restingHrBpm = const Value.absent(),
+    this.sourceApp = const Value.absent(),
+    this.sourceDevice = const Value.absent(),
+    this.syncedAt = const Value.absent(),
+  });
+  SleepRecordsCompanion.insert({
+    this.id = const Value.absent(),
+    required DateTime sessionStart,
+    required DateTime sessionEnd,
+    required int totalMinutes,
+    this.stagesJson = const Value.absent(),
+    this.hrAvgBpm = const Value.absent(),
+    this.hrvAvgMs = const Value.absent(),
+    this.restingHrBpm = const Value.absent(),
+    this.sourceApp = const Value.absent(),
+    this.sourceDevice = const Value.absent(),
+    this.syncedAt = const Value.absent(),
+  }) : sessionStart = Value(sessionStart),
+       sessionEnd = Value(sessionEnd),
+       totalMinutes = Value(totalMinutes);
+  static Insertable<SleepRecord> custom({
+    Expression<int>? id,
+    Expression<DateTime>? sessionStart,
+    Expression<DateTime>? sessionEnd,
+    Expression<int>? totalMinutes,
+    Expression<String>? stagesJson,
+    Expression<double>? hrAvgBpm,
+    Expression<double>? hrvAvgMs,
+    Expression<double>? restingHrBpm,
+    Expression<String>? sourceApp,
+    Expression<String>? sourceDevice,
+    Expression<DateTime>? syncedAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (sessionStart != null) 'session_start': sessionStart,
+      if (sessionEnd != null) 'session_end': sessionEnd,
+      if (totalMinutes != null) 'total_minutes': totalMinutes,
+      if (stagesJson != null) 'stages_json': stagesJson,
+      if (hrAvgBpm != null) 'hr_avg_bpm': hrAvgBpm,
+      if (hrvAvgMs != null) 'hrv_avg_ms': hrvAvgMs,
+      if (restingHrBpm != null) 'resting_hr_bpm': restingHrBpm,
+      if (sourceApp != null) 'source_app': sourceApp,
+      if (sourceDevice != null) 'source_device': sourceDevice,
+      if (syncedAt != null) 'synced_at': syncedAt,
+    });
+  }
+
+  SleepRecordsCompanion copyWith({
+    Value<int>? id,
+    Value<DateTime>? sessionStart,
+    Value<DateTime>? sessionEnd,
+    Value<int>? totalMinutes,
+    Value<String?>? stagesJson,
+    Value<double?>? hrAvgBpm,
+    Value<double?>? hrvAvgMs,
+    Value<double?>? restingHrBpm,
+    Value<String?>? sourceApp,
+    Value<String?>? sourceDevice,
+    Value<DateTime>? syncedAt,
+  }) {
+    return SleepRecordsCompanion(
+      id: id ?? this.id,
+      sessionStart: sessionStart ?? this.sessionStart,
+      sessionEnd: sessionEnd ?? this.sessionEnd,
+      totalMinutes: totalMinutes ?? this.totalMinutes,
+      stagesJson: stagesJson ?? this.stagesJson,
+      hrAvgBpm: hrAvgBpm ?? this.hrAvgBpm,
+      hrvAvgMs: hrvAvgMs ?? this.hrvAvgMs,
+      restingHrBpm: restingHrBpm ?? this.restingHrBpm,
+      sourceApp: sourceApp ?? this.sourceApp,
+      sourceDevice: sourceDevice ?? this.sourceDevice,
+      syncedAt: syncedAt ?? this.syncedAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (sessionStart.present) {
+      map['session_start'] = Variable<DateTime>(sessionStart.value);
+    }
+    if (sessionEnd.present) {
+      map['session_end'] = Variable<DateTime>(sessionEnd.value);
+    }
+    if (totalMinutes.present) {
+      map['total_minutes'] = Variable<int>(totalMinutes.value);
+    }
+    if (stagesJson.present) {
+      map['stages_json'] = Variable<String>(stagesJson.value);
+    }
+    if (hrAvgBpm.present) {
+      map['hr_avg_bpm'] = Variable<double>(hrAvgBpm.value);
+    }
+    if (hrvAvgMs.present) {
+      map['hrv_avg_ms'] = Variable<double>(hrvAvgMs.value);
+    }
+    if (restingHrBpm.present) {
+      map['resting_hr_bpm'] = Variable<double>(restingHrBpm.value);
+    }
+    if (sourceApp.present) {
+      map['source_app'] = Variable<String>(sourceApp.value);
+    }
+    if (sourceDevice.present) {
+      map['source_device'] = Variable<String>(sourceDevice.value);
+    }
+    if (syncedAt.present) {
+      map['synced_at'] = Variable<DateTime>(syncedAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SleepRecordsCompanion(')
+          ..write('id: $id, ')
+          ..write('sessionStart: $sessionStart, ')
+          ..write('sessionEnd: $sessionEnd, ')
+          ..write('totalMinutes: $totalMinutes, ')
+          ..write('stagesJson: $stagesJson, ')
+          ..write('hrAvgBpm: $hrAvgBpm, ')
+          ..write('hrvAvgMs: $hrvAvgMs, ')
+          ..write('restingHrBpm: $restingHrBpm, ')
+          ..write('sourceApp: $sourceApp, ')
+          ..write('sourceDevice: $sourceDevice, ')
+          ..write('syncedAt: $syncedAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$NoctosDatabase extends GeneratedDatabase {
   _$NoctosDatabase(QueryExecutor e) : super(e);
   $NoctosDatabaseManager get managers => $NoctosDatabaseManager(this);
@@ -3118,6 +3796,7 @@ abstract class _$NoctosDatabase extends GeneratedDatabase {
   late final $CaffeineLogsTable caffeineLogs = $CaffeineLogsTable(this);
   late final $WorryJournalEntriesTable worryJournalEntries =
       $WorryJournalEntriesTable(this);
+  late final $SleepRecordsTable sleepRecords = $SleepRecordsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -3128,6 +3807,7 @@ abstract class _$NoctosDatabase extends GeneratedDatabase {
     cbtiWeeks,
     caffeineLogs,
     worryJournalEntries,
+    sleepRecords,
   ];
 }
 
@@ -4648,6 +5328,326 @@ typedef $$WorryJournalEntriesTableProcessedTableManager =
       WorryJournalEntry,
       PrefetchHooks Function()
     >;
+typedef $$SleepRecordsTableCreateCompanionBuilder =
+    SleepRecordsCompanion Function({
+      Value<int> id,
+      required DateTime sessionStart,
+      required DateTime sessionEnd,
+      required int totalMinutes,
+      Value<String?> stagesJson,
+      Value<double?> hrAvgBpm,
+      Value<double?> hrvAvgMs,
+      Value<double?> restingHrBpm,
+      Value<String?> sourceApp,
+      Value<String?> sourceDevice,
+      Value<DateTime> syncedAt,
+    });
+typedef $$SleepRecordsTableUpdateCompanionBuilder =
+    SleepRecordsCompanion Function({
+      Value<int> id,
+      Value<DateTime> sessionStart,
+      Value<DateTime> sessionEnd,
+      Value<int> totalMinutes,
+      Value<String?> stagesJson,
+      Value<double?> hrAvgBpm,
+      Value<double?> hrvAvgMs,
+      Value<double?> restingHrBpm,
+      Value<String?> sourceApp,
+      Value<String?> sourceDevice,
+      Value<DateTime> syncedAt,
+    });
+
+class $$SleepRecordsTableFilterComposer
+    extends Composer<_$NoctosDatabase, $SleepRecordsTable> {
+  $$SleepRecordsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get sessionStart => $composableBuilder(
+    column: $table.sessionStart,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get sessionEnd => $composableBuilder(
+    column: $table.sessionEnd,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get totalMinutes => $composableBuilder(
+    column: $table.totalMinutes,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get stagesJson => $composableBuilder(
+    column: $table.stagesJson,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get hrAvgBpm => $composableBuilder(
+    column: $table.hrAvgBpm,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get hrvAvgMs => $composableBuilder(
+    column: $table.hrvAvgMs,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get restingHrBpm => $composableBuilder(
+    column: $table.restingHrBpm,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get sourceApp => $composableBuilder(
+    column: $table.sourceApp,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get sourceDevice => $composableBuilder(
+    column: $table.sourceDevice,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get syncedAt => $composableBuilder(
+    column: $table.syncedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$SleepRecordsTableOrderingComposer
+    extends Composer<_$NoctosDatabase, $SleepRecordsTable> {
+  $$SleepRecordsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get sessionStart => $composableBuilder(
+    column: $table.sessionStart,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get sessionEnd => $composableBuilder(
+    column: $table.sessionEnd,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get totalMinutes => $composableBuilder(
+    column: $table.totalMinutes,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get stagesJson => $composableBuilder(
+    column: $table.stagesJson,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get hrAvgBpm => $composableBuilder(
+    column: $table.hrAvgBpm,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get hrvAvgMs => $composableBuilder(
+    column: $table.hrvAvgMs,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get restingHrBpm => $composableBuilder(
+    column: $table.restingHrBpm,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get sourceApp => $composableBuilder(
+    column: $table.sourceApp,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get sourceDevice => $composableBuilder(
+    column: $table.sourceDevice,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get syncedAt => $composableBuilder(
+    column: $table.syncedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$SleepRecordsTableAnnotationComposer
+    extends Composer<_$NoctosDatabase, $SleepRecordsTable> {
+  $$SleepRecordsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get sessionStart => $composableBuilder(
+    column: $table.sessionStart,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get sessionEnd => $composableBuilder(
+    column: $table.sessionEnd,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get totalMinutes => $composableBuilder(
+    column: $table.totalMinutes,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get stagesJson => $composableBuilder(
+    column: $table.stagesJson,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get hrAvgBpm =>
+      $composableBuilder(column: $table.hrAvgBpm, builder: (column) => column);
+
+  GeneratedColumn<double> get hrvAvgMs =>
+      $composableBuilder(column: $table.hrvAvgMs, builder: (column) => column);
+
+  GeneratedColumn<double> get restingHrBpm => $composableBuilder(
+    column: $table.restingHrBpm,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get sourceApp =>
+      $composableBuilder(column: $table.sourceApp, builder: (column) => column);
+
+  GeneratedColumn<String> get sourceDevice => $composableBuilder(
+    column: $table.sourceDevice,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get syncedAt =>
+      $composableBuilder(column: $table.syncedAt, builder: (column) => column);
+}
+
+class $$SleepRecordsTableTableManager
+    extends
+        RootTableManager<
+          _$NoctosDatabase,
+          $SleepRecordsTable,
+          SleepRecord,
+          $$SleepRecordsTableFilterComposer,
+          $$SleepRecordsTableOrderingComposer,
+          $$SleepRecordsTableAnnotationComposer,
+          $$SleepRecordsTableCreateCompanionBuilder,
+          $$SleepRecordsTableUpdateCompanionBuilder,
+          (
+            SleepRecord,
+            BaseReferences<_$NoctosDatabase, $SleepRecordsTable, SleepRecord>,
+          ),
+          SleepRecord,
+          PrefetchHooks Function()
+        > {
+  $$SleepRecordsTableTableManager(_$NoctosDatabase db, $SleepRecordsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$SleepRecordsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$SleepRecordsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$SleepRecordsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<DateTime> sessionStart = const Value.absent(),
+                Value<DateTime> sessionEnd = const Value.absent(),
+                Value<int> totalMinutes = const Value.absent(),
+                Value<String?> stagesJson = const Value.absent(),
+                Value<double?> hrAvgBpm = const Value.absent(),
+                Value<double?> hrvAvgMs = const Value.absent(),
+                Value<double?> restingHrBpm = const Value.absent(),
+                Value<String?> sourceApp = const Value.absent(),
+                Value<String?> sourceDevice = const Value.absent(),
+                Value<DateTime> syncedAt = const Value.absent(),
+              }) => SleepRecordsCompanion(
+                id: id,
+                sessionStart: sessionStart,
+                sessionEnd: sessionEnd,
+                totalMinutes: totalMinutes,
+                stagesJson: stagesJson,
+                hrAvgBpm: hrAvgBpm,
+                hrvAvgMs: hrvAvgMs,
+                restingHrBpm: restingHrBpm,
+                sourceApp: sourceApp,
+                sourceDevice: sourceDevice,
+                syncedAt: syncedAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required DateTime sessionStart,
+                required DateTime sessionEnd,
+                required int totalMinutes,
+                Value<String?> stagesJson = const Value.absent(),
+                Value<double?> hrAvgBpm = const Value.absent(),
+                Value<double?> hrvAvgMs = const Value.absent(),
+                Value<double?> restingHrBpm = const Value.absent(),
+                Value<String?> sourceApp = const Value.absent(),
+                Value<String?> sourceDevice = const Value.absent(),
+                Value<DateTime> syncedAt = const Value.absent(),
+              }) => SleepRecordsCompanion.insert(
+                id: id,
+                sessionStart: sessionStart,
+                sessionEnd: sessionEnd,
+                totalMinutes: totalMinutes,
+                stagesJson: stagesJson,
+                hrAvgBpm: hrAvgBpm,
+                hrvAvgMs: hrvAvgMs,
+                restingHrBpm: restingHrBpm,
+                sourceApp: sourceApp,
+                sourceDevice: sourceDevice,
+                syncedAt: syncedAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$SleepRecordsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$NoctosDatabase,
+      $SleepRecordsTable,
+      SleepRecord,
+      $$SleepRecordsTableFilterComposer,
+      $$SleepRecordsTableOrderingComposer,
+      $$SleepRecordsTableAnnotationComposer,
+      $$SleepRecordsTableCreateCompanionBuilder,
+      $$SleepRecordsTableUpdateCompanionBuilder,
+      (
+        SleepRecord,
+        BaseReferences<_$NoctosDatabase, $SleepRecordsTable, SleepRecord>,
+      ),
+      SleepRecord,
+      PrefetchHooks Function()
+    >;
 
 class $NoctosDatabaseManager {
   final _$NoctosDatabase _db;
@@ -4662,4 +5662,6 @@ class $NoctosDatabaseManager {
       $$CaffeineLogsTableTableManager(_db, _db.caffeineLogs);
   $$WorryJournalEntriesTableTableManager get worryJournalEntries =>
       $$WorryJournalEntriesTableTableManager(_db, _db.worryJournalEntries);
+  $$SleepRecordsTableTableManager get sleepRecords =>
+      $$SleepRecordsTableTableManager(_db, _db.sleepRecords);
 }
