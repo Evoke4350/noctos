@@ -48,8 +48,8 @@ void main() {
     await tester.pumpWidget(wrap(db, DateTime.utc(2026, 5, 27)));
     await tester.pumpAndSettle();
     expect(find.textContaining('Mi Band 7'), findsOneWidget);
-    expect(find.textContaining('58'), findsOneWidget);
-    expect(find.textContaining('42'), findsOneWidget);
+    expect(find.textContaining('avg 58 bpm'), findsOneWidget);
+    expect(find.text('42 ms'), findsOneWidget);
     expect(find.textContaining('Diary drives program'), findsOneWidget);
   });
 

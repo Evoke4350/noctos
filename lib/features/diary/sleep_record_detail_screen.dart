@@ -45,14 +45,11 @@ class _Body extends StatelessWidget {
         .where((s) => s != null && s.isNotEmpty)
         .join(' via ');
 
-    final sessionValue =
-        '${fmt.format(record.sessionStart).toLowerCase()} → '
-        '${fmt.format(record.sessionEnd).toLowerCase()} '
-        '(${hours}h ${mins}m)';
-
     final children = <Widget>[
-      _rowWidget(context, 'Session',
-          RichText(text: TextSpan(text: sessionValue))),
+      _row(context, 'Session',
+          '${fmt.format(record.sessionStart).toLowerCase()} → '
+          '${fmt.format(record.sessionEnd).toLowerCase()} '
+          '(${hours}h ${mins}m)'),
       if (source.isNotEmpty) _row(context, 'Source', source),
       if (stages.isNotEmpty) ...[
         const SizedBox(height: 16),
@@ -88,10 +85,7 @@ class _Body extends StatelessWidget {
     );
   }
 
-  Widget _row(BuildContext c, String label, String value) =>
-      _rowWidget(c, label, Text(value));
-
-  Widget _rowWidget(BuildContext c, String label, Widget valueWidget) {
+  Widget _row(BuildContext c, String label, String value) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
@@ -106,7 +100,7 @@ class _Body extends StatelessWidget {
                   ),
             ),
           ),
-          Expanded(child: valueWidget),
+          Expanded(child: Text(value)),
         ],
       ),
     );
