@@ -8,6 +8,7 @@ import '../features/onboarding/onboarding_gate.dart';
 import '../features/diary/home_screen.dart';
 import '../features/diary/diary_entry_screen.dart';
 import '../features/diary/diary_history_screen.dart';
+import '../features/diary/sleep_record_detail_screen.dart';
 import '../features/program/program_overview_screen.dart';
 import '../features/program/week_detail_screen.dart';
 import '../features/caffeine/caffeine_log_screen.dart';
@@ -36,6 +37,12 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/diary/history',
         builder: (_, __) => const DiaryHistoryScreen(),
+      ),
+      GoRoute(
+        path: '/diary/:date/sleep-record',
+        builder: (_, state) => SleepRecordDetailScreen(
+          diaryDate: DateTime.parse(state.pathParameters['date']!),
+        ),
       ),
       GoRoute(
         path: '/program',

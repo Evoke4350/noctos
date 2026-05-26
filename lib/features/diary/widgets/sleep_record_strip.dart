@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
@@ -24,7 +25,7 @@ class SleepRecordStrip extends ConsumerWidget {
             .where((s) => s != null && (s).isNotEmpty)
             .join(' · ');
         return InkWell(
-          onTap: () => Navigator.of(context).pushNamed(
+          onTap: () => GoRouter.of(context).push(
             '/diary/${diaryDate.toIso8601String()}/sleep-record',
           ),
           child: Padding(
