@@ -7,6 +7,7 @@ import '../../data/repositories/cbti_week_repository.dart';
 import '../../data/repositories/schedule_repository.dart';
 import '../../data/repositories/diary_repository.dart';
 import '../../domain/cbti/protocol.dart';
+import 'widgets/sleep_record_strip.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -76,6 +77,13 @@ class HomeScreen extends ConsumerWidget {
                         ),
                       ],
                     ),
+                  ),
+                ),
+                SleepRecordStrip(
+                  diaryDate: DateTime(
+                    DateTime.now().year,
+                    DateTime.now().month,
+                    DateTime.now().day,
                   ),
                 ),
                 const SizedBox(height: 12),

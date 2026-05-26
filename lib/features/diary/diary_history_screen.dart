@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../data/db/database.dart';
 import '../../data/repositories/diary_repository.dart';
+import 'widgets/sleep_record_strip.dart';
 
 class DiaryHistoryScreen extends ConsumerWidget {
   const DiaryHistoryScreen({super.key});
@@ -68,13 +69,20 @@ class _Tile extends StatelessWidget {
     final d = entry.diaryDate;
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
-      child: ListTile(
-        title: Text('${d.month}/${d.day}/${d.year}'),
-        subtitle: Text(
-          'TIB ${_fmt(tib)} · TST ${_fmt(tst)} · awakenings ${entry.awakeningsCount}'
-          '${entry.adherentToPrescription ? '' : ' · non-adherent'}',
-        ),
-        trailing: Text('$pct%', style: Theme.of(context).textTheme.titleMedium),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          ListTile(
+            title: Text('${d.month}/${d.day}/${d.year}'),
+            subtitle: Text(
+              'TIB ${_fmt(tib)} · TST ${_fmt(tst)} · awakenings ${entry.awakeningsCount}'
+              '${entry.adherentToPrescription ? '' : ' · non-adherent'}',
+            ),
+            trailing:
+                Text('$pct%', style: Theme.of(context).textTheme.titleMedium),
+          ),
+          SleepRecordStrip(diaryDate: entry.diaryDate),
+        ],
       ),
     );
   }
