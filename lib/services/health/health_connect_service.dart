@@ -8,12 +8,9 @@ import 'models.dart';
 enum HealthConnectStatus {
   unsupportedPlatform,
   notInstalled,
-  available,
   needsPermissions,
   granted,
-  partial,
   denied,
-  error,
 }
 
 abstract class HealthConnectService {
@@ -21,8 +18,12 @@ abstract class HealthConnectService {
   Future<HealthConnectStatus> requestPermissions();
   Future<List<HealthSleepRecord>> readSleepSessions(
       DateTime start, DateTime end);
-  Future<void> openHealthConnectSettings();
+  Future<void> installHealthConnectApp();
+  Future<void> revokePermissions();
 }
+
+
+
 
 class RealHealthConnectService implements HealthConnectService {
   RealHealthConnectService() : _health = Health() {
@@ -89,8 +90,13 @@ class RealHealthConnectService implements HealthConnectService {
   }
 
   @override
-  Future<void> openHealthConnectSettings() async {
+  Future<void> installHealthConnectApp() async {
     await _health.installHealthConnect();
+  }
+
+  @override
+  Future<void> revokePermissions() async {
+    await _health.revokePermissions();
   }
 
   List<HealthSleepRecord> _foldIntoSessions(List<HealthDataPoint> points) {
@@ -142,7 +148,7 @@ class RealHealthConnectService implements HealthConnectService {
             sessionEnd.subtract(const Duration(hours: 24)),
             sessionEnd),
         sourceApp: session.sourceName,
-        sourceDevice: session.sourceDeviceId,
+        sourceDevice: session.deviceModel,
       );
     }).toList();
   }

@@ -21,7 +21,6 @@ class HealthConnectNudgeBanner extends HookConsumerWidget {
       if (currentWeek < 2) return false;
       final status = await ref.read(healthConnectServiceProvider).status();
       if (status == HealthConnectStatus.granted ||
-          status == HealthConnectStatus.partial ||
           status == HealthConnectStatus.unsupportedPlatform) {
         return false;
       }

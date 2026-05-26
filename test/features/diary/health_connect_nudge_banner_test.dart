@@ -19,7 +19,9 @@ class FakeSvc implements HealthConnectService {
           DateTime s, DateTime e) async =>
       const [];
   @override
-  Future<void> openHealthConnectSettings() async {}
+  Future<void> installHealthConnectApp() async {}
+  @override
+  Future<void> revokePermissions() async {}
 }
 
 Widget wrap({

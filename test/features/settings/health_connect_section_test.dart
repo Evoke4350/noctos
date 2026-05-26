@@ -21,7 +21,9 @@ class StubService implements HealthConnectService {
           DateTime s, DateTime e) async =>
       const [];
   @override
-  Future<void> openHealthConnectSettings() async {}
+  Future<void> installHealthConnectApp() async {}
+  @override
+  Future<void> revokePermissions() async {}
 }
 
 Widget wrap(HealthConnectStatus status) {
@@ -57,12 +59,6 @@ void main() {
     expect(find.textContaining('Connected'), findsOneWidget);
     expect(find.text('Sync now'), findsOneWidget);
     expect(find.text('Disconnect'), findsOneWidget);
-  });
-
-  testWidgets('shows "Limited" chip when partial', (tester) async {
-    await tester.pumpWidget(wrap(HealthConnectStatus.partial));
-    await tester.pumpAndSettle();
-    expect(find.text('Limited'), findsOneWidget);
   });
 
   testWidgets('shows "Available on Android" when unsupported platform',

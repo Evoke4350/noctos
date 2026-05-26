@@ -19,8 +19,7 @@ class SleepRecordSync {
 
   Future<void> syncRecent({bool force = false}) async {
     final status = await _svc.status();
-    if (status != HealthConnectStatus.granted &&
-        status != HealthConnectStatus.partial) {
+    if (status != HealthConnectStatus.granted) {
       return;
     }
 

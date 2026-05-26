@@ -37,7 +37,7 @@ class HealthConnectSection extends ConsumerWidget {
             FilledButton(
               onPressed: () => ref
                   .read(healthConnectServiceProvider)
-                  .openHealthConnectSettings(),
+                  .installHealthConnectApp(),
               child: const Text('Install from Play Store'),
             ),
           ],
@@ -56,20 +56,14 @@ class HealthConnectSection extends ConsumerWidget {
           ],
         );
       case HealthConnectStatus.granted:
-      case HealthConnectStatus.partial:
-      case HealthConnectStatus.available:
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              children: [
-                const Icon(Icons.check_circle, size: 18),
-                const SizedBox(width: 6),
-                const Text('Connected'),
-                if (s == HealthConnectStatus.partial) ...[
-                  const SizedBox(width: 8),
-                  const Chip(label: Text('Limited')),
-                ],
+              children: const [
+                Icon(Icons.check_circle, size: 18),
+                SizedBox(width: 6),
+                Text('Connected'),
               ],
             ),
             const SizedBox(height: 8),
@@ -84,17 +78,18 @@ class HealthConnectSection extends ConsumerWidget {
                   child: const Text('Sync now'),
                 ),
                 TextButton(
-                  onPressed: () => ref
-                      .read(healthConnectServiceProvider)
-                      .openHealthConnectSettings(),
+                  onPressed: () async {
+                    await ref
+                        .read(healthConnectServiceProvider)
+                        .revokePermissions();
+                    ref.invalidate(healthConnectStatusProvider);
+                  },
                   child: const Text('Disconnect'),
                 ),
               ],
             ),
           ],
         );
-      case HealthConnectStatus.error:
-        return const Text('Error reading Health Connect status.');
     }
   }
 

@@ -1,32 +1,6 @@
 import 'dart:convert';
 
-enum SleepStage {
-  awake,
-  light,
-  deep,
-  rem,
-  outOfBed,
-  unknown;
-
-  static SleepStage fromHealthValue(int v) {
-    switch (v) {
-      case 1:
-        return SleepStage.awake;
-      case 3:
-        return SleepStage.outOfBed;
-      case 4:
-        return SleepStage.light;
-      case 5:
-        return SleepStage.deep;
-      case 6:
-        return SleepStage.rem;
-      case 2:
-      case 7:
-      default:
-        return SleepStage.unknown;
-    }
-  }
-}
+enum SleepStage { awake, light, deep, rem, outOfBed, unknown }
 
 class SleepStageSpan {
   SleepStageSpan({required this.start, required this.end, required this.stage});

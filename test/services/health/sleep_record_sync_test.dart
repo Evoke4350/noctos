@@ -32,7 +32,9 @@ class FakeHealthConnectService implements HealthConnectService {
   }
 
   @override
-  Future<void> openHealthConnectSettings() async {}
+  Future<void> installHealthConnectApp() async {}
+  @override
+  Future<void> revokePermissions() async {}
 }
 
 void main() {
