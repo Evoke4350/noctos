@@ -10,16 +10,16 @@ class SleepStageSpan {
   final SleepStage stage;
 
   Map<String, dynamic> toJson() => {
-        'start': start.toUtc().millisecondsSinceEpoch,
-        'end': end.toUtc().millisecondsSinceEpoch,
-        'stage': stage.name,
-      };
+    'start': start.toUtc().millisecondsSinceEpoch,
+    'end': end.toUtc().millisecondsSinceEpoch,
+    'stage': stage.name,
+  };
 
   factory SleepStageSpan.fromJson(Map<String, dynamic> j) => SleepStageSpan(
-        start: DateTime.fromMillisecondsSinceEpoch(j['start'] as int, isUtc: true),
-        end: DateTime.fromMillisecondsSinceEpoch(j['end'] as int, isUtc: true),
-        stage: SleepStage.values.byName(j['stage'] as String),
-      );
+    start: DateTime.fromMillisecondsSinceEpoch(j['start'] as int, isUtc: true),
+    end: DateTime.fromMillisecondsSinceEpoch(j['end'] as int, isUtc: true),
+    stage: SleepStage.values.byName(j['stage'] as String),
+  );
 
   Duration get duration => end.difference(start);
 }
@@ -47,8 +47,9 @@ class HealthSleepRecord {
 
   int get totalMinutes => sessionEnd.difference(sessionStart).inMinutes;
 
-  String? get stagesJson =>
-      stages.isEmpty ? null : jsonEncode(stages.map((s) => s.toJson()).toList());
+  String? get stagesJson => stages.isEmpty
+      ? null
+      : jsonEncode(stages.map((s) => s.toJson()).toList());
 
   static List<SleepStageSpan> stagesFromJson(String? raw) {
     if (raw == null || raw.isEmpty) return const [];

@@ -21,13 +21,14 @@ class SleepRecordStrip extends ConsumerWidget {
         final fmt = DateFormat('h:mma');
         final hours = record.totalMinutes ~/ 60;
         final mins = record.totalMinutes % 60;
-        final source = [record.sourceDevice, record.sourceApp]
-            .where((s) => s != null && (s).isNotEmpty)
-            .join(' · ');
+        final source = [
+          record.sourceDevice,
+          record.sourceApp,
+        ].where((s) => s != null && (s).isNotEmpty).join(' · ');
         return InkWell(
-          onTap: () => GoRouter.of(context).push(
-            '/diary/${diaryDate.toIso8601String()}/sleep-record',
-          ),
+          onTap: () => GoRouter.of(
+            context,
+          ).push('/diary/${diaryDate.toIso8601String()}/sleep-record'),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
             child: Row(

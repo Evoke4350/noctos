@@ -7,10 +7,10 @@ import '../db/database.dart';
 import '../db/db_providers.dart';
 
 SleepRecord _toUtc(SleepRecord r) => r.copyWith(
-      sessionStart: r.sessionStart.toUtc(),
-      sessionEnd: r.sessionEnd.toUtc(),
-      syncedAt: r.syncedAt.toUtc(),
-    );
+  sessionStart: r.sessionStart.toUtc(),
+  sessionEnd: r.sessionEnd.toUtc(),
+  syncedAt: r.syncedAt.toUtc(),
+);
 
 class SleepRecordRepository {
   SleepRecordRepository(this._db);
@@ -24,16 +24,21 @@ class SleepRecordRepository {
   /// *different* source for the same night are stored as separate rows — they
   /// are not merged here; [forNight] decides which one to surface.
   Future<void> upsertByNaturalKey(HealthSleepRecord r) async {
-    final existing = await (_db.select(_db.sleepRecords)
-          ..where((t) =>
-              t.sessionStart.equals(r.sessionStart) &
-              _matchNullableText(t.sourceApp, r.sourceApp) &
-              _matchNullableText(t.sourceDevice, r.sourceDevice))
-          ..limit(1))
-        .getSingleOrNull();
+    final existing =
+        await (_db.select(_db.sleepRecords)
+              ..where(
+                (t) =>
+                    t.sessionStart.equals(r.sessionStart) &
+                    _matchNullableText(t.sourceApp, r.sourceApp) &
+                    _matchNullableText(t.sourceDevice, r.sourceDevice),
+              )
+              ..limit(1))
+            .getSingleOrNull();
 
     if (existing == null) {
-      await _db.into(_db.sleepRecords).insert(
+      await _db
+          .into(_db.sleepRecords)
+          .insert(
             SleepRecordsCompanion.insert(
               sessionStart: r.sessionStart,
               sessionEnd: r.sessionEnd,
@@ -49,9 +54,9 @@ class SleepRecordRepository {
       return;
     }
 
-    await (_db.update(_db.sleepRecords)
-          ..where((t) => t.id.equals(existing.id)))
-        .write(
+    await (_db.update(
+      _db.sleepRecords,
+    )..where((t) => t.id.equals(existing.id))).write(
       SleepRecordsCompanion(
         sessionEnd: Value(r.sessionEnd),
         totalMinutes: Value(r.totalMinutes),
@@ -65,8 +70,9 @@ class SleepRecordRepository {
   }
 
   Expression<bool> _matchNullableText(
-          GeneratedColumn<String> col, String? value) =>
-      value == null ? col.isNull() : col.equals(value);
+    GeneratedColumn<String> col,
+    String? value,
+  ) => value == null ? col.isNull() : col.equals(value);
 
   /// Picks the best record among sources that wrote this night: highest source
   /// trust first, then longest session. Replaces the old "longest wins", which
@@ -74,28 +80,32 @@ class SleepRecordRepository {
   SleepRecord? _pickBest(List<SleepRecord> rows) {
     if (rows.isEmpty) return null;
     rows.sort((a, b) {
-      final t = sourceTrust(b.sourceApp, b.sourceDevice)
-          .compareTo(sourceTrust(a.sourceApp, a.sourceDevice));
+      final t = sourceTrust(
+        b.sourceApp,
+        b.sourceDevice,
+      ).compareTo(sourceTrust(a.sourceApp, a.sourceDevice));
       return t != 0 ? t : b.totalMinutes.compareTo(a.totalMinutes);
     });
     return _toUtc(rows.first);
   }
 
   Future<List<SleepRecord>> all() async {
-    final rows = await (_db.select(_db.sleepRecords)
-          ..orderBy([(t) => OrderingTerm.desc(t.sessionStart)]))
-        .get();
+    final rows = await (_db.select(
+      _db.sleepRecords,
+    )..orderBy([(t) => OrderingTerm.desc(t.sessionStart)])).get();
     return rows.map(_toUtc).toList();
   }
 
   SimpleSelectStatement<$SleepRecordsTable, SleepRecord> _nightQuery(
-      DateTime diaryDate) {
+    DateTime diaryDate,
+  ) {
     final windowStart = diaryDate.subtract(const Duration(hours: 18));
     final windowEnd = diaryDate.add(const Duration(hours: 6));
-    return _db.select(_db.sleepRecords)
-      ..where((t) =>
+    return _db.select(_db.sleepRecords)..where(
+      (t) =>
           t.sessionStart.isBiggerOrEqualValue(windowStart) &
-          t.sessionStart.isSmallerThanValue(windowEnd));
+          t.sessionStart.isSmallerThanValue(windowEnd),
+    );
   }
 
   Future<SleepRecord?> forNight(DateTime diaryDate) async =>
@@ -106,8 +116,9 @@ class SleepRecordRepository {
 
   Future<DateTime?> lastSyncedSessionEnd() async {
     final maxExpr = _db.sleepRecords.sessionEnd.max();
-    final row = await (_db.selectOnly(_db.sleepRecords)..addColumns([maxExpr]))
-        .getSingleOrNull();
+    final row = await (_db.selectOnly(
+      _db.sleepRecords,
+    )..addColumns([maxExpr])).getSingleOrNull();
     return row?.read(maxExpr)?.toUtc();
   }
 }
@@ -118,5 +129,5 @@ final sleepRecordRepositoryProvider = Provider<SleepRecordRepository>((ref) {
 
 final sleepRecordForNightProvider =
     StreamProvider.family<SleepRecord?, DateTime>((ref, diaryDate) {
-  return ref.watch(sleepRecordRepositoryProvider).watchForNight(diaryDate);
-});
+      return ref.watch(sleepRecordRepositoryProvider).watchForNight(diaryDate);
+    });

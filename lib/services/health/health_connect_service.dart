@@ -17,13 +17,12 @@ abstract class HealthConnectService {
   Future<HealthConnectStatus> status();
   Future<HealthConnectStatus> requestPermissions();
   Future<List<HealthSleepRecord>> readSleepSessions(
-      DateTime start, DateTime end);
+    DateTime start,
+    DateTime end,
+  );
   Future<void> installHealthConnectApp();
   Future<void> revokePermissions();
 }
-
-
-
 
 class RealHealthConnectService implements HealthConnectService {
   RealHealthConnectService() : _health = Health() {
@@ -56,7 +55,8 @@ class RealHealthConnectService implements HealthConnectService {
     if (sdkStatus != HealthConnectSdkStatus.sdkAvailable) {
       return HealthConnectStatus.notInstalled;
     }
-    final granted = await _health.hasPermissions(
+    final granted =
+        await _health.hasPermissions(
           _readTypes,
           permissions: _readPermissions,
         ) ??
@@ -80,7 +80,9 @@ class RealHealthConnectService implements HealthConnectService {
 
   @override
   Future<List<HealthSleepRecord>> readSleepSessions(
-      DateTime start, DateTime end) async {
+    DateTime start,
+    DateTime end,
+  ) async {
     final raw = await _health.getHealthDataFromTypes(
       types: _readTypes,
       startTime: start,
@@ -100,10 +102,9 @@ class RealHealthConnectService implements HealthConnectService {
   }
 
   List<HealthSleepRecord> _foldIntoSessions(List<HealthDataPoint> points) {
-    final sessions = points
-        .where((p) => p.type == HealthDataType.SLEEP_SESSION)
-        .toList()
-      ..sort((a, b) => a.dateFrom.compareTo(b.dateFrom));
+    final sessions =
+        points.where((p) => p.type == HealthDataType.SLEEP_SESSION).toList()
+          ..sort((a, b) => a.dateFrom.compareTo(b.dateFrom));
 
     return sessions.map((session) {
       final sessionStart = session.dateFrom;
@@ -111,25 +112,30 @@ class RealHealthConnectService implements HealthConnectService {
       final sessionEnd = session.dateTo.isAfter(now) ? now : session.dateTo;
 
       final stages = points
-          .where((p) =>
-              _isStageType(p.type) &&
-              !p.dateFrom.isBefore(sessionStart) &&
-              !p.dateTo.isAfter(sessionEnd))
-          .map((p) => SleepStageSpan(
-                start: p.dateFrom,
-                end: p.dateTo,
-                stage: _stageFromType(p.type),
-              ))
+          .where(
+            (p) =>
+                _isStageType(p.type) &&
+                !p.dateFrom.isBefore(sessionStart) &&
+                !p.dateTo.isAfter(sessionEnd),
+          )
+          .map(
+            (p) => SleepStageSpan(
+              start: p.dateFrom,
+              end: p.dateTo,
+              stage: _stageFromType(p.type),
+            ),
+          )
           .toList();
 
       double? avgNumeric(HealthDataType type, DateTime from, DateTime to) {
         final values = points
-            .where((p) =>
-                p.type == type &&
-                !p.dateFrom.isBefore(from) &&
-                !p.dateFrom.isAfter(to))
-            .map((p) =>
-                (p.value as NumericHealthValue).numericValue.toDouble())
+            .where(
+              (p) =>
+                  p.type == type &&
+                  !p.dateFrom.isBefore(from) &&
+                  !p.dateFrom.isAfter(to),
+            )
+            .map((p) => (p.value as NumericHealthValue).numericValue.toDouble())
             .toList();
         if (values.isEmpty) return null;
         return values.reduce((a, b) => a + b) / values.length;
@@ -139,14 +145,21 @@ class RealHealthConnectService implements HealthConnectService {
         sessionStart: sessionStart,
         sessionEnd: sessionEnd,
         stages: stages,
-        hrAvgBpm:
-            avgNumeric(HealthDataType.HEART_RATE, sessionStart, sessionEnd),
-        hrvAvgMs: avgNumeric(HealthDataType.HEART_RATE_VARIABILITY_RMSSD,
-            sessionStart, sessionEnd),
+        hrAvgBpm: avgNumeric(
+          HealthDataType.HEART_RATE,
+          sessionStart,
+          sessionEnd,
+        ),
+        hrvAvgMs: avgNumeric(
+          HealthDataType.HEART_RATE_VARIABILITY_RMSSD,
+          sessionStart,
+          sessionEnd,
+        ),
         restingHrBpm: avgNumeric(
-            HealthDataType.RESTING_HEART_RATE,
-            sessionEnd.subtract(const Duration(hours: 24)),
-            sessionEnd),
+          HealthDataType.RESTING_HEART_RATE,
+          sessionEnd.subtract(const Duration(hours: 24)),
+          sessionEnd,
+        ),
         sourceApp: session.sourceName,
         sourceDevice: session.deviceModel,
       );

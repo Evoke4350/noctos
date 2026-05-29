@@ -41,15 +41,19 @@ class _Body extends StatelessWidget {
     final hours = record.totalMinutes ~/ 60;
     final mins = record.totalMinutes % 60;
     final stages = HealthSleepRecord.stagesFromJson(record.stagesJson);
-    final source = [record.sourceDevice, record.sourceApp]
-        .where((s) => s != null && s.isNotEmpty)
-        .join(' via ');
+    final source = [
+      record.sourceDevice,
+      record.sourceApp,
+    ].where((s) => s != null && s.isNotEmpty).join(' via ');
 
     final children = <Widget>[
-      _row(context, 'Session',
-          '${fmt.format(record.sessionStart).toLowerCase()} → '
-          '${fmt.format(record.sessionEnd).toLowerCase()} '
-          '(${hours}h ${mins}m)'),
+      _row(
+        context,
+        'Session',
+        '${fmt.format(record.sessionStart).toLowerCase()} → '
+            '${fmt.format(record.sessionEnd).toLowerCase()} '
+            '(${hours}h ${mins}m)',
+      ),
       if (source.isNotEmpty) _row(context, 'Source', source),
       if (stages.isNotEmpty) ...[
         const SizedBox(height: 16),
@@ -79,10 +83,7 @@ class _Body extends StatelessWidget {
       ),
     ];
 
-    return ListView(
-      padding: const EdgeInsets.all(16),
-      children: children,
-    );
+    return ListView(padding: const EdgeInsets.all(16), children: children);
   }
 
   Widget _row(BuildContext c, String label, String value) {
@@ -95,9 +96,9 @@ class _Body extends StatelessWidget {
             width: 110,
             child: Text(
               label,
-              style: Theme.of(c).textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+              style: Theme.of(
+                c,
+              ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
             ),
           ),
           Expanded(child: Text(value)),
@@ -130,17 +131,18 @@ class _StageBand extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final total =
-        stages.fold<int>(0, (acc, s) => acc + s.duration.inMinutes);
+    final total = stages.fold<int>(0, (acc, s) => acc + s.duration.inMinutes);
     if (total == 0) return const SizedBox.shrink();
     return SizedBox(
       height: 16,
       child: Row(
         children: stages
-            .map((s) => Expanded(
-                  flex: s.duration.inMinutes,
-                  child: Container(color: colorFor(s.stage)),
-                ))
+            .map(
+              (s) => Expanded(
+                flex: s.duration.inMinutes,
+                child: Container(color: colorFor(s.stage)),
+              ),
+            )
             .toList(),
       ),
     );

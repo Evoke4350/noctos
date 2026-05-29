@@ -11,8 +11,7 @@ class SleepRecords extends Table {
   RealColumn get restingHrBpm => real().nullable()();
   TextColumn get sourceApp => text().nullable()();
   TextColumn get sourceDevice => text().nullable()();
-  DateTimeColumn get syncedAt =>
-      dateTime().withDefault(currentDateAndTime)();
+  DateTimeColumn get syncedAt => dateTime().withDefault(currentDateAndTime)();
 
   // One physical sleep session is identified by when it started AND which
   // source produced it. Keying on sessionStart alone made two sources for the
@@ -20,6 +19,6 @@ class SleepRecords extends Table {
   // separate rows, and the read layer (forNight) picks the most-trusted.
   @override
   List<Set<Column>> get uniqueKeys => [
-        {sessionStart, sourceApp, sourceDevice},
-      ];
+    {sessionStart, sourceApp, sourceDevice},
+  ];
 }

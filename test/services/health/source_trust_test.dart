@@ -28,7 +28,10 @@ void main() {
 
     test('earbuds are not wrist wearables', () {
       expect(sourceTrust('Galaxy Buds', null), 10);
-      expect(sourceTrust('Pixel Buds', null), 10); // earbuds, not a sleep sensor
+      expect(
+        sourceTrust('Pixel Buds', null),
+        10,
+      ); // earbuds, not a sleep sensor
     });
 
     test('"Bandwidth Sleep" does not match the "band" token', () {

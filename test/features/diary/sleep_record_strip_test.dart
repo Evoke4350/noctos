@@ -10,11 +10,8 @@ import 'package:noctos/features/diary/widgets/sleep_record_strip.dart';
 import 'package:noctos/services/health/models.dart';
 
 NoctosDatabase _makeDb() => NoctosDatabase(
-      DatabaseConnection(
-        NativeDatabase.memory(),
-        closeStreamsSynchronously: true,
-      ),
-    );
+  DatabaseConnection(NativeDatabase.memory(), closeStreamsSynchronously: true),
+);
 
 Widget wrap(NoctosDatabase db, DateTime diaryDate) {
   return ProviderScope(
@@ -44,16 +41,18 @@ void main() {
 
   testWidgets('renders timing + source when record exists', (tester) async {
     final repo = SleepRecordRepository(db);
-    await repo.upsertByNaturalKey(HealthSleepRecord(
-      sessionStart: DateTime.utc(2026, 5, 26, 23, 42),
-      sessionEnd: DateTime.utc(2026, 5, 27, 6, 8),
-      stages: const [],
-      hrAvgBpm: 58,
-      hrvAvgMs: 42,
-      restingHrBpm: 54,
-      sourceApp: 'Mi Fitness',
-      sourceDevice: 'Mi Band 7',
-    ));
+    await repo.upsertByNaturalKey(
+      HealthSleepRecord(
+        sessionStart: DateTime.utc(2026, 5, 26, 23, 42),
+        sessionEnd: DateTime.utc(2026, 5, 27, 6, 8),
+        stages: const [],
+        hrAvgBpm: 58,
+        hrvAvgMs: 42,
+        restingHrBpm: 54,
+        sourceApp: 'Mi Fitness',
+        sourceDevice: 'Mi Band 7',
+      ),
+    );
     await tester.pumpWidget(wrap(db, DateTime.utc(2026, 5, 27)));
     await tester.pumpAndSettle();
     expect(find.textContaining('6h'), findsOneWidget);

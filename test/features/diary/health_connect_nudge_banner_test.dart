@@ -16,26 +16,22 @@ class FakeSvc implements HealthConnectService {
   Future<HealthConnectStatus> requestPermissions() async => statusValue;
   @override
   Future<List<HealthSleepRecord>> readSleepSessions(
-          DateTime s, DateTime e) async =>
-      const [];
+    DateTime s,
+    DateTime e,
+  ) async => const [];
   @override
   Future<void> installHealthConnectApp() async {}
   @override
   Future<void> revokePermissions() async {}
 }
 
-Widget wrap({
-  required int currentWeek,
-  required HealthConnectStatus status,
-}) {
+Widget wrap({required int currentWeek, required HealthConnectStatus status}) {
   return ProviderScope(
     overrides: [
       healthConnectServiceProvider.overrideWithValue(FakeSvc(status)),
     ],
     child: MaterialApp(
-      home: Scaffold(
-        body: HealthConnectNudgeBanner(currentWeek: currentWeek),
-      ),
+      home: Scaffold(body: HealthConnectNudgeBanner(currentWeek: currentWeek)),
     ),
   );
 }
