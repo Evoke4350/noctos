@@ -78,8 +78,10 @@ class _Tile extends StatelessWidget {
               'TIB ${_fmt(tib)} · TST ${_fmt(tst)} · awakenings ${entry.awakeningsCount}'
               '${entry.adherentToPrescription ? '' : ' · non-adherent'}',
             ),
-            trailing:
-                Text('$pct%', style: Theme.of(context).textTheme.titleMedium),
+            trailing: Text(
+              '$pct%',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
           ),
           SleepRecordStrip(diaryDate: entry.diaryDate),
         ],

@@ -56,8 +56,7 @@ class HealthConnectNudgeBanner extends HookConsumerWidget {
                 const SizedBox(width: 8),
                 FilledButton(
                   onPressed: () async {
-                    final ok =
-                        await HealthConnectRationaleSheet.show(context);
+                    final ok = await HealthConnectRationaleSheet.show(context);
                     if (ok) {
                       await ref
                           .read(healthConnectServiceProvider)

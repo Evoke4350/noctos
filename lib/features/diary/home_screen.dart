@@ -22,10 +22,10 @@ class HomeScreen extends HookConsumerWidget {
     final weekAsync = ref.watch(currentCbtiWeekProvider);
 
     useEffect(() {
-      Future.microtask(
-          () => ref.read(sleepRecordSyncProvider).syncRecent());
+      Future.microtask(() => ref.read(sleepRecordSyncProvider).syncRecent());
       final observer = _ResumeObserver(
-          onResume: () => ref.read(sleepRecordSyncProvider).syncRecent());
+        onResume: () => ref.read(sleepRecordSyncProvider).syncRecent(),
+      );
       WidgetsBinding.instance.addObserver(observer);
       return () => WidgetsBinding.instance.removeObserver(observer);
     }, const []);

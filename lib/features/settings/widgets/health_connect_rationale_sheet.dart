@@ -22,8 +22,10 @@ class HealthConnectRationaleSheet extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Connect Health Connect',
-                style: Theme.of(context).textTheme.titleLarge),
+            Text(
+              'Connect Health Connect',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
             const SizedBox(height: 12),
             const Text('noctos will read:'),
             const SizedBox(height: 8),

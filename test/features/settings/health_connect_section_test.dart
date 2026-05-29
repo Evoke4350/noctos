@@ -16,10 +16,12 @@ class StubService implements HealthConnectService {
     _status = HealthConnectStatus.granted;
     return _status;
   }
+
   @override
   Future<List<HealthSleepRecord>> readSleepSessions(
-          DateTime s, DateTime e) async =>
-      const [];
+    DateTime s,
+    DateTime e,
+  ) async => const [];
   @override
   Future<void> installHealthConnectApp() async {}
   @override
@@ -31,9 +33,7 @@ Widget wrap(HealthConnectStatus status) {
     overrides: [
       healthConnectServiceProvider.overrideWithValue(StubService(status)),
     ],
-    child: const MaterialApp(
-      home: Scaffold(body: HealthConnectSection()),
-    ),
+    child: const MaterialApp(home: Scaffold(body: HealthConnectSection())),
   );
 }
 
@@ -45,15 +45,15 @@ void main() {
     expect(find.text('Install from Play Store'), findsOneWidget);
   });
 
-  testWidgets('shows Connect button when needs permissions',
-      (tester) async {
+  testWidgets('shows Connect button when needs permissions', (tester) async {
     await tester.pumpWidget(wrap(HealthConnectStatus.needsPermissions));
     await tester.pumpAndSettle();
     expect(find.text('Connect'), findsOneWidget);
   });
 
-  testWidgets('shows Connected + Sync now + Disconnect when granted',
-      (tester) async {
+  testWidgets('shows Connected + Sync now + Disconnect when granted', (
+    tester,
+  ) async {
     await tester.pumpWidget(wrap(HealthConnectStatus.granted));
     await tester.pumpAndSettle();
     expect(find.textContaining('Connected'), findsOneWidget);
@@ -61,13 +61,11 @@ void main() {
     expect(find.text('Disconnect'), findsOneWidget);
   });
 
-  testWidgets('shows "Available on Android" when unsupported platform',
-      (tester) async {
+  testWidgets('shows "Available on Android" when unsupported platform', (
+    tester,
+  ) async {
     await tester.pumpWidget(wrap(HealthConnectStatus.unsupportedPlatform));
     await tester.pumpAndSettle();
-    expect(
-      find.textContaining('Available on Android'),
-      findsOneWidget,
-    );
+    expect(find.textContaining('Available on Android'), findsOneWidget);
   });
 }

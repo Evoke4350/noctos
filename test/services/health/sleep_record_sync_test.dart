@@ -23,11 +23,15 @@ class FakeHealthConnectService implements HealthConnectService {
   Future<HealthConnectStatus> requestPermissions() async => statusValue;
   @override
   Future<List<HealthSleepRecord>> readSleepSessions(
-      DateTime start, DateTime end) async {
+    DateTime start,
+    DateTime end,
+  ) async {
     readCalls++;
     return sessions
-        .where((s) =>
-            !s.sessionStart.isBefore(start) && !s.sessionStart.isAfter(end))
+        .where(
+          (s) =>
+              !s.sessionStart.isBefore(start) && !s.sessionStart.isAfter(end),
+        )
         .toList();
   }
 
@@ -63,7 +67,8 @@ void main() {
   test('first connect: stores firstConnectedAt, no backfill', () async {
     final past = HealthSleepRecord(
       sessionStart: DateTime.now().subtract(const Duration(days: 3)),
-      sessionEnd: DateTime.now().subtract(const Duration(days: 3))
+      sessionEnd: DateTime.now()
+          .subtract(const Duration(days: 3))
           .add(const Duration(hours: 7)),
       stages: const [],
       hrAvgBpm: 58,
@@ -76,8 +81,11 @@ void main() {
     final sync = SleepRecordSync(svc, repo);
     await sync.syncRecent();
     final all = await repo.all();
-    expect(all, isEmpty,
-        reason: 'going-forward-only — past session must not be ingested');
+    expect(
+      all,
+      isEmpty,
+      reason: 'going-forward-only — past session must not be ingested',
+    );
   });
 
   test('throttles repeated calls within 60s', () async {
@@ -86,8 +94,11 @@ void main() {
     await sync.syncRecent();
     final firstCalls = svc.readCalls;
     await sync.syncRecent();
-    expect(svc.readCalls, firstCalls,
-        reason: 'second call within 60s should be throttled');
+    expect(
+      svc.readCalls,
+      firstCalls,
+      reason: 'second call within 60s should be throttled',
+    );
   });
 
   test('forceSync bypasses throttle', () async {
@@ -111,8 +122,9 @@ void main() {
       sourceDevice: null,
     );
     SharedPreferences.setMockInitialValues({
-      'health.firstConnectedAt':
-          DateTime.now().subtract(const Duration(days: 30)).toIso8601String(),
+      'health.firstConnectedAt': DateTime.now()
+          .subtract(const Duration(days: 30))
+          .toIso8601String(),
     });
     final svc = FakeHealthConnectService(sessions: [session]);
     final sync = SleepRecordSync(svc, repo);
@@ -128,8 +140,9 @@ void main() {
 
   test('dedups identical sessionStart on repeat sync', () async {
     SharedPreferences.setMockInitialValues({
-      'health.firstConnectedAt':
-          DateTime.now().subtract(const Duration(days: 30)).toIso8601String(),
+      'health.firstConnectedAt': DateTime.now()
+          .subtract(const Duration(days: 30))
+          .toIso8601String(),
     });
     final session = HealthSleepRecord(
       sessionStart: DateTime.now().subtract(const Duration(hours: 8)),

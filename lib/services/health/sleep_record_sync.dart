@@ -52,8 +52,7 @@ class SleepRecordSync {
       firstConnected,
       now.subtract(_maxCatchup),
     ];
-    final windowStart =
-        candidates.reduce((a, b) => a.isAfter(b) ? a : b);
+    final windowStart = candidates.reduce((a, b) => a.isAfter(b) ? a : b);
 
     if (!windowStart.isBefore(now)) return;
 
