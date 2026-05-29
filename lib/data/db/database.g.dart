@@ -3352,7 +3352,7 @@ class $SleepRecordsTable extends SleepRecords
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
   List<Set<GeneratedColumn>> get uniqueKeys => [
-    {sessionStart},
+    {sessionStart, sourceApp, sourceDevice},
   ];
   @override
   SleepRecord map(Map<String, dynamic> data, {String? tablePrefix}) {

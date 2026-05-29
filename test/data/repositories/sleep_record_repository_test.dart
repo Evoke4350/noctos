@@ -18,6 +18,24 @@ HealthSleepRecord makeRecord(DateTime start, {Duration duration = const Duration
   );
 }
 
+HealthSleepRecord rec(
+  DateTime start, {
+  Duration duration = const Duration(hours: 7),
+  String? app = 'Mi Fitness',
+  String? device = 'Mi Band 7',
+  double? hrv = 42,
+}) =>
+    HealthSleepRecord(
+      sessionStart: start,
+      sessionEnd: start.add(duration),
+      stages: const [],
+      hrAvgBpm: 58,
+      hrvAvgMs: hrv,
+      restingHrBpm: 54,
+      sourceApp: app,
+      sourceDevice: device,
+    );
+
 void main() {
   late NoctosDatabase db;
   late SleepRecordRepository repo;
@@ -85,5 +103,36 @@ void main() {
 
   test('lastSyncedSessionEnd returns null when empty', () async {
     expect(await repo.lastSyncedSessionEnd(), isNull);
+  });
+
+  test('different sources for the same night are kept as separate rows', () async {
+    final start = DateTime.utc(2026, 5, 26, 23, 30);
+    await repo.upsertByNaturalKey(
+        rec(start, app: 'Galaxy Wearable', device: 'Galaxy Watch6'));
+    await repo.upsertByNaturalKey(rec(start, app: 'Pixel', device: 'Pixel 8'));
+    final all = await repo.all();
+    expect(all, hasLength(2),
+        reason: 'distinct sources must not overwrite each other');
+  });
+
+  test('null incoming field never clobbers a stored non-null on re-sync', () async {
+    final start = DateTime.utc(2026, 5, 26, 23, 30);
+    await repo.upsertByNaturalKey(rec(start, hrv: 42));
+    await repo.upsertByNaturalKey(rec(start, hrv: null)); // later sync, no HRV
+    final all = await repo.all();
+    expect(all, hasLength(1));
+    expect(all.first.hrvAvgMs, 42, reason: 'null must not erase stored HRV');
+  });
+
+  test('forNight prefers the higher-trust source over the longer session', () async {
+    await repo.upsertByNaturalKey(rec(DateTime.utc(2026, 5, 26, 23, 0),
+        app: 'Pixel', device: 'Pixel 8', duration: const Duration(hours: 9)));
+    await repo.upsertByNaturalKey(rec(DateTime.utc(2026, 5, 26, 23, 30),
+        app: 'Galaxy Wearable',
+        device: 'Galaxy Watch6',
+        duration: const Duration(hours: 7)));
+    final best = await repo.forNight(DateTime.utc(2026, 5, 27));
+    expect(best!.sourceDevice, 'Galaxy Watch6',
+        reason: 'watch (trust 30) beats phone (trust 20) despite shorter sleep');
   });
 }

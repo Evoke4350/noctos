@@ -14,8 +14,12 @@ class SleepRecords extends Table {
   DateTimeColumn get syncedAt =>
       dateTime().withDefault(currentDateAndTime)();
 
+  // One physical sleep session is identified by when it started AND which
+  // source produced it. Keying on sessionStart alone made two sources for the
+  // same night overwrite each other; including the source lets them coexist as
+  // separate rows, and the read layer (forNight) picks the most-trusted.
   @override
   List<Set<Column>> get uniqueKeys => [
-        {sessionStart},
+        {sessionStart, sourceApp, sourceDevice},
       ];
 }

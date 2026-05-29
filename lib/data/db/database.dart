@@ -34,7 +34,7 @@ class NoctosDatabase extends _$NoctosDatabase {
       );
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -47,6 +47,13 @@ class NoctosDatabase extends _$NoctosDatabase {
         await m.createTable(worryJournalEntries);
       }
       if (from < 4) {
+        await m.createTable(sleepRecords);
+      }
+      if (from < 5) {
+        // Widen the sleep_records natural key from {sessionStart} to
+        // {sessionStart, sourceApp, sourceDevice}. Recreate the table; the data
+        // is fully re-syncable from Health Connect, and v4 is unreleased.
+        await m.deleteTable('sleep_records');
         await m.createTable(sleepRecords);
       }
     },
