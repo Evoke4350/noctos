@@ -35,7 +35,7 @@ android {
 
     defaultConfig {
         applicationId = "dev.bennett.noctos"
-        minSdk = flutter.minSdkVersion
+        minSdk = 26
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName

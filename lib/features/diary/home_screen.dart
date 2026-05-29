@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -7,8 +8,11 @@ import '../../data/repositories/cbti_week_repository.dart';
 import '../../data/repositories/schedule_repository.dart';
 import '../../data/repositories/diary_repository.dart';
 import '../../domain/cbti/protocol.dart';
+import '../../services/health/sleep_record_sync.dart';
+import 'widgets/health_connect_nudge_banner.dart';
+import 'widgets/sleep_record_strip.dart';
 
-class HomeScreen extends ConsumerWidget {
+class HomeScreen extends HookConsumerWidget {
   const HomeScreen({super.key});
 
   @override
@@ -16,6 +20,20 @@ class HomeScreen extends ConsumerWidget {
     final scheduleAsync = ref.watch(scheduleProvider);
     final diaryAsync = ref.watch(diaryStreamProvider);
     final weekAsync = ref.watch(currentCbtiWeekProvider);
+
+    useEffect(() {
+      Future.microtask(
+          () => ref.read(sleepRecordSyncProvider).syncRecent());
+      final observer = _ResumeObserver(
+          onResume: () => ref.read(sleepRecordSyncProvider).syncRecent());
+      WidgetsBinding.instance.addObserver(observer);
+      return () => WidgetsBinding.instance.removeObserver(observer);
+    }, const []);
+
+    final currentWeek = weekAsync.maybeWhen(
+      data: (w) => w?.weekIndex ?? 0,
+      orElse: () => 0,
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -43,6 +61,7 @@ class HomeScreen extends ConsumerWidget {
             return ListView(
               padding: const EdgeInsets.all(20),
               children: [
+                HealthConnectNudgeBanner(currentWeek: currentWeek),
                 Card(
                   child: Padding(
                     padding: const EdgeInsets.all(20),
@@ -76,6 +95,13 @@ class HomeScreen extends ConsumerWidget {
                         ),
                       ],
                     ),
+                  ),
+                ),
+                SleepRecordStrip(
+                  diaryDate: DateTime(
+                    DateTime.now().year,
+                    DateTime.now().month,
+                    DateTime.now().day,
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -161,5 +187,15 @@ class _Row extends StatelessWidget {
         Text(value, style: Theme.of(context).textTheme.titleMedium),
       ],
     );
+  }
+}
+
+class _ResumeObserver extends WidgetsBindingObserver {
+  _ResumeObserver({required this.onResume});
+  final VoidCallback onResume;
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) onResume();
   }
 }

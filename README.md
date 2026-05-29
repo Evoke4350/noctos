@@ -27,6 +27,10 @@ that gap.
 - Worry journal with bedtime-window guardrail.
 - Daily reminders: wind-down, bedtime, wake, caffeine cutoff.
 - Local SQLite via Drift. Export to JSON or CSV.
+- **Health Connect (Android, optional):** reads sleep timing, stages,
+  heart rate, HRV, and resting HR; displays alongside your diary. Watch
+  data is informational only — diary still drives the program. See
+  [`docs/health-integration.md`](docs/health-integration.md).
 
 ## What it does *not* do
 
